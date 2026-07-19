@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StyleShop</title>
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    body {
+      background: #f8f6f2;
+      color: #1e1e1e;
+      padding: 1rem;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #d4cdc0;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .header h1 {
+      font-weight: 500;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    .header h1 span { font-weight: 300; color: #6a5f4e; }
+    .tagline {
+      background: #e8e2d6;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #3a3329;
+    }
+    .cart-icon {
+      position: relative;
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    .cart-icon .badge {
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: #1e1e1e;
+      color: white;
+      font-size: 0.65rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      min-width: 20px;
+      text-align: center;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+    .product-card {
+      background: white;
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      border: 1px solid #efebe6;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+    }
+    .product-card img {
+      width: 100%;
+      aspect-ratio: 3/4.2;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #eae5dd;
+    }
+    .product-card h3 { font-weight: 600; font-size: 0.9rem; margin: 0.5rem 0 0.2rem; }
+    .product-card .price { font-weight: 700; font-size: 1rem; color: #1e1e1e; }
+    .product-card .price.old { color: #9b8d7a; font-weight: 400; font-size: 0.8rem; text-decoration: line-through; }
+    .product-card .price.sale { color: #c0392b; }
+    .product-card .sale-badge {
+      background: #c0392b;
+      color: white;
+      font-size: 0.6rem;
+      padding: 0.1rem 0.6rem;
+      border-radius: 40px;
+      font-weight: 700;
+    }
+    .product-card .btn-add {
+      background: #1e1e1e;
+      color: white;
+      border: none;
+      padding: 0.4rem 0;
+      border-radius: 60px;
+      margin-top: 0.4rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      width: 100%;
+      transition: 0.2s;
+    }
+    .product-card .btn-add:hover { background: #3f3a32; }
+    .product-card .btn-add.added { background: #2d7a4a; }
+
+    /* Panier */
+    .cart-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      justify-content: flex-end;
+      z-index: 1000;
+    }
+    .cart-overlay.active { display: flex; }
+    .cart-panel {
+      background: white;
+      width: 420px;
+      max-width: 90vw;
+      height: 100vh;
+      padding: 1.5rem;
+      overflow-y: auto;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e8e2d6;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+    .cart-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #f0ebe4;
+    }
+    .cart-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #eae5dd;
+    }
+    .cart-item .item-info { flex: 1; }
+    .cart-item .item-info .item-name { font-weight: 600; font-size: 0.9rem; }
+    .cart-item .item-info .item-variants { font-size: 0.75rem; color: #7a6f5d; }
+    .cart-item .item-qty { display: flex; gap: 0.4rem; align-items: center; }
+    .cart-item .item-qty button {
+      background: #e8e2d6;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .cart-total {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 2px solid #e8e2d6;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .cart-checkout {
+      background: #1e1e1e;
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      border-radius: 60px;
+      width: 100%;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    .cart-checkout:hover { background: #3f3a32; }
+    .cart-empty { text-align: center; color: #7a6f5d; padding: 2rem 0; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <h1 onclick="location.reload()">Style<span>Shop</span></h1>
+    <div class="tagline">Ingénierie · Travaux · Boutique</div>
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒<span class="badge" id="cartCount">0</span>
+    </div>
+  </header>
+
+  <!-- CATALOGUE -->
+  <div id="catalog">
+    <div id="productGrid" class="product-grid"></div>
+  </div>
+
+  <!-- PANIER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this) toggleCart()">
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h2>🛒 Mon panier</h2>
+        <button class="cart-close" onclick="toggleCart()">×</button>
+      </div>
+      <div id="cartItems"></div>
+      <div id="cartFooter" style="display:none;">
+        <div id="cartTotals"></div>
+        <button class="cart-checkout" id="checkoutBtn">
+          <i class="fas fa-lock"></i> Passer la commande
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // PRODUITS
+  // ============================================================
+  const products = [
+    { id: 1, name: "T-shirt Summer", price: 25.96, stock: 14, image: "https://i.postimg.cc/5NgS7SCM/T-shirt-Blanc-Summer.png" },
+    { id: 2, name: "Tshirt Blanc Coton", price: 21.90, stock: 18, image: "https://i.postimg.cc/tTdx1936/Tshirt-Blanc-Coton.png" },
+    { id: 3, name: "Montre connectée", price: 35.00, stock: 9, image: "https://i.postimg.cc/qMHpb8dB/Montre.png" },
+    { id: 4, name: "Pull Bleu Turquoise", price: 39.00, stock: 8, image: "https://i.postimg.cc/2S6TpNXj/Screenshot-20260714-041006-Chrome.jpg" },
+    { id: 5, name: "Hoodie Premium", price: 49.90, stock: 6, image: "https://i.postimg.cc/L59Lzjrc/Screenshot-20260714-031532-Chrome.jpg" },
+    { id: 6, name: "Pull Marrant", price: 30.90, stock: 5, image: "https://i.postimg.cc/sgjWqPxS/Screenshot-20260714-034732-Chrome.jpg" },
+    { id: 7, name: "Casquette Outdoor", price: 14.90, stock: 12, image: "https://i.postimg.cc/tC7m6gTF/Casquette-Bleue-Marine.png" },
+    { id: 8, name: "T-Shirt Logo", price: 21.99, stock: 16, image: "https://i.postimg.cc/3WZ80qgp/IMG-20260714-WA0010.jpg" }
+  ];
+
+  // ============================================================
+  // ÉTAT
+  // ============================================================
+  let cart = [];
+
+  // ============================================================
+  // RENDU CATALOGUE
+  // ============================================================
+  function renderCatalog() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = products.map(p => `
+      <div class="product-card">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        <h3>${p.name}</h3>
+        <div class="price">${p.price.toFixed(2)} €</div>
+        <button class="btn-add" onclick="addToCart(${p.id})">Ajouter</button>
+      </div>
+    `).join('');
+  }
+
+  // ============================================================
+  // PANIER
+  // ============================================================
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ ...product, quantity: 1 });
+    }
+    updateCart();
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  function updateQuantity(index, delta) {
+    const item = cart[index];
+    if (!item) return;
+    item.quantity += delta;
+    if (item.quantity <= 0) {
+      cart.splice(index, 1);
+    }
+    updateCart();
+  }
+
+  function updateCart() {
+    updateBadge();
+    renderCart();
+  }
+
+  function updateBadge() {
+    const total = cart.reduce((s, i) => s + i.quantity, 0);
+    document.getElementById('cartCount').textContent = total;
+  }
+
+  function getTotal() {
+    return cart.reduce((s, i) => s + i.price * i.quantity, 0);
+  }
+
+  function toggleCart() {
+    document.getElementById('cartOverlay').classList.toggle('active');
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    const footer = document.getElementById('cartFooter');
+
+    if (cart.length === 0) {
+      container.innerHTML = `<div class="cart-empty">🛒 Votre panier est vide</div>`;
+      footer.style.display = 'none';
+      return;
+    }
+
+    footer.style.display = 'block';
+    container.innerHTML = cart.map((item, index) => `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-info">
+          <div class="item-name">${item.name}</div>
+          <div class="item-price">${(item.price * item.quantity).toFixed(2)} €</div>
+        </div>
+        <div class="item-qty">
+          <button onclick="updateQuantity(${index}, -1)">−</button>
+          <span>${item.quantity}</span>
+          <button onclick="updateQuantity(${index}, 1)">+</button>
+          <button onclick="removeFromCart(${index})" style="background:#ef4444;color:white;">✕</button>
+        </div>
+      </div>
+    `).join('');
+
+    const total = getTotal();
+    const shipping = total < 50 ? 5.50 : 0;
+    const finalTotal = total + shipping;
+
+    document.getElementById('cartTotals').innerHTML = `
+      <div>Sous-total : ${total.toFixed(2)} €</div>
+      <div>${shipping > 0 ? '🚚 Frais de livraison : 5.50 €' : '🚚 Livraison offerte'}</div>
+      <div class="cart-total">Total : ${finalTotal.toFixed(2)} €</div>
+    `;
+  }
+
+  // ============================================================
+  // STRIPE CHECKOUT
+  // ============================================================
+  const stripe = Stripe('pk_live_51Tekkn6wfDMIVGHfR7YuJDjsy2wmuTOwrXg0t9ynMJJ5eDofwnKYpuG9Ex6juQqGIH6iWO4rXm9FmrS1wjIQT7St00q9WaQlpe');
+
+  async function handleCheckout() {
+    if (cart.length === 0) {
+      alert('Votre panier est vide');
+      return;
+    }
+
+    const total = getTotal();
+    const shipping = total < 50 ? 5.50 : 0;
+    const finalTotal = total + shipping;
+
+    const btn = document.getElementById('checkoutBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Redirection...';
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(i => ({
+            name: i.name,
+            price: i.price,
+            quantity: i.quantity,
+            image: i.image
+          })),
+          total: finalTotal
+        })
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Erreur lors de la création de la session de paiement.');
+        btn.disabled = false;
+        btn.textContent = 'Passer la commande';
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Erreur de connexion au serveur.');
+      btn.disabled = false;
+      btn.textContent = 'Passer la commande';
+    }
+  }
+
+  document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  renderCatalog();
+  updateBadge();
+</script>
+
+</body>
+</html>
