@@ -1108,6 +1108,57 @@
     .text-muted {
       color: #6f6454;
     }
+
+    /* ===== Lecteur musique flottant ===== */
+    #musicControl {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(30, 30, 30, 0.85);
+      color: white;
+      border-radius: 50px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+      user-select: none;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    #musicControl:hover {
+      background: rgba(30, 30, 30, 0.95);
+    }
+    #musicControl i {
+      font-size: 1.2rem;
+    }
+    #musicControl #musicLabel {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    #musicControl #musicStatus {
+      font-size: 0.7rem;
+      opacity: 0.8;
+      margin-left: 2px;
+    }
+    @media (max-width: 480px) {
+      #musicControl {
+        bottom: 12px;
+        right: 12px;
+        padding: 8px 14px;
+        gap: 8px;
+      }
+      #musicControl #musicLabel {
+        display: none;
+      }
+      #musicControl i {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1242,6 +1293,16 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ===== MUSIQUE D'AMBIANCE ===== -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://files.catbox.moe/gev3sr.mp3" type="audio/mpeg">
+  </audio>
+  <div id="musicControl" onclick="toggleMusic()">
+    <i class="fas fa-music" id="musicIcon"></i>
+    <span id="musicLabel">Musique</span>
+    <span id="musicStatus">⏸️</span>
   </div>
 
   <script>
@@ -2268,6 +2329,57 @@
     window.handleCheckout = handleCheckout;
 
     // ============================================================
+    //  MUSIQUE D'AMBIANCE - LECTURE AUTO AU PREMIER CLIC
+    // ============================================================
+    const audio = document.getElementById('bgMusic');
+    const musicControl = document.getElementById('musicControl');
+    const musicIcon = document.getElementById('musicIcon');
+    const musicStatus = document.getElementById('musicStatus');
+
+    let musicPlaying = false;
+    let musicStarted = false;
+
+    function toggleMusic() {
+      if (musicPlaying) {
+        audio.pause();
+        musicPlaying = false;
+        musicIcon.className = 'fas fa-music';
+        musicStatus.textContent = '⏸️';
+      } else {
+        audio.play().catch(() => {});
+        musicPlaying = true;
+        musicIcon.className = 'fas fa-music';
+        musicStatus.textContent = '▶️';
+        musicStarted = true;
+      }
+    }
+
+    // Fonction qui démarre la musique au premier clic
+    function startMusicOnFirstClick() {
+      if (musicStarted) return;
+      audio.play().then(() => {
+        musicPlaying = true;
+        musicIcon.className = 'fas fa-music';
+        musicStatus.textContent = '▶️';
+        musicStarted = true;
+        console.log('🎵 Musique lancée !');
+      }).catch((err) => {
+        console.log('⏸️ Autoplay bloqué, attente clic manuel');
+        musicStatus.textContent = '⏸️';
+      });
+      // On retire les écouteurs pour ne pas déclencher plusieurs fois
+      document.removeEventListener('click', startMusicOnFirstClick);
+      document.removeEventListener('touchstart', startMusicOnFirstClick);
+    }
+
+    // Détection du premier clic OU toucher sur la page entière
+    document.addEventListener('click', startMusicOnFirstClick);
+    document.addEventListener('touchstart', startMusicOnFirstClick);
+
+    // Exposer la fonction toggle
+    window.toggleMusic = toggleMusic;
+
+    // ============================================================
     //  INIT
     // ============================================================
     function init() {
@@ -2284,6 +2396,7 @@
     console.log('🛒 Prix variant selon taille/couleur');
     console.log('🎁 Codes cadeau disponibles : JOYEUX2026, BIENVENUE, STYLE10, PROMO5');
     console.log('💳 Appel API : /api/create-checkout-session');
+    console.log('🎵 Musique : lecture automatique au premier clic sur la page');
   </script>
 
   <div style="margin-top: 3rem; border-top: 1px solid #ddd6cb; padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; font-size:0.8rem; color:#5e5546;">
