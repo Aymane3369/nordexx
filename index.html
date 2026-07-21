@@ -1295,10 +1295,14 @@
     </div>
   </div>
 
-  <!-- ===== MUSIQUE D'AMBIANCE ===== -->
-  <audio id="bgMusic" loop preload="auto">
+  <!-- ===== MUSIQUE D'AMBIANCE (2 pistes) ===== -->
+  <audio id="bgMusic1" preload="auto">
+    <source src="https://n.uguu.se/sFXYtqRy.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="bgMusic2" loop preload="auto">
     <source src="https://files.catbox.moe/gev3sr.mp3" type="audio/mpeg">
   </audio>
+
   <div id="musicControl" onclick="toggleMusic()">
     <i class="fas fa-music" id="musicIcon"></i>
     <span id="musicLabel">Musique</span>
@@ -1307,7 +1311,7 @@
 
   <script>
     // ============================================================
-    //  DONNÉES PRODUITS
+    //  DONNÉES PRODUITS (inchangées)
     // ============================================================
     const products = [{
       id: 1,
@@ -2054,7 +2058,7 @@
     }
 
     // ============================================================
-    //  STRIPE CHECKOUT – CORRIGÉ (appelle create-checkout-session)
+    //  STRIPE CHECKOUT
     // ============================================================
     async function handleCheckout() {
       if (cart.length === 0) {
@@ -2062,7 +2066,6 @@
         return;
       }
 
-      // Calculer le total final avec frais de livraison et réduction
       const total = getFinalTotal();
 
       const btn = document.getElementById('checkoutBtn');
@@ -2070,7 +2073,6 @@
       btn.innerHTML = '⏳ Redirection...';
 
       try {
-        // ✅ Appel à create-checkout-session (comme dans le fichier qui fonctionne)
         const response = await fetch('/api/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2101,7 +2103,6 @@
       }
     }
 
-    // Lier le bouton checkout
     document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
 
     // ============================================================
@@ -2329,54 +2330,152 @@
     window.handleCheckout = handleCheckout;
 
     // ============================================================
-    //  MUSIQUE D'AMBIANCE - LECTURE AUTO AU PREMIER CLIC
+    //  MUSIQUE D'AMBIANCE - ENCHAÎNEMENT ROBUSTE
     // ============================================================
-    const audio = document.getElementById('bgMusic');
+    const audio1 = document.getElementById('bgMusic1');
+    const audio2 = document.getElementById('bgMusic2');
     const musicControl = document.getElementById('musicControl');
     const musicIcon = document.getElementById('musicIcon');
     const musicStatus = document.getElementById('musicStatus');
 
     let musicPlaying = false;
     let musicStarted = false;
+    let isFirstTrack = true;
+    let switchTimeout = null;
+
+    // Fonction pour basculer sur la 2ème piste
+    function switchToSecondTrack() {
+      if (switchTimeout) {
+        clearTimeout(switchTimeout);
+        switchTimeout = null;
+      }
+      audio1.pause();
+      audio1.currentTime = 0;
+      
+      // Si la musique est en cours, on lance la 2ème
+      if (musicPlaying) {
+        audio2.play()
+          .then(() => {
+            isFirstTrack = false;
+            console.log('🎵 Passage à la 2ème musique (en boucle)');
+          })
+          .catch((err) => {
+            console.log('⚠️ Erreur lancement 2ème musique:', err);
+          });
+      } else {
+        isFirstTrack = false;
+        console.log('🎵 2ème musique prête (en pause)');
+      }
+    }
+
+    // Détection de fin de la 1ère piste
+    audio1.addEventListener('ended', switchToSecondTrack);
+    
+    // Fallback : si la 1ère piste ne se termine pas correctement après 30s
+    audio1.addEventListener('play', function() {
+      if (switchTimeout) clearTimeout(switchTimeout);
+      switchTimeout = setTimeout(function() {
+        console.log('⏰ Fallback : passage à la 2ème musique après 30s');
+        if (isFirstTrack && musicPlaying) {
+          switchToSecondTrack();
+        }
+      }, 30000);
+    });
 
     function toggleMusic() {
       if (musicPlaying) {
-        audio.pause();
+        // Pause
+        if (isFirstTrack) {
+          audio1.pause();
+        } else {
+          audio2.pause();
+        }
         musicPlaying = false;
         musicIcon.className = 'fas fa-music';
         musicStatus.textContent = '⏸️';
+        if (switchTimeout) {
+          clearTimeout(switchTimeout);
+          switchTimeout = null;
+        }
       } else {
-        audio.play().catch(() => {});
-        musicPlaying = true;
-        musicIcon.className = 'fas fa-music';
-        musicStatus.textContent = '▶️';
-        musicStarted = true;
+        // Lecture
+        if (isFirstTrack) {
+          audio1.play()
+            .then(() => {
+              musicPlaying = true;
+              musicIcon.className = 'fas fa-music';
+              musicStatus.textContent = '▶️';
+              musicStarted = true;
+              console.log('🎵 Lecture 1ère musique');
+            })
+            .catch((err) => {
+              console.log('⚠️ Erreur lecture 1ère musique, tentative 2ème:', err);
+              // Fallback direct sur la 2ème
+              audio2.play()
+                .then(() => {
+                  isFirstTrack = false;
+                  musicPlaying = true;
+                  musicIcon.className = 'fas fa-music';
+                  musicStatus.textContent = '▶️';
+                  musicStarted = true;
+                  console.log('🎵 Lecture directe 2ème musique');
+                })
+                .catch((e) => console.log('❌ Erreur lecture musique:', e));
+            });
+        } else {
+          audio2.play()
+            .then(() => {
+              musicPlaying = true;
+              musicIcon.className = 'fas fa-music';
+              musicStatus.textContent = '▶️';
+              musicStarted = true;
+              console.log('🎵 Lecture 2ème musique');
+            })
+            .catch((err) => console.log('❌ Erreur lecture 2ème musique:', err));
+        }
       }
     }
 
     // Fonction qui démarre la musique au premier clic
     function startMusicOnFirstClick() {
       if (musicStarted) return;
-      audio.play().then(() => {
-        musicPlaying = true;
-        musicIcon.className = 'fas fa-music';
-        musicStatus.textContent = '▶️';
-        musicStarted = true;
-        console.log('🎵 Musique lancée !');
-      }).catch((err) => {
-        console.log('⏸️ Autoplay bloqué, attente clic manuel');
-        musicStatus.textContent = '⏸️';
-      });
-      // On retire les écouteurs pour ne pas déclencher plusieurs fois
+      
+      // On précharge la 2ème musique en arrière-plan
+      audio2.load();
+      
+      audio1.play()
+        .then(() => {
+          musicPlaying = true;
+          musicIcon.className = 'fas fa-music';
+          musicStatus.textContent = '▶️';
+          musicStarted = true;
+          console.log('🎵 1ère musique lancée !');
+        })
+        .catch((err) => {
+          console.log('⚠️ Autoplay bloqué, on tente la 2ème directement');
+          // Si la 1ère échoue, on lance la 2ème
+          audio2.play()
+            .then(() => {
+              isFirstTrack = false;
+              musicPlaying = true;
+              musicIcon.className = 'fas fa-music';
+              musicStatus.textContent = '▶️';
+              musicStarted = true;
+              console.log('🎵 2ème musique lancée directement !');
+            })
+            .catch((e) => {
+              console.log('⏸️ Autoplay bloqué, attente clic manuel');
+              musicStatus.textContent = '⏸️';
+            });
+        });
+      
       document.removeEventListener('click', startMusicOnFirstClick);
       document.removeEventListener('touchstart', startMusicOnFirstClick);
     }
 
-    // Détection du premier clic OU toucher sur la page entière
     document.addEventListener('click', startMusicOnFirstClick);
     document.addEventListener('touchstart', startMusicOnFirstClick);
 
-    // Exposer la fonction toggle
     window.toggleMusic = toggleMusic;
 
     // ============================================================
@@ -2387,16 +2486,17 @@
       updateCartBadge();
       document.getElementById('viewGrid').classList.add('active');
       document.getElementById('checkoutBtn').disabled = true;
+      
+      // Préchargement des musiques
+      audio1.load();
+      audio2.load();
     }
 
     init();
 
-    console.log('✅ StyleShop - Stripe Checkout (corrigé)');
-    console.log('📱 10 produits avec photos');
-    console.log('🛒 Prix variant selon taille/couleur');
-    console.log('🎁 Codes cadeau disponibles : JOYEUX2026, BIENVENUE, STYLE10, PROMO5');
-    console.log('💳 Appel API : /api/create-checkout-session');
-    console.log('🎵 Musique : lecture automatique au premier clic sur la page');
+    console.log('✅ StyleShop - 2 musiques (système robuste)');
+    console.log('🎵 Piste 1 → Piste 2 (fallback automatique)');
+    console.log('🎵 Si piste 1 échoue, piste 2 se lance directement');
   </script>
 
   <div style="margin-top: 3rem; border-top: 1px solid #ddd6cb; padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; font-size:0.8rem; color:#5e5546;">
