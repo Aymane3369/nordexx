@@ -1,2508 +1,1500 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StyleShop · Ingénierie & Boutique</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <style>
-    /* ========== TOUT VOTRE CSS EXISTANT (inchangé) ========== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-    }
-    body {
-      background: #f8f6f2;
-      color: #1e1e1e;
-      padding: 1rem;
-      min-height: 100vh;
-    }
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="pageTitle">saison · ambiance</title>
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .shop-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #d4cdc0;
-      padding-bottom: 0.8rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      position: relative;
-    }
-    .shop-header h1 {
-      font-weight: 500;
-      font-size: 2rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .shop-header h1:hover {
-      opacity: 0.7;
-    }
-    .shop-header h1 span {
-      font-weight: 300;
-      color: #6a5f4e;
-    }
-    .shop-header .tagline {
-      background: #e8e2d6;
-      padding: 0.3rem 1rem;
-      border-radius: 40px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #3a3329;
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-    }
-    .header-actions .cart-icon {
-      position: relative;
-      font-size: 1.3rem;
-      cursor: pointer;
-      color: #1e1e1e;
-      transition: 0.2s;
-    }
-    .header-actions .cart-icon:hover {
-      transform: scale(1.1);
-    }
-    .header-actions .cart-icon .badge {
-      position: absolute;
-      top: -8px;
-      right: -10px;
-      background: #1e1e1e;
-      color: white;
-      font-size: 0.65rem;
-      padding: 0.1rem 0.5rem;
-      border-radius: 30px;
-      font-weight: 600;
-      min-width: 20px;
-      text-align: center;
-    }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f7f3ed;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+        }
 
-    .category-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.3rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid #e8e2d6;
-      padding-bottom: 0.8rem;
-    }
-    .category-nav a {
-      padding: 0.4rem 1.2rem;
-      border-radius: 30px;
-      text-decoration: none;
-      color: #5e5546;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: 0.2s;
-      cursor: pointer;
-      border: none;
-      background: none;
-    }
-    .category-nav a:hover {
-      background: #e8e2d6;
-    }
-    .category-nav a.active {
-      background: #1e1e1e;
-      color: white;
-    }
+        /* ----- CARTE PRINCIPALE ----- */
+        .card {
+            max-width: 520px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 40px 40px 32px 32px;
+            padding: 40px 32px 44px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+            text-align: center;
+            border: 1px solid rgba(200, 185, 170, 0.25);
+            transition: 0.25s ease;
+        }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 1.2rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .toolbar-left {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .toolbar-left button {
-      background: #e8e2d6;
-      border: none;
-      padding: 0.4rem 0.9rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: 0.2s;
-      color: #5e5546;
-    }
-    .toolbar-left button.active {
-      background: #1e1e1e;
-      color: white;
-    }
-    .toolbar-left button:hover {
-      background: #d4cdc0;
-    }
-    .toolbar-right {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .toolbar-right select {
-      padding: 0.4rem 1rem;
-      border-radius: 30px;
-      border: 1px solid #e8e2d6;
-      background: white;
-      font-size: 0.85rem;
-      color: #1e1e1e;
-      cursor: pointer;
-      outline: none;
-    }
-    .toolbar-right select:focus {
-      border-color: #1e1e1e;
-    }
-    .toolbar .count {
-      font-size: 0.85rem;
-      color: #7a6f5d;
-      margin-left: 0.5rem;
-    }
+        .card:hover {
+            box-shadow: 0 20px 56px rgba(0, 0, 0, 0.08);
+        }
 
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin: 1.5rem 0;
-    }
-    .product-grid.list-view {
-      grid-template-columns: 1fr;
-    }
-    .product-grid.list-view .product-card {
-      flex-direction: row;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1rem 1.5rem;
-    }
-    .product-grid.list-view .product-card .product-image,
-    .product-grid.list-view .product-card .product-image-placeholder {
-      width: 150px;
-      height: 150px;
-      flex-shrink: 0;
-      margin-bottom: 0;
-    }
-    .product-grid.list-view .product-card .card-content {
-      flex: 1;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem 1.5rem;
-    }
-    .product-grid.list-view .product-card .card-content h3 {
-      min-width: 120px;
-    }
-    .product-grid.list-view .product-card .card-content .price {
-      font-size: 1.2rem;
-    }
-    .product-grid.list-view .product-card .card-content .btn-add {
-      width: auto;
-      padding: 0.4rem 1.8rem;
-      margin-top: 0;
-    }
+        /* --- BLOC 1 : EN-TÊTE / SAISON --- */
+        .block-header {
+            background: linear-gradient(135deg, #fcf8f3 0%, #f5ede4 100%);
+            border-radius: 32px;
+            padding: 24px 20px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e8ded4;
+            transition: all 0.4s ease;
+            animation: floatHeader 6s ease-in-out infinite;
+        }
 
-    .product-card {
-      background: white;
-      border-radius: 18px;
-      padding: 0.8rem 0.8rem 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-      transition: transform 0.15s ease, box-shadow 0.2s;
-      cursor: pointer;
-      border: 1px solid #efebe6;
-      display: flex;
-      flex-direction: column;
-    }
-    .product-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.06);
-    }
-    .product-card .product-image {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 3/4.2;
-      border-radius: 14px;
-      object-fit: cover;
-      background: #eae5dd;
-    }
-    .product-card .product-image-placeholder {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 3/4.2;
-      border-radius: 14px;
-      background: #eae5dd;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #7f725e;
-      font-size: 0.9rem;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239b8d7a" width="48" height="48"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4-3h2v13h-2z"/></svg>');
-      background-repeat: no-repeat;
-      background-position: center 30%;
-      background-size: 48px;
-    }
-    .product-card .product-image-placeholder span {
-      margin-top: 60%;
-      background: rgba(255,255,255,0.7);
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      color: #4d4437;
-    }
-    .product-card .card-content {
-      flex: 1;
-      padding: 0.3rem 0.2rem 0;
-    }
-    .product-card h3 {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin: 0.2rem 0 0.1rem;
-      line-height: 1.2;
-    }
-    .product-card .ref {
-      font-size: 0.6rem;
-      color: #9b8d7a;
-      letter-spacing: 0.3px;
-      display: none;
-    }
-    .product-card .price-block {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin: 0.2rem 0 0.1rem;
-    }
-    .product-card .price {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #1e1e1e;
-    }
-    .product-card .price.old {
-      color: #9b8d7a;
-      font-weight: 400;
-      font-size: 0.8rem;
-      text-decoration: line-through;
-    }
-    .product-card .price.sale {
-      color: #c0392b;
-    }
-    .product-card .sale-badge {
-      background: #c0392b;
-      color: white;
-      font-size: 0.6rem;
-      padding: 0.1rem 0.6rem;
-      border-radius: 40px;
-      font-weight: 700;
-    }
-    .product-card .stock {
-      font-size: 0.65rem;
-      color: #3c6e4b;
-      background: #e2f0e6;
-      display: inline-block;
-      padding: 0.05rem 0.6rem;
-      border-radius: 30px;
-      margin: 0.1rem 0;
-    }
-    .product-card .stock.warning {
-      background: #fcf1d6;
-      color: #a67c2e;
-    }
-    .product-card .stock.danger {
-      background: #fce4e1;
-      color: #b33a2e;
-    }
-    .product-card .stats {
-      font-size: 0.7rem;
-      color: #7a6f5d;
-      display: flex;
-      gap: 0.6rem;
-      margin: 0.1rem 0;
-      flex-wrap: wrap;
-    }
-    .product-card .stats i {
-      margin-right: 2px;
-    }
-    .product-card .btn-add {
-      background: #1e1e1e;
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 0.4rem 0;
-      border-radius: 60px;
-      margin-top: 0.4rem;
-      cursor: pointer;
-      font-size: 0.75rem;
-      transition: background 0.2s;
-      width: 100%;
-    }
-    .product-card .btn-add:hover {
-      background: #3f3a32;
-    }
-    .product-card .btn-add.added {
-      background: #2d7a4a;
-    }
-    .badge-last {
-      background: #fcf1d6;
-      color: #a67c2e;
-      padding: 0.05rem 0.6rem;
-      border-radius: 30px;
-      font-size: 0.6rem;
-      display: inline-block;
-    }
+        .block-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
 
-    .variant-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      padding: 1.5rem;
-    }
-    .variant-modal.active {
-      display: flex;
-    }
-    .variant-modal .modal-content {
-      background: white;
-      border-radius: 32px;
-      padding: 2rem;
-      max-width: 450px;
-      width: 100%;
-      animation: fadeIn 0.3s ease;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .variant-modal .modal-content h2 {
-      font-size: 1.4rem;
-      margin-bottom: 0.3rem;
-    }
-    .variant-modal .modal-content .product-ref {
-      color: #7a6f5d;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-    }
-    .variant-modal .modal-content .product-price {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.2rem;
-    }
-    .variant-modal .variant-group {
-      margin: 1rem 0;
-    }
-    .variant-modal .variant-group label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 0.4rem;
-    }
-    .variant-modal .variant-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .variant-modal .variant-options span {
-      background: #f0ebe4;
-      padding: 0.4rem 1.2rem;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-    .variant-modal .variant-options span:hover {
-      border-color: #b0a692;
-    }
-    .variant-modal .variant-options span.active {
-      border-color: #1e1e1e;
-      background: white;
-      font-weight: 500;
-    }
-    .variant-modal .variant-options span.color-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0.3rem 1rem 0.3rem 0.6rem;
-    }
-    .variant-modal .variant-options span .color-swatch {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-    .variant-modal .modal-actions {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-    .variant-modal .modal-actions button {
-      flex: 1;
-      padding: 0.7rem;
-      border-radius: 60px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .variant-modal .modal-actions .btn-cancel {
-      background: #e8e2d6;
-      color: #5e5546;
-    }
-    .variant-modal .modal-actions .btn-cancel:hover {
-      background: #d4cdc0;
-    }
-    .variant-modal .modal-actions .btn-confirm {
-      background: #1e1e1e;
-      color: white;
-    }
-    .variant-modal .modal-actions .btn-confirm:hover {
-      background: #3f3a32;
-    }
-    .variant-modal .modal-actions .btn-confirm:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .variant-modal .stock-info {
-      font-size: 0.85rem;
-      color: #3c6e4b;
-      margin: 0.5rem 0;
-    }
-    .variant-modal .stock-info.warning {
-      color: #a67c2e;
-    }
+        @keyframes floatHeader {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
 
-    .cart-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      backdrop-filter: blur(3px);
-      justify-content: flex-end;
-      z-index: 1000;
-    }
-    .cart-overlay.active {
-      display: flex;
-    }
-    .cart-panel {
-      background: white;
-      width: 420px;
-      max-width: 90vw;
-      height: 100vh;
-      padding: 1.5rem;
-      overflow-y: auto;
-      box-shadow: -4px 0 30px rgba(0,0,0,0.1);
-      animation: slideIn 0.3s ease;
-    }
-    @keyframes slideIn {
-      from { transform: translateX(100%); }
-      to { transform: translateX(0); }
-    }
-    .cart-panel .cart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e8e2d6;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
-    }
-    .cart-panel .cart-header h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-    .cart-panel .cart-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #5e5546;
-      padding: 0.2rem 0.5rem;
-    }
+        .badge-saison {
+            display: inline-block;
+            background: #dccfc0;
+            color: #4d3e32;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 22px;
+            border-radius: 60px;
+            margin-bottom: 12px;
+            border: 1px solid #c9b8a6;
+        }
 
-    .gift-card-section {
-      background: #f8f6f2;
-      border-radius: 16px;
-      padding: 1rem;
-      margin: 1rem 0;
-      border: 2px dashed #d4cdc0;
-    }
-    .gift-card-section .gift-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .gift-card-section .gift-input-group {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .gift-card-section input {
-      flex: 1;
-      padding: 0.5rem 1rem;
-      border-radius: 30px;
-      border: 1px solid #d4cdc0;
-      outline: none;
-      font-size: 0.9rem;
-      min-width: 120px;
-    }
-    .gift-card-section input:focus {
-      border-color: #1e1e1e;
-    }
-    .gift-card-section .gift-btn {
-      background: #1e1e1e;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-      white-space: nowrap;
-    }
-    .gift-card-section .gift-btn:hover {
-      background: #3f3a32;
-    }
-    .gift-card-section .gift-btn.remove-gift {
-      background: #b33a2e;
-    }
-    .gift-card-section .gift-btn.remove-gift:hover {
-      background: #8a2a1e;
-    }
-    .gift-card-section .gift-message {
-      margin-top: 0.5rem;
-      font-size: 0.85rem;
-      color: #3c6e4b;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+        .icon-saison {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 2px;
+            filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.2));
+            animation: doux-levier 3.5s ease-in-out infinite;
+        }
 
-    .cart-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid #f0ebe4;
-    }
-    .cart-item img {
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      object-fit: cover;
-      background: #eae5dd;
-    }
-    .cart-item .item-info {
-      flex: 1;
-    }
-    .cart-item .item-info .item-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .cart-item .item-info .item-name .color-dot {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.1);
-      flex-shrink: 0;
-    }
-    .cart-item .item-info .item-variants {
-      font-size: 0.75rem;
-      color: #7a6f5d;
-    }
-    .cart-item .item-info .item-price {
-      color: #5e5546;
-      font-size: 0.85rem;
-    }
-    .cart-item .item-qty {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .cart-item .item-qty button {
-      background: #e8e2d6;
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .cart-item .item-qty button:hover {
-      background: #d4cdc0;
-    }
-    .cart-item .item-qty span {
-      min-width: 28px;
-      text-align: center;
-      font-weight: 600;
-    }
-    .cart-item .item-remove {
-      background: none;
-      border: none;
-      color: #b33a2e;
-      cursor: pointer;
-      font-size: 0.9rem;
-      padding: 0.2rem 0.5rem;
-      transition: 0.2s;
-    }
-    .cart-item .item-remove:hover {
-      color: #8a2a1e;
-    }
+        h1 {
+            font-size: 34px;
+            font-weight: 600;
+            color: #2c241e;
+            letter-spacing: -0.5px;
+            margin-top: -4px;
+        }
 
-    .cart-total {
-      margin-top: 1.5rem;
-      padding-top: 1rem;
-      border-top: 2px solid #e8e2d6;
-      display: flex;
-      justify-content: space-between;
-      font-weight: 700;
-      font-size: 1.2rem;
-    }
-    .cart-total .discount {
-      color: #c0392b;
-      font-size: 0.9rem;
-    }
+        h1 span {
+            font-weight: 300;
+            color: #b18d72;
+            font-style: italic;
+        }
 
-    .cart-checkout {
-      background: #1e1e1e;
-      color: white;
-      border: none;
-      padding: 0.9rem;
-      border-radius: 60px;
-      width: 100%;
-      font-weight: 700;
-      font-size: 1rem;
-      margin-top: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .cart-checkout:hover {
-      background: #3f3a32;
-    }
-    .cart-checkout:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .cart-empty {
-      text-align: center;
-      color: #7a6f5d;
-      padding: 2rem 0;
-    }
-    .cart-empty i {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
+        .sous-titre {
+            font-size: 16px;
+            color: #7a685a;
+            margin: 10px 0 0;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 60px;
+            padding: 10px 18px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
+            border: 1px solid #e0d5ca;
+        }
 
-    .page-content {
-      display: none;
-      animation: fadeIn 0.3s ease;
-      background: white;
-      border-radius: 36px;
-      padding: 2.5rem;
-      margin-top: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-    .page-content.active {
-      display: block;
-    }
-    .page-content h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-    .page-content p {
-      line-height: 1.7;
-      color: #3b352d;
-      margin-bottom: 1rem;
-    }
-    .page-content .values {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin: 1.5rem 0;
-    }
-    .page-content .values .value-card {
-      background: #f8f6f2;
-      padding: 1.5rem;
-      border-radius: 20px;
-      text-align: center;
-      transition: 0.2s;
-    }
-    .page-content .values .value-card:hover {
-      transform: translateY(-3px);
-    }
-    .page-content .values .value-card i {
-      font-size: 2rem;
-      color: #1e1e1e;
-      margin-bottom: 0.5rem;
-    }
-    .page-content .values .value-card h4 {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-    .page-content .values .value-card p {
-      font-size: 0.9rem;
-      color: #5e5546;
-      margin-bottom: 0;
-    }
+        /* --- BLOC 2 : EXPLOREZ NOS ESPACES --- */
+        .block-explore {
+            background: linear-gradient(145deg, #f5f0ea 0%, #ece4db 100%);
+            border-radius: 32px;
+            padding: 24px 22px 22px;
+            margin: 8px 0 24px;
+            border: 1px solid #ddd2c6;
+            transition: all 0.4s ease;
+            animation: pulseExplore 8s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .product-page {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-    .product-page.active {
-      display: block;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .product-page .back-link {
-      display: inline-block;
-      margin-bottom: 1.5rem;
-      color: #5e5546;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 0.4rem 1.2rem;
-      background: #e8e2d6;
-      border-radius: 40px;
-      transition: 0.2s;
-      cursor: pointer;
-      border: none;
-    }
-    .product-page .back-link:hover {
-      background: #d4cdc0;
-    }
-    .product-page .product-detail {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      background: white;
-      border-radius: 36px;
-      padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    }
-    .product-page .gallery .main-image {
-      width: 100%;
-      height: 400px;
-      border-radius: 24px;
-      object-fit: cover;
-      background: #ede8e0;
-      transition: opacity 0.3s ease;
-    }
-    .product-page .gallery .main-image.fade {
-      opacity: 0.5;
-    }
-    .product-page .gallery .thumbnails {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.8rem;
-      margin-top: 1rem;
-    }
-    .product-page .gallery .thumbnails img {
-      width: 100%;
-      height: 80px;
-      border-radius: 16px;
-      object-fit: cover;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: 0.2s;
-      background: #eae3da;
-    }
-    .product-page .gallery .thumbnails img:hover {
-      border-color: #b0a692;
-    }
-    .product-page .gallery .thumbnails img.active {
-      border-color: #1e1e1e;
-    }
-    .product-page .info h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-    .product-page .info .ref {
-      color: #8a7d6a;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-    }
-    .product-page .info .price-lg {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin: 0.5rem 0 0.2rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-    .product-page .info .price-lg .old {
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: #9b8d7a;
-      text-decoration: line-through;
-    }
-    .product-page .info .price-lg .sale {
-      color: #c0392b;
-    }
-    .product-page .info .stock-badge {
-      background: #e2f0e6;
-      display: inline-block;
-      padding: 0.15rem 1.2rem;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      margin: 0.3rem 0 1rem;
-    }
-    .product-page .info .stock-badge.warning {
-      background: #fcf1d6;
-      color: #a67c2e;
-    }
-    .product-page .info .stock-badge.danger {
-      background: #fce4e1;
-      color: #b33a2e;
-    }
-    .product-page .info .desc {
-      color: #3b352d;
-      line-height: 1.6;
-      margin: 0.8rem 0 1.2rem;
-      border-top: 1px solid #e6dfd5;
-      padding-top: 1rem;
-    }
-    .product-page .variant-group {
-      margin: 1rem 0 0.6rem;
-    }
-    .product-page .variant-group label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-    .product-page .variant-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .product-page .variant-options span {
-      background: #f0ebe4;
-      padding: 0.3rem 1.2rem;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-    .product-page .variant-options span:hover {
-      border-color: #b0a692;
-    }
-    .product-page .variant-options span.active {
-      border-color: #1e1e1e;
-      background: white;
-      font-weight: 500;
-    }
-    .product-page .variant-options span.color-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0.3rem 1rem 0.3rem 0.6rem;
-    }
-    .product-page .variant-options span .color-swatch {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-    .product-page .btn-add-large {
-      background: #1e1e1e;
-      border: none;
-      color: white;
-      font-weight: 700;
-      padding: 0.8rem 2rem;
-      border-radius: 60px;
-      font-size: 1rem;
-      width: 100%;
-      margin: 1.2rem 0 0.8rem;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-    .product-page .btn-add-large:hover {
-      background: #3f3a32;
-    }
-    .product-page .btn-add-large.added {
-      background: #2d7a4a;
-    }
+        .block-explore::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 215, 175, 0.08) 0%, transparent 60%);
+            animation: shimmerExplore 12s linear infinite;
+            pointer-events: none;
+        }
 
-    .catalog-view.hidden {
-      display: none;
-    }
+        @keyframes shimmerExplore {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-    #payment-element {
-      display: none !important;
-    }
+        @keyframes pulseExplore {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.002); }
+        }
 
-    @media (max-width: 768px) {
-      .shop-header {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-      }
-      .shop-header .tagline {
-        order: 3;
-        width: 100%;
-        text-align: center;
-        margin-top: 0.3rem;
-      }
-      .header-actions {
-        order: 2;
-      }
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-      }
-      .product-grid.list-view {
-        grid-template-columns: 1fr;
-      }
-      .product-grid.list-view .product-card {
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.8rem 1rem;
-      }
-      .product-grid.list-view .product-card .product-image,
-      .product-grid.list-view .product-card .product-image-placeholder {
-        width: 100px;
-        height: 100px;
-        flex-shrink: 0;
-      }
-      .product-grid.list-view .product-card .card-content {
-        flex: 1;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.3rem 0.8rem;
-      }
-      .product-grid.list-view .product-card .card-content h3 {
-        min-width: 80px;
-        font-size: 0.9rem;
-      }
-      .product-grid.list-view .product-card .card-content .price {
-        font-size: 1rem;
-      }
-      .product-grid.list-view .product-card .card-content .btn-add {
-        width: auto;
-        padding: 0.3rem 1.2rem;
-        margin-top: 0;
-        font-size: 0.8rem;
-      }
-      .product-card .product-image,
-      .product-card .product-image-placeholder {
-        aspect-ratio: 3/4.2;
-        height: auto;
-      }
-      .product-card {
-        padding: 0.6rem 0.6rem 0.8rem;
-        border-radius: 14px;
-      }
-      .product-card h3 {
-        font-size: 0.8rem;
-      }
-      .product-card .price {
-        font-size: 0.9rem;
-      }
-      .product-card .stats {
-        font-size: 0.6rem;
-        gap: 0.4rem;
-      }
-      .product-card .btn-add {
-        font-size: 0.7rem;
-        padding: 0.35rem 0;
-      }
-      .product-card .stock {
-        font-size: 0.6rem;
-        padding: 0.05rem 0.5rem;
-      }
-      .badge-last {
-        font-size: 0.55rem;
-      }
-      .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .toolbar-left,
-      .toolbar-right {
-        justify-content: center;
-      }
-      .category-nav {
-        gap: 0.2rem;
-      }
-      .category-nav a {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.7rem;
-      }
-      .cart-panel {
-        width: 100vw;
-        max-width: 100vw;
-      }
-      .page-content {
-        padding: 1.5rem;
-      }
-      .product-page .product-detail {
-        grid-template-columns: 1fr;
-        padding: 1.5rem;
-      }
-      .product-page .gallery .main-image {
-        height: 280px;
-      }
-      .product-page .gallery .thumbnails img {
-        height: 60px;
-      }
-      .variant-modal .modal-content {
-        padding: 1.5rem;
-        margin: 1rem;
-      }
-    }
+        .block-explore:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(180, 150, 120, 0.12);
+            border-color: #c9b8a6;
+        }
 
-    @media (max-width: 480px) {
-      body {
-        padding: 0.5rem;
-      }
-      .shop-header h1 {
-        font-size: 1.5rem;
-      }
-      .product-grid {
-        gap: 0.6rem;
-      }
-      .product-card .product-image,
-      .product-card .product-image-placeholder {
-        aspect-ratio: 3/4.2;
-      }
-    }
+        .themes-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3d322a;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
 
-    .hidden {
-      display: none !important;
-    }
-    .text-center {
-      text-align: center;
-    }
-    .text-muted {
-      color: #6f6454;
-    }
+        .themes-title .icon-title {
+            display: inline-block;
+            animation: rotateIcon 6s linear infinite;
+        }
 
-    /* ===== Lecteur musique flottant ===== */
-    #musicControl {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      background: rgba(30, 30, 30, 0.85);
-      color: white;
-      border-radius: 50px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-      backdrop-filter: blur(4px);
-      transition: background 0.2s;
-      user-select: none;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    #musicControl:hover {
-      background: rgba(30, 30, 30, 0.95);
-    }
-    #musicControl i {
-      font-size: 1.2rem;
-    }
-    #musicControl #musicLabel {
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-    }
-    #musicControl #musicStatus {
-      font-size: 0.7rem;
-      opacity: 0.8;
-      margin-left: 2px;
-    }
-    @media (max-width: 480px) {
-      #musicControl {
-        bottom: 12px;
-        right: 12px;
-        padding: 8px 14px;
-        gap: 8px;
-      }
-      #musicControl #musicLabel {
-        display: none;
-      }
-      #musicControl i {
-        font-size: 1rem;
-      }
-    }
-  </style>
+        @keyframes rotateIcon {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-theme {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1.5px solid #d6cbbc;
+            padding: 12px 8px;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #2c241e;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.2px;
+            box-shadow: 0 2px 0 #ddd2c6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-theme::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(180, 150, 120, 0.1);
+            transition: width 0.6s ease, height 0.6s ease, top 0.6s ease, left 0.6s ease;
+        }
+
+        .btn-theme:hover::after {
+            width: 300%;
+            height: 300%;
+            top: -100%;
+            left: -100%;
+        }
+
+        .btn-theme:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: #ffffff;
+            border-color: #b09b8a;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-theme:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: none;
+        }
+
+        .btn-theme .emoji {
+            font-size: 20px;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-theme .label {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Couleurs individuelles pour chaque bouton */
+        .btn-theme:nth-child(1) {
+            border-color: #c9b8a6;
+        }
+        .btn-theme:nth-child(1):hover {
+            border-color: #a88b78;
+            background: #fcf8f3;
+        }
+
+        .btn-theme:nth-child(2) {
+            border-color: #bdd4c0;
+        }
+        .btn-theme:nth-child(2):hover {
+            border-color: #8fb094;
+            background: #f5faf5;
+        }
+
+        .btn-theme:nth-child(3) {
+            border-color: #d4c4b8;
+        }
+        .btn-theme:nth-child(3):hover {
+            border-color: #b8a08f;
+            background: #faf6f0;
+        }
+
+        .btn-theme:nth-child(4) {
+            border-color: #d4c8c0;
+        }
+        .btn-theme:nth-child(4):hover {
+            border-color: #b8a698;
+            background: #faf5f0;
+        }
+
+        /* Bouton Nordexx */
+        .btn-nordexx {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: transparent;
+            border: 2px solid #2c241e;
+            padding: 14px 34px;
+            border-radius: 80px;
+            font-size: 17px;
+            font-weight: 600;
+            color: #2c241e;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-decoration: none;
+            margin-top: 14px;
+            width: 100%;
+            max-width: 280px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .btn-nordexx::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-nordexx:hover::before {
+            left: 100%;
+        }
+
+        .btn-nordexx:hover {
+            background: #2c241e;
+            color: #fcf8f3;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-nordexx:active {
+            transform: translateY(2px) scale(0.98);
+        }
+
+        .btn-nordexx .icon-arrow {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-nordexx:hover .icon-arrow {
+            transform: translateX(6px);
+        }
+
+        /* --- BLOC 3 : AMBIANCE (date/heure/météo/citation/audio) --- */
+        .block-ambiance {
+            background: linear-gradient(145deg, #faf7f3 0%, #f0ebe5 100%);
+            border-radius: 32px;
+            padding: 22px 20px 20px;
+            border: 1px solid #e7dfd6;
+            transition: all 0.4s ease;
+            animation: breatheAmbiance 5s ease-in-out infinite;
+        }
+
+        @keyframes breatheAmbiance {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(200, 185, 170, 0); }
+            50% { box-shadow: 0 0 20px 4px rgba(200, 185, 170, 0.06); }
+        }
+
+        .block-ambiance:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+        }
+
+        /* --- BLOC DATE / HEURE / MÉTÉO --- */
+        .datetime-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+            padding: 16px 20px;
+            margin: 0 0 16px;
+            border: 1px solid #ddd2c6;
+            backdrop-filter: blur(4px);
+            font-size: 15px;
+            font-weight: 450;
+            color: #2c241e;
+            transition: all 0.3s ease;
+            animation: pulseDatetime 6s ease-in-out infinite;
+        }
+
+        @keyframes pulseDatetime {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.97; }
+        }
+
+        .datetime-block:hover {
+            border-color: #c9b8a6;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .datetime-block .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 20px;
+            width: 100%;
+        }
+
+        .datetime-block .row-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: apparition 0.8s ease;
+        }
+
+        .datetime-block .week-number {
+            background: #eae3da;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4d3e32;
+            border: 1px solid #d6cbbc;
+            transition: all 0.3s ease;
+        }
+
+        .datetime-block .week-number:hover {
+            background: #dccfc0;
+            transform: scale(1.05);
+        }
+
+        .datetime-block .date-part {
+            font-weight: 500;
+        }
+
+        .datetime-block .time-part {
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+
+        .datetime-block .time-part .seconds {
+            opacity: 0.6;
+            font-weight: 350;
+        }
+
+        .datetime-block .weather-part {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(235, 225, 215, 0.4);
+            padding: 4px 18px 4px 14px;
+            border-radius: 40px;
+            border: 1px solid #ddd2c6;
+            animation: pulseMeteo 3s ease-in-out infinite;
+            cursor: default;
+            transition: all 0.3s ease;
+        }
+
+        .datetime-block .weather-part:hover {
+            background: rgba(235, 225, 215, 0.7);
+            transform: scale(1.02);
+        }
+
+        @keyframes pulseMeteo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .datetime-block .weather-part .weather-emoji {
+            font-size: 22px;
+            animation: spinWeather 8s ease-in-out infinite;
+        }
+
+        @keyframes spinWeather {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .datetime-block .weather-part .weather-temp {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .datetime-block .weather-part .weather-city {
+            color: #7a685a;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .datetime-block .emoji-icon {
+            font-size: 18px;
+        }
+
+        /* --- BOUTON POSITION --- */
+        .btn-position {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            border: 1.5px solid #d6cbbc;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4d3e32;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Inter', sans-serif;
+            margin-top: 6px;
+        }
+
+        .btn-position:hover {
+            background: #eae3da;
+            border-color: #b09b8a;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-position:active {
+            transform: scale(0.95);
+        }
+
+        .btn-position i {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-position:hover i {
+            transform: scale(1.2);
+        }
+
+        /* --- MESSAGE / CITATION --- */
+        .message {
+            font-size: 19px;
+            line-height: 1.7;
+            color: #2f2721;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 28px;
+            padding: 24px 24px;
+            margin: 16px 0 24px;
+            font-weight: 400;
+            border: 1px solid #e7dfd6;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s ease;
+            animation: glowMessage 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255, 215, 175, 0.05) 0%, transparent 60%);
+            animation: shimmerMessage 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmerMessage {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glowMessage {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(180, 150, 120, 0); }
+            50% { box-shadow: 0 0 30px 4px rgba(180, 150, 120, 0.04); }
+        }
+
+        .message:hover {
+            transform: translateY(-2px);
+            border-color: #c9b8a6;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .message strong {
+            color: #b18d72;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* BOUTON MUSIQUE */
+        .music-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #2c241e;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 80px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #fcf8f3;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 0 #1a1410, 0 4px 16px rgba(0, 0, 0, 0.08);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+            animation: shimmerBtn 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmerBtn {
+            0% { transform: translate(-30%, -30%) rotate(0deg); }
+            100% { transform: translate(30%, 30%) rotate(360deg); }
+        }
+
+        /* Version "Couper le son" : plus petit */
+        .music-btn.small {
+            padding: 10px 20px;
+            font-size: 14px;
+            gap: 8px;
+            box-shadow: 0 2px 0 #1a1410, 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .music-btn.small .icon {
+            font-size: 18px;
+        }
+
+        .music-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 0 #1a1410, 0 8px 24px rgba(0, 0, 0, 0.12);
+            background: #3d322a;
+        }
+
+        .music-btn.small:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 0 #1a1410, 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .music-btn:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 2px 0 #1a1410;
+        }
+
+        .music-btn.small:active {
+            box-shadow: 0 1px 0 #1a1410;
+        }
+
+        .music-btn .icon {
+            font-size: 24px;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .music-btn .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .status {
+            margin-top: 16px;
+            font-size: 15px;
+            color: #7a685a;
+            font-weight: 450;
+            min-height: 28px;
+            background: rgba(255, 255, 255, 0.5);
+            display: inline-block;
+            padding: 5px 28px;
+            border-radius: 60px;
+            border: 1px solid #e0d5ca;
+            transition: all 0.3s ease;
+        }
+
+        .status:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes apparition {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes doux-levier {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(4deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* --- SECTION "RESTONS CONNECTÉS" --- */
+        .connect-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #ede7e0;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .connect-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c241e;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            background: #faf7f3;
+            border: 1px solid #d6cbbc;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        .connect-link:hover {
+            background: #ffffff;
+            border-color: #b09b8a;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+
+        .connect-link:active {
+            transform: scale(0.95);
+        }
+
+        .connect-link i {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .connect-link:hover i {
+            transform: scale(1.2);
+        }
+
+        .connect-link .emoji {
+            font-size: 20px;
+        }
+
+        .connect-link.linkedin-btn i {
+            color: #0a66c2;
+        }
+
+        .connect-link.facebook-btn i {
+            color: #1877f2;
+        }
+
+        .connect-link.gmail-btn i {
+            color: #ea4335;
+        }
+
+        /* notification de copie */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c241e;
+            color: #fcf8f3;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .footer {
+            margin-top: 28px;
+            font-size: 14px;
+            color: #b09b8a;
+            border-top: 1px solid #e9e0d7;
+            padding-top: 20px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .footer a {
+            color: #7a685a;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid #ded3c8;
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            border-bottom-color: #7a685a;
+            color: #2c241e;
+            transform: scale(1.02);
+        }
+
+        /* ===== ÉCRAN DE DÉMARRAGE ===== */
+        #startScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f7f3ed;
+            background-image: linear-gradient(145deg, #fcf8f3 0%, #f0e8df 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(6px);
+            transition: opacity 0.6s ease;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #startScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #startScreen h2 {
+            font-size: 38px;
+            font-weight: 600;
+            color: #2c241e;
+            letter-spacing: -1px;
+            margin-bottom: 4px;
+        }
+
+        #startScreen .sous-start {
+            font-size: 18px;
+            color: #7a685a;
+            font-weight: 400;
+            margin-bottom: 28px;
+            border-top: 1px solid #ddd2c6;
+            border-bottom: 1px solid #ddd2c6;
+            padding: 12px 0;
+            width: 80%;
+            max-width: 340px;
+        }
+
+        .start-btn {
+            background: #2c241e;
+            border: none;
+            padding: 18px 54px;
+            border-radius: 80px;
+            font-size: 22px;
+            font-weight: 500;
+            color: #fcf8f3;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #1a1410, 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 0 #1a1410, 0 8px 28px rgba(0, 0, 0, 0.12);
+            background: #3d322a;
+        }
+
+        .start-btn:active {
+            transform: translateY(3px) scale(0.98);
+            box-shadow: 0 2px 0 #1a1410;
+        }
+
+        .start-icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 8px;
+            animation: doux-levier 4s ease-in-out infinite;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 28px 16px 32px;
+                border-radius: 32px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .block-header {
+                padding: 18px 16px 16px;
+            }
+            .block-explore {
+                padding: 18px 16px 18px;
+            }
+            .block-ambiance {
+                padding: 18px 16px 16px;
+            }
+            .message {
+                font-size: 17px;
+                padding: 18px 16px;
+            }
+            .music-btn {
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+            .music-btn.small {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            .music-btn.small .icon {
+                font-size: 16px;
+            }
+            .btn-nordexx {
+                padding: 12px 24px;
+                font-size: 15px;
+                max-width: 100%;
+            }
+            .grid-buttons {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .btn-theme {
+                font-size: 13px;
+                padding: 10px 6px;
+            }
+            .btn-theme .emoji {
+                font-size: 17px;
+            }
+            .connect-section {
+                gap: 10px;
+            }
+            .connect-link {
+                font-size: 14px;
+                padding: 6px 12px;
+            }
+            .start-btn {
+                padding: 16px 36px;
+                font-size: 20px;
+            }
+            #startScreen h2 {
+                font-size: 30px;
+            }
+            .datetime-block {
+                padding: 12px 14px;
+                gap: 4px;
+            }
+            .datetime-block .row {
+                gap: 4px 12px;
+            }
+            .datetime-block .row-item {
+                font-size: 13px;
+            }
+            .datetime-block .weather-part {
+                padding: 3px 14px 3px 10px;
+            }
+            .datetime-block .weather-part .weather-emoji {
+                font-size: 18px;
+            }
+            .datetime-block .weather-part .weather-temp {
+                font-size: 14px;
+            }
+            .datetime-block .week-number {
+                font-size: 12px;
+                padding: 3px 12px;
+            }
+            .sous-titre {
+                font-size: 14px;
+                padding: 8px 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .grid-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
 
-    <header class="shop-header">
-      <h1 onclick="showCatalog()">Style<span>Shop</span></h1>
-      <div class="tagline"><i class="fas fa-hard-hat" style="margin-right: 6px;"></i> Ingénierie · Travaux · Boutique</div>
-      <div class="header-actions">
-        <div class="cart-icon" onclick="toggleCart()">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="badge" id="cartCount">0</span>
-        </div>
-      </div>
-    </header>
-
-    <nav class="category-nav" id="categoryNav">
-      <a class="active" data-cat="all" onclick="filterCategory('all', this)">Toutes les catégories</a>
-      <a data-cat="nouveautes" onclick="filterCategory('nouveautes', this)">Nouveautés</a>
-      <a data-cat="collections" onclick="filterCategory('collections', this)">Collections</a>
-      <a data-cat="vetements" onclick="filterCategory('vetements', this)">Vêtements</a>
-      <a data-cat="accessoires" onclick="filterCategory('accessoires', this)">Accessoires</a>
-      <a data-cat="apropos" onclick="showAbout()">À propos</a>
-    </nav>
-
-    <div class="toolbar">
-      <div class="toolbar-left">
-        <button class="active" onclick="setView('grid')" id="viewGrid"><i class="fas fa-th"></i></button>
-        <button onclick="setView('list')" id="viewList"><i class="fas fa-list"></i></button>
-        <span class="count" id="productCount">0 produits</span>
-      </div>
-      <div class="toolbar-right">
-        <select id="sortSelect" onchange="applySort()">
-          <option value="popular">⭐ Plus populaires</option>
-          <option value="price-asc">💰 Prix croissant</option>
-          <option value="price-desc">💰 Prix décroissant</option>
-          <option value="new">🆕 Nouveautés</option>
-        </select>
-      </div>
+    <!-- ÉCRAN DE DÉMARRAGE -->
+    <div id="startScreen">
+        <span class="start-icon" id="startIcon">☀️</span>
+        <h2 id="splashTitle">saison · ambiance</h2>
+        <div class="sous-start" id="splashSub">bienvenue · saison · présent</div>
+        <button class="start-btn" id="startBtn">▶ Démarrer</button>
     </div>
 
-    <div class="catalog-view" id="catalogView">
-      <div class="product-grid" id="productGrid"></div>
-    </div>
-
-    <div class="product-page" id="productPage">
-      <button class="back-link" onclick="showCatalog()"><i class="fas fa-arrow-left"></i> Retour au catalogue</button>
-      <div class="product-detail" id="productDetail"></div>
-    </div>
-
-    <div class="page-content" id="aboutPage">
-      <h2>À propos de StyleShop</h2>
-      <p><strong>Ingénierie-Travaux</strong>, c'est bien plus qu'un simple site de vente en ligne. C'est la rencontre entre une expertise technique reconnue et une passion pour la qualité au service des particuliers et des professionnels.</p>
-      <p>D'abord spécialisée dans le <strong>domaine de l'ingénierie et des technologies</strong>, nous avons étendu notre savoir-faire à la mode et aux accessoires pour vous offrir le meilleur des deux mondes.</p>
-
-      <div class="values">
-        <div class="value-card">
-          <i class="fas fa-hard-hat"></i>
-          <h4>Expertise technique</h4>
-          <p>La rigueur de l'ingénierie au service de la qualité</p>
-        </div>
-        <div class="value-card">
-          <i class="fas fa-handshake"></i>
-          <h4>Confiance client</h4>
-          <p>Une relation de confiance construite sur la transparence</p>
-        </div>
-        <div class="value-card">
-          <i class="fas fa-tshirt"></i>
-          <h4>Qualité produits</h4>
-          <p>Des matériaux premium et une fabrication soignée</p>
-        </div>
-        <div class="value-card">
-          <i class="fas fa-truck"></i>
-          <h4>Livraison rapide</h4>
-          <p>Expédition sous 24h et suivi en temps réel</p>
-        </div>
-        <div class="value-card">
-          <i class="fas fa-shield-alt"></i>
-          <h4>Garantie 2 ans</h4>
-          <p>Tous nos produits sont garantis 2 ans</p>
-        </div>
-        <div class="value-card">
-          <i class="fas fa-credit-card"></i>
-          <h4>Paiement sécurisé</h4>
-          <p>3/4 fois sans frais avec Klarna</p>
-        </div>
-      </div>
-
-      <p><strong>Notre force</strong> réside dans notre <strong>double compétence</strong> : la rigueur du secteur de l'ingénierie associée à la réactivité et la convivialité d'une boutique moderne. Nous mettons un point d'honneur à vous proposer des produits de qualité, des prix compétitifs et un service irréprochable.</p>
-      <p><i class="fas fa-map-marker-alt"></i> StyleShop · Avaux.vercel.app</p>
-    </div>
-
-    <!-- MODAL VARIANTES -->
-    <div class="variant-modal" id="variantModal">
-      <div class="modal-content">
-        <h2 id="variantProductName">Produit</h2>
-        <div class="product-ref" id="variantProductRef">Réf: </div>
-        <div class="product-price" id="variantProductPrice">0.00 €</div>
-        <div class="stock-info" id="variantStockInfo">En stock</div>
-        <div id="variantOptions"></div>
-        <div class="modal-actions">
-          <button class="btn-cancel" onclick="closeVariantModal()">Annuler</button>
-          <button class="btn-confirm" id="variantConfirmBtn" onclick="confirmVariantSelection()" disabled>Ajouter au panier</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PANIER -->
-    <div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this) toggleCart()">
-      <div class="cart-panel">
-        <div class="cart-header">
-          <h2><i class="fas fa-shopping-cart"></i> Mon panier</h2>
-          <button class="cart-close" onclick="toggleCart()">&times;</button>
-        </div>
-        <div id="cartItems"></div>
-
-        <!-- Carte cadeau -->
-        <div class="gift-card-section" id="giftCardSection">
-          <div class="gift-title">🎁 Carte cadeau</div>
-          <div class="gift-input-group">
-            <input type="text" id="giftCodeInput" placeholder="Code cadeau (ex: JOYEUX2026)" maxlength="30" />
-            <button class="gift-btn" id="giftApplyBtn" onclick="applyGiftCode()">💝 Appliquer</button>
-          </div>
-          <div id="giftMessage" class="gift-message"></div>
+    <!-- CARTE -->
+    <div class="card">
+        <!-- ============================================================ -->
+        <!-- BLOC 1 : EN-TÊTE / SAISON -->
+        <!-- ============================================================ -->
+        <div class="block-header">
+            <span class="badge-saison" id="badgeSaison">☀️ saison</span>
+            <span class="icon-saison" id="iconSaison">🌻</span>
+            <h1 id="mainTitle">Bonjour <span>☀️</span></h1>
+            <div class="sous-titre" id="dailySubtitle">✧ douceur & légèreté ✧</div>
         </div>
 
-        <div id="cartFooter" style="display:none;">
-          <div id="cartTotalsContainer"></div>
-          <button class="cart-checkout" id="checkoutBtn" disabled>
-            <i class="fas fa-lock"></i> Passer la commande
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== MUSIQUE D'AMBIANCE (2 pistes) ===== -->
-  <audio id="bgMusic1" preload="auto">
-    <source src="https://s31.aconvert.com/convert/p3r68-cdx67/qhx2w-wovvn.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="bgMusic2" loop preload="auto">
-    <source src="https://files.catbox.moe/gev3sr.mp3" type="audio/mpeg">
-  </audio>
-
-  <div id="musicControl" onclick="toggleMusic()">
-    <i class="fas fa-music" id="musicIcon"></i>
-    <span id="musicLabel">Musique</span>
-    <span id="musicStatus">⏸️</span>
-  </div>
-
-  <script>
-    // ============================================================
-    //  DONNÉES PRODUITS (inchangées)
-    // ============================================================
-    const products = [{
-      id: 1,
-      name: "T-shirt Summer",
-      ref: "TSH-SUMMER",
-      price: 28.96,
-      salePrice: 25.96,
-      stock: 14,
-      sold: 12,
-      category: "vetements",
-      tags: ["nouveautes", "collections"],
-      desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.",
-      images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] },
-      variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }
-    }, {
-      id: 2,
-      name: "Tshirt Blanc Coton",
-      ref: "TSH-COTON",
-      price: 24.90,
-      salePrice: 21.90,
-      stock: 18,
-      sold: 8,
-      category: "vetements",
-      tags: ["nouveautes"],
-      desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal au quotidien.",
-      images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] },
-      variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc"] }
-    }, {
-      id: 3,
-      name: "Montre connectée",
-      ref: "WATCH-PRO",
-      price: 48.80,
-      salePrice: 35.00,
-      stock: 9,
-      sold: 9,
-      category: "accessoires",
-      tags: ["collections", "nouveautes"],
-      desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours, compatible iOS/Android.",
-      images: {
-        "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"],
-        "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143356_vlo9iv"]
-      },
-      variants: { taille: ["Unique"], couleur: ["Noir", "Blanc"] }
-    }, {
-      id: 4,
-      name: "Pull Bleu Turquoise",
-      ref: "PULL-TURQ",
-      price: 39.00,
-      stock: 8,
-      sold: 5,
-      category: "vetements",
-      tags: ["collections"],
-      desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne.",
-      images: { "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142366_gxhgls"] },
-      variants: { taille: ["S", "M", "L", "XL"], couleur: ["Bleu Turquoise"] }
-    }, {
-      id: 5,
-      name: "Hoodie Premium",
-      ref: "HOODIE-PRE",
-      price: 59.90,
-      salePrice: 49.90,
-      stock: 6,
-      sold: 13,
-      category: "vetements",
-      tags: ["nouveautes", "collections"],
-      desc: "Hoodie avec capuche doublée, poche kangourou. Coton premium, coupe décontractée.",
-      images: {
-        "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_kvhfgl;", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142322_w07a4q"],
-        "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142326_iijkdq"],
-        "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142316_augfmj"]
-      },
-      variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc", "Gris","Bleu"] }
-    }, {
-      id: 6,
-      name: "Pull Marrant",
-      ref: "PULL-FUN",
-      price: 32.00,
-      salePrice: 30.90,
-      stock: 5,
-      sold: 11,
-      category: "vetements",
-      tags: ["collections"],
-      desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance.",
-      images: { "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142352_cc9xvv"],
-      "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w", "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142348_zsmouf"]
-     },
-      variants: { taille: ["M", "L", "XL"], couleur: ["Marrant","Blanc"] },
-      last: true
-    }, {
-      id: 7,
-      name: "Casquette Outdoor",
-      ref: "CAP-OUT",
-      price: 19.90,
-      salePrice: 14.90,
-      stock: 12,
-      sold: 10,
-      category: "accessoires",
-      tags: ["nouveautes"],
-      desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur.",
-      images: {
-        "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"],
-        "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"],
-        "Gris Foncé": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143373_inwuvo"]
-      },
-      variants: { taille: ["Unique"], couleur: ["Bleu Marine", "Noir", "Gris Foncé"] }
-    }, {
-      id: 8,
-      name: "T-Shirt Logo",
-      ref: "TSH-LOGO",
-      price: 25.00,
-      salePrice: 21.99,
-      stock: 16,
-      sold: 10,
-      category: "vetements",
-      tags: ["nouveautes"],
-      desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique.",
-      images: { "Blanc": [
-          "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag",
-          "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142508_nkssf4",
-          "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142529_gomnwy",
-          "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142511_tynp7j",
-          "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142512_gueiw6"
-        ] },
-      variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }
-    }, {
-      id: 12,
-      name: "Pull Hiver",
-      ref: "PULL-WINTER",
-      price: 35.00,
-      stock: 6,
-      sold: 13,
-      category: "vetements",
-      tags: ["collections"],
-      desc: "Pull col rond, maille épaisse. Idéal pour l'hiver. 100% laine mérinos.",
-      images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd","https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142370_ybrarj","https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142446_fkjzbm",
-      "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142453_ecbxxo","https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142455_silkjm","https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142445_jxdfgr"] },
-      variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }
-    }];
-
-    // ============================================================
-    //  PRICE VARIANT MAP & HELPERS
-    // ============================================================
-    const variantPriceMap = {
-      "1-S-Blanc": 15.00,
-      "1-M-Blanc": 15.50,
-      "1-L-Blanc": 17.00,
-      "2-S-Blanc": 16.50,
-      "2-M-Blanc": 17.00,
-      "2-L-Blanc": 18.00,
-      "2-XL-Blanc": 19.00,
-      "3-Unique-Noir": 35.00,
-      "3-Unique-Blanc": 35.00,
-      "4-S-Bleu ": 39.00,
-      "4-M-Bleu ": 41.00,
-      "4-L-Bleu ": 43.00,
-      "4-XL-Bleu": 45.00,
-      "5-S-Blanc": 49.90,
-      "5-S-Gris": 49.90,
-      "5-M-Blanc": 51.90,
-      "5-M-Gris": 51.90,
-      "5-L-Blanc": 53.90,
-      "5-L-Gris": 53.90,
-      "5-XL-Blanc": 55.90,
-      "5-XL-Gris": 55.90,
-      "5-XL-Bleu": 55.90,
-
-      "6-M-Marrant": 24.90,
-      "6-L-Marrant": 26.50,
-      "6-XL-Marrant": 28.00,
-      "7-Unique-Bleu Marine": 14.90,
-      "7-Unique-Noir": 14.90,
-      "7-Unique-Gris Foncé": 14.90,
-      "8-S-Blanc": 21.99,
-      "8-M-Blanc": 21.99,
-      "8-L-Blanc": 21.99,
-      "11-M-Bleu Clair": 16.50,
-      "11-L-Bleu Clair": 16.50,
-      "12-S-Blanc": 35.00,
-      "12-S-Vert": 35.00,
-      "12-M-Bordeaux": 37.00,
-      "12-M-Vert": 37.00,
-      "12-L-Blanc": 39.00,
-      "12-L-Vert": 39.00
-    };
-
-    function getVariantPrice(product, taille, couleur) {
-      const key = `${product.id}-${taille}-${couleur}`;
-      return variantPriceMap[key] !== undefined ? variantPriceMap[key] : (product.salePrice || product.price);
-    }
-
-    // ============================================================
-    //  ÉTAT
-    // ============================================================
-    let cart = [];
-    let currentCategory = 'all';
-    let currentView = 'grid';
-    let currentSort = 'popular';
-    let filteredProducts = [...products];
-    let currentProductId = null;
-    let variantSelection = {};
-    let giftCode = null;
-    let giftDiscount = 0;
-
-    const validGiftCodes = {
-      "JOYEUX2026": { discount: 10, message: "🎉 Joyeux Noël 2026 ! -10€ offerts !" },
-      "BIENVENUE": { discount: 5, message: "👋 Bienvenue sur StyleShop ! -5€ de réduction !" },
-      "STYLE10": { discount: 10, message: "✨ 10€ de réduction pour vous !" },
-      "PROMO5": { discount: 5, message: "⭐ 5€ de réduction !" }
-    };
-
-    const colorMap = {
-      "Blanc": "#FFFFFF",
-      "Noir": "#1a1a1a",
-      "Bleu": "#2B5F8A",
-      "Bleu Clair": "#6CB4EE",
-      "Bleu Turquoise": "#40E0D0",
-      "Bleu Marine": "#0A2342",
-      "Gris": "#808080",
-      "Gris Foncé": "#4A4A4A",
-      "Bordeaux": "#800020",
-      "Marine": "#0A2342",
-      "Beige": "#F5F5DC",
-      "Kaki": "#BDB76B",
-      "Vert": "#2E8B57",
-      "Marrant": "#FF6B6B"
-    };
-
-    const SHIPPING_THRESHOLD = 50;
-    const SHIPPING_COST = 5.50;
-
-    // ============================================================
-    //  RENDER CATALOGUE
-    // ============================================================
-    const gridEl = document.getElementById('productGrid');
-
-    function renderCatalog() {
-      gridEl.innerHTML = '';
-      const count = filteredProducts.length;
-      document.getElementById('productCount').textContent = `${count} produit${count > 1 ? 's' : ''}`;
-
-      if (count === 0) {
-        gridEl.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#7a6f5d;">Aucun produit dans cette catégorie</div>`;
-        return;
-      }
-
-      filteredProducts.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.dataset.id = p.id;
-
-        let stockLabel = p.stock > 0 ? `En stock` : 'Rupture';
-        let stockClass = 'stock';
-        if (p.stock <= 3 && p.stock > 0) { stockClass += ' warning'; } else if (p.stock === 0) { stockClass += ' danger'; }
-
-        const colors = p.variants?.couleur || [];
-        const firstColor = colors.length > 0 ? colors[0] : null;
-        const colorImages = firstColor && p.images && p.images[firstColor] ? p.images[firstColor] : [];
-        const imgSrc = colorImages.length > 0 ? colorImages[0] : '';
-
-        const imgHtml = imgSrc ?
-          `<img src="${imgSrc}" alt="${p.name}" class="product-image" loading="lazy">` :
-          `<div class="product-image-placeholder"><span>${p.name}</span></div>`;
-
-        const isInCart = cart.find(item => item.id === p.id);
-        const btnText = isInCart ? '✓ Ajouté' : 'Ajouter';
-        const btnClass = isInCart ? 'btn-add added' : 'btn-add';
-
-        const hasSale = p.salePrice && p.salePrice < p.price;
-        const priceHtml = hasSale ?
-          `<span class="price old">${p.price.toFixed(2)} €</span><span class="price sale">${p.salePrice.toFixed(2)} €</span><span class="sale-badge">-${Math.round((1 - p.salePrice / p.price) * 100)}%</span>` :
-          `<span class="price">${p.price.toFixed(2)} €</span>`;
-
-        card.innerHTML = `
-        ${imgHtml}
-        <div class="card-content">
-          <h3>${p.name}</h3>
-          <div class="ref">${p.ref}</div>
-          <div class="price-block">${priceHtml}</div>
-          <div class="${stockClass}">${stockLabel}</div>
-          ${p.last ? `<span class="badge-last">⚠️ Plus que ${p.stock}</span>` : ''}
-          <div class="stats">
-            <span><i class="fas fa-star"></i> ${p.sold + 5}</span>
-            <span><i class="fas fa-shopping-bag"></i> ${p.sold} vendus</span>
-          </div>
-          <button class="${btnClass}" data-id="${p.id}">${btnText}</button>
-        </div>
-      `;
-        gridEl.appendChild(card);
-
-        card.addEventListener('click', (e) => {
-          if (e.target.tagName === 'BUTTON') return;
-          showProductPage(p.id);
-        });
-
-        card.querySelector('.btn-add').addEventListener('click', (e) => {
-          e.stopPropagation();
-          openVariantModal(p.id);
-        });
-      });
-
-      if (currentView === 'list') {
-        gridEl.classList.add('list-view');
-      } else {
-        gridEl.classList.remove('list-view');
-      }
-    }
-
-    // ============================================================
-    //  FILTRES / TRI / VUE
-    // ============================================================
-    function filterCategory(category, el) {
-      if (category === 'apropos') return;
-      currentCategory = category;
-      document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-      if (el) el.classList.add('active');
-
-      if (category === 'all') {
-        filteredProducts = [...products];
-      } else {
-        filteredProducts = products.filter(p => p.category === category || (p.tags && p.tags.includes(category)));
-      }
-      applySort();
-      document.getElementById('productPage').classList.remove('active');
-      document.getElementById('aboutPage').classList.remove('active');
-      document.getElementById('catalogView').classList.remove('hidden');
-    }
-
-    function applySort() {
-      const sort = document.getElementById('sortSelect').value;
-      currentSort = sort;
-      switch (sort) {
-        case 'popular':
-          filteredProducts.sort((a, b) => (b.sold + 5) - (a.sold + 5));
-          break;
-        case 'price-asc':
-          filteredProducts.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));
-          break;
-        case 'price-desc':
-          filteredProducts.sort((a, b) => (b.salePrice || b.price) - (a.salePrice || a.price));
-          break;
-        case 'new':
-          filteredProducts.sort((a, b) => {
-            const aNew = a.tags && a.tags.includes('nouveautes') ? 1 : 0;
-            const bNew = b.tags && b.tags.includes('nouveautes') ? 1 : 0;
-            return bNew - aNew;
-          });
-          break;
-      }
-      renderCatalog();
-    }
-
-    function setView(view) {
-      currentView = view;
-      document.querySelectorAll('.toolbar-left button').forEach(b => b.classList.remove('active'));
-      if (view === 'grid') {
-        document.getElementById('viewGrid').classList.add('active');
-        gridEl.classList.remove('list-view');
-      } else {
-        document.getElementById('viewList').classList.add('active');
-        gridEl.classList.add('list-view');
-      }
-    }
-
-    // ============================================================
-    //  POPUP VARIANTES
-    // ============================================================
-    let pendingProductId = null;
-
-    function openVariantModal(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      pendingProductId = productId;
-      variantSelection = {};
-      if (product.variants) {
-        if (product.variants.taille) variantSelection.taille = product.variants.taille[0];
-        if (product.variants.couleur) variantSelection.couleur = product.variants.couleur[0];
-      }
-      document.getElementById('variantProductName').textContent = product.name;
-      document.getElementById('variantProductRef').textContent = `Réf: ${product.ref}`;
-      const basePrice = product.salePrice || product.price;
-      document.getElementById('variantProductPrice').textContent = `${basePrice.toFixed(2)} €`;
-
-      const stockInfo = document.getElementById('variantStockInfo');
-      if (product.stock <= 0) {
-        stockInfo.textContent = '⚠️ Rupture de stock';
-        stockInfo.className = 'stock-info warning';
-      } else if (product.stock <= 3) {
-        stockInfo.textContent = `⚠️ Plus que ${product.stock} exemplaires !`;
-        stockInfo.className = 'stock-info warning';
-      } else {
-        stockInfo.textContent = `✅ En stock (${product.stock})`;
-        stockInfo.className = 'stock-info';
-      }
-
-      const container = document.getElementById('variantOptions');
-      container.innerHTML = '';
-      const hasVariants = product.variants && Object.keys(product.variants).length > 0;
-
-      if (!hasVariants || Object.keys(product.variants).every(k => product.variants[k].length === 1 && product.variants[k][0] === 'Unique')) {
-        container.innerHTML = '<p style="color:#7a6f5d;margin:0.5rem 0;">Aucune option requise</p>';
-        document.getElementById('variantConfirmBtn').disabled = false;
-        return;
-      }
-
-      for (const [key, values] of Object.entries(product.variants)) {
-        if (key === 'couleur') {
-          const group = document.createElement('div');
-          group.className = 'variant-group';
-          group.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}</label><div class="variant-options" data-variant="${key}">`;
-          values.forEach(color => {
-            const hexColor = colorMap[color] || '#ccc';
-            const span = document.createElement('span');
-            span.className = 'color-option';
-            if (color === variantSelection.couleur) span.classList.add('active');
-            span.dataset.value = color;
-            span.innerHTML = `<span class="color-swatch" style="background-color: ${hexColor};"></span> ${color}`;
-            span.onclick = function() {
-              selectVariant(this, key, color);
-              updateVariantPrice(product);
-            };
-            group.querySelector('.variant-options').appendChild(span);
-          });
-          container.appendChild(group);
-        } else {
-          const group = document.createElement('div');
-          group.className = 'variant-group';
-          group.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}</label><div class="variant-options" data-variant="${key}">`;
-          values.forEach(val => {
-            const span = document.createElement('span');
-            span.dataset.value = val;
-            if (val === variantSelection.taille) span.classList.add('active');
-            span.textContent = val;
-            span.onclick = function() {
-              selectVariant(this, key, val);
-              updateVariantPrice(product);
-            };
-            group.querySelector('.variant-options').appendChild(span);
-          });
-          container.appendChild(group);
-        }
-      }
-
-      document.getElementById('variantConfirmBtn').disabled = false;
-      document.getElementById('variantModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function updateVariantPrice(product) {
-      const taille = variantSelection.taille || (product.variants?.taille?.[0] || 'Unique');
-      const couleur = variantSelection.couleur || (product.variants?.couleur?.[0] || 'Standard');
-      const price = getVariantPrice(product, taille, couleur);
-      document.getElementById('variantProductPrice').textContent = `${price.toFixed(2)} €`;
-    }
-
-    function selectVariant(element, key, value) {
-      const parent = element.closest('.variant-options');
-      parent.querySelectorAll('span').forEach(s => s.classList.remove('active'));
-      element.classList.add('active');
-      variantSelection[key] = value;
-    }
-
-    function confirmVariantSelection() {
-      const product = products.find(p => p.id === pendingProductId);
-      if (!product) return;
-      const hasVariants = product.variants && Object.keys(product.variants).length > 0;
-      if (hasVariants) {
-        const allGroups = document.querySelectorAll('#variantOptions .variant-options');
-        for (const group of allGroups) {
-          if (!group.querySelector('.active')) {
-            alert('Veuillez sélectionner toutes les options');
-            return;
-          }
-        }
-      }
-      const selection = { ...variantSelection };
-      if (!hasVariants || Object.keys(product.variants).every(k => product.variants[k].length === 1 && product.variants[k][0] === 'Unique')) {
-        selection.taille = 'Unique';
-        selection.couleur = 'Standard';
-      }
-      addToCartWithVariants(pendingProductId, selection);
-      closeVariantModal();
-    }
-
-    function closeVariantModal() {
-      document.getElementById('variantModal').classList.remove('active');
-      document.body.style.overflow = '';
-      pendingProductId = null;
-      variantSelection = {};
-    }
-
-    // ============================================================
-    //  PANIER
-    // ============================================================
-    function addToCartWithVariants(productId, variants) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      const taille = variants.taille || 'Unique';
-      const couleur = variants.couleur || 'Standard';
-      const price = getVariantPrice(product, taille, couleur);
-      const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
-      const image = productImages.length > 0 ? productImages[0] : '';
-
-      const existing = cart.find(item =>
-        item.id === productId &&
-        JSON.stringify(item.variants) === JSON.stringify(variants)
-      );
-
-      if (existing) {
-        if (existing.quantity < product.stock) {
-          existing.quantity++;
-        } else {
-          alert('Stock insuffisant !');
-          return;
-        }
-      } else {
-        if (product.stock <= 0) {
-          alert('Produit en rupture de stock !');
-          return;
-        }
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: price,
-          quantity: 1,
-          variants: variants,
-          image: image,
-          color: couleur
-        });
-      }
-      updateCartBadge();
-      renderCatalog();
-      renderCart();
-
-      const btn = document.getElementById('productAddBtn');
-      if (btn) {
-        btn.innerHTML = '<i class="fas fa-check" style="margin-right:8px;"></i> ✓ Ajouté au panier';
-        btn.classList.add('added');
-      }
-    }
-
-    function removeFromCart(cartIndex) {
-      cart.splice(cartIndex, 1);
-      updateCartBadge();
-      renderCart();
-      renderCatalog();
-      document.getElementById('checkoutBtn').disabled = true;
-    }
-
-    function updateQuantity(cartIndex, delta) {
-      const item = cart[cartIndex];
-      if (!item) return;
-      const product = products.find(p => p.id === item.id);
-      if (!product) return;
-      const newQty = item.quantity + delta;
-      if (newQty <= 0) {
-        removeFromCart(cartIndex);
-        return;
-      }
-      if (newQty > product.stock) {
-        alert('Stock insuffisant !');
-        return;
-      }
-      item.quantity = newQty;
-      updateCartBadge();
-      renderCart();
-      renderCatalog();
-    }
-
-    function toggleCart() {
-      const overlay = document.getElementById('cartOverlay');
-      overlay.classList.toggle('active');
-      if (overlay.classList.contains('active')) {
-        renderCart();
-        if (cart.length > 0) {
-          document.getElementById('checkoutBtn').disabled = false;
-        }
-      }
-    }
-
-    // ============================================================
-    //  CARTE CADEAU
-    // ============================================================
-    function applyGiftCode() {
-      const input = document.getElementById('giftCodeInput');
-      const code = input.value.trim().toUpperCase();
-      const messageEl = document.getElementById('giftMessage');
-      if (!code) {
-        messageEl.innerHTML = '⚠️ Veuillez entrer un code valide';
-        messageEl.style.color = '#b33a2e';
-        return;
-      }
-      if (giftCode) {
-        messageEl.innerHTML = '⚠️ Une carte cadeau est déjà appliquée. Retirez-la d\'abord.';
-        messageEl.style.color = '#b33a2e';
-        return;
-      }
-      const validCode = validGiftCodes[code];
-      if (validCode) {
-        giftCode = code;
-        giftDiscount = validCode.discount;
-        messageEl.innerHTML = `✅ ${validCode.message}`;
-        messageEl.style.color = '#3c6e4b';
-        const btn = document.getElementById('giftApplyBtn');
-        btn.textContent = '🗑️ Retirer';
-        btn.className = 'gift-btn remove-gift';
-        btn.onclick = removeGiftCode;
-        input.disabled = true;
-        renderCart();
-      } else {
-        messageEl.innerHTML = '❌ Code invalide. Essayez : JOYEUX2026, BIENVENUE, STYLE10 ou PROMO5';
-        messageEl.style.color = '#b33a2e';
-      }
-    }
-
-    function removeGiftCode() {
-      giftCode = null;
-      giftDiscount = 0;
-      const input = document.getElementById('giftCodeInput');
-      input.disabled = false;
-      input.value = '';
-      document.getElementById('giftMessage').innerHTML = '';
-      const btn = document.getElementById('giftApplyBtn');
-      btn.textContent = '💝 Appliquer';
-      btn.className = 'gift-btn';
-      btn.onclick = applyGiftCode;
-      renderCart();
-    }
-
-    // ============================================================
-    //  TOTAUX
-    // ============================================================
-    function getCartTotal() {
-      return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    }
-
-    function getTotalAfterDiscount() {
-      return Math.max(0, getCartTotal() - giftDiscount);
-    }
-
-    function getShippingCost() {
-      return getTotalAfterDiscount() < SHIPPING_THRESHOLD ? SHIPPING_COST : 0;
-    }
-
-    function getFinalTotal() {
-      return getTotalAfterDiscount() + getShippingCost();
-    }
-
-    // ============================================================
-    //  RENDER CART
-    // ============================================================
-    function renderCart() {
-      const container = document.getElementById('cartItems');
-      const footer = document.getElementById('cartFooter');
-
-      if (cart.length === 0) {
-        container.innerHTML = `
-        <div class="cart-empty">
-          <i class="fas fa-shopping-bag"></i>
-          <p>Votre panier est vide</p>
-          <p style="font-size:0.85rem; margin-top:0.3rem;">Découvrez nos produits !</p>
-        </div>
-      `;
-        footer.style.display = 'none';
-        if (giftCode) removeGiftCode();
-        document.getElementById('checkoutBtn').disabled = true;
-        return;
-      }
-
-      footer.style.display = 'block';
-      let html = '';
-      let total = 0;
-
-      cart.forEach((item, index) => {
-        total += item.price * item.quantity;
-        const variantText = item.variants ? Object.entries(item.variants).map(([k, v]) => `${k}: ${v}`).join(' · ') : '';
-        const colorName = item.color || 'Standard';
-        const hexColor = colorMap[colorName] || '#ccc';
-        const imageSrc = item.image || 'https://i.postimg.cc/5NgS7SCM/T-shirt-Blanc-Summer.png';
-
-        html += `
-        <div class="cart-item">
-          <img src="${imageSrc}" alt="${item.name}">
-          <div class="item-info">
-            <div class="item-name">
-              ${item.name}
-              <span class="color-dot" style="background-color: ${hexColor};"></span>
+        <!-- ============================================================ -->
+        <!-- BLOC 2 : EXPLOREZ NOS ESPACES -->
+        <!-- ============================================================ -->
+        <div class="block-explore">
+            <div class="themes-title"><span class="icon-title">🌐</span> Explorez nos espaces</div>
+            <div class="grid-buttons">
+                <a href="https://ingenierie-travaux.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-theme">
+                    <span class="emoji">🏗️</span>
+                    <span class="label">La base</span>
+                </a>
+                <a href="https://ingenierie-travaux.vercel.app/espacedetente" target="_blank" rel="noopener noreferrer" class="btn-theme">
+                    <span class="emoji">🧘</span>
+                    <span class="label">Espace détente</span>
+                </a>
+                <a href="https://ingenierie-travaux.vercel.app/articles" target="_blank" rel="noopener noreferrer" class="btn-theme">
+                    <span class="emoji">📰</span>
+                    <span class="label">Le journal</span>
+                </a>
+                <a href="https://ingenierie-travaux.vercel.app/boutique" target="_blank" rel="noopener noreferrer" class="btn-theme">
+                    <span class="emoji">🛍️</span>
+                    <span class="label">StyleShop</span>
+                </a>
             </div>
-            ${variantText ? `<div class="item-variants">${variantText}</div>` : ''}
-            <div class="item-price">${(item.price * item.quantity).toFixed(2)} €</div>
-          </div>
-          <div class="item-qty">
-            <button onclick="updateQuantity(${index}, -1)">−</button>
-            <span>${item.quantity}</span>
-            <button onclick="updateQuantity(${index}, 1)">+</button>
-          </div>
-          <button class="item-remove" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+            <a href="https://nordexx-chi.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-nordexx">
+                <span>Rejoindre Nordexx</span>
+                <span class="icon-arrow">→</span>
+            </a>
         </div>
-      `;
-      });
 
-      container.innerHTML = html;
+        <!-- ============================================================ -->
+        <!-- BLOC 3 : AMBIANCE -->
+        <!-- ============================================================ -->
+        <div class="block-ambiance">
+            <!-- BLOC DATE / HEURE / MÉTÉO -->
+            <div class="datetime-block">
+                <div class="row">
+                    <span class="row-item week-number">
+                        ✨ Semaine <span id="weekDisplay">--</span>
+                    </span>
+                    <span class="row-item date-part">
+                        📅 <span id="dateDisplay">--</span>
+                    </span>
+                    <span class="row-item time-part">
+                        🕒 <span id="timeDisplay">--:--</span>
+                        <span class="seconds" id="secondsDisplay">:--</span>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="row-item weather-part" id="weatherDisplay">
+                        <span class="weather-emoji" id="weatherEmoji">☀️</span>
+                        <span class="weather-temp" id="weatherTemp">--°C</span>
+                        <span class="weather-city" id="weatherCity">📍 --</span>
+                    </span>
+                    <button class="btn-position" id="btnPosition" title="Utiliser ma position précise">
+                        <i class="fas fa-location-dot"></i> Ma position
+                    </button>
+                </div>
+            </div>
 
-      const totalBeforeDiscount = total;
-      const totalAfterDiscount = getTotalAfterDiscount();
-      const shipping = getShippingCost();
-      const finalTotal = getFinalTotal();
+            <!-- MESSAGE DYNAMIQUE (citation) -->
+            <div class="message">
+                <strong>“</strong> <span id="dailyMessage">--</span> <strong>”</strong>
+            </div>
 
-      let discountHtml = '';
-      if (giftDiscount > 0) {
-        discountHtml = `
-        <div class="cart-total" style="border-top:none; padding-top:0.3rem; font-size:1rem; color:#c0392b;">
-          <span style="font-weight:400;">💰 Réduction</span>
-          <span class="discount">-${giftDiscount.toFixed(2)} €</span>
+            <!-- CONTROLE AUDIO -->
+            <button class="music-btn" id="playMusicBtn">
+                <span class="icon">🎧</span>
+                <span class="btn-text">Lancer l’ambiance</span>
+            </button>
+            <div class="status" id="musicStatus">🔇 prêt</div>
         </div>
-      `;
-      }
 
-      const shippingLabel = shipping > 0 ? '🚚 Frais de livraison' : '🚚 Livraison offerte';
-      const shippingColor = shipping > 0 ? '#c0392b' : '#3c6e4b';
-
-      const totalsContainer = document.getElementById('cartTotalsContainer');
-      totalsContainer.innerHTML = `
-      <div class="cart-total">
-        <span>Sous-total</span>
-        <span>${totalBeforeDiscount.toFixed(2)} €</span>
-      </div>
-      ${discountHtml}
-      <div class="cart-total" style="border-top:none; padding-top:0.3rem; font-size:1rem; color:${shippingColor};">
-        <span style="font-weight:400;">${shippingLabel}</span>
-        <span>${shipping > 0 ? shipping.toFixed(2) + ' €' : '0.00 €'}</span>
-      </div>
-      <div class="cart-total" style="border-top:2px solid #1e1e1e; padding-top:0.8rem; margin-top:0.3rem; font-size:1.2rem;">
-        <span>🛒 Total</span>
-        <span>${finalTotal.toFixed(2)} €</span>
-      </div>
-    `;
-
-      document.getElementById('checkoutBtn').disabled = false;
-    }
-
-    function updateCartBadge() {
-      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-      document.getElementById('cartCount').textContent = count;
-    }
-
-    // ============================================================
-    //  STRIPE CHECKOUT
-    // ============================================================
-    async function handleCheckout() {
-      if (cart.length === 0) {
-        alert('Votre panier est vide');
-        return;
-      }
-
-      const total = getFinalTotal();
-
-      const btn = document.getElementById('checkoutBtn');
-      btn.disabled = true;
-      btn.innerHTML = '⏳ Redirection...';
-
-      try {
-        const response = await fetch('/api/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            items: cart.map(i => ({
-              name: i.name,
-              price: i.price,
-              quantity: i.quantity,
-              image: i.image || ''
-            })),
-            total: total
-          })
-        });
-
-        const data = await response.json();
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          alert('Erreur lors de la création de la session de paiement.');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-lock"></i> Passer la commande';
-        }
-      } catch (error) {
-        console.error(error);
-        alert('Erreur de connexion au serveur.');
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-lock"></i> Passer la commande';
-      }
-    }
-
-    document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
-
-    // ============================================================
-    //  PAGE PRODUIT
-    // ============================================================
-    function showProductPage(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      currentProductId = productId;
-      document.getElementById('catalogView').classList.add('hidden');
-      document.getElementById('aboutPage').classList.remove('active');
-      document.getElementById('productPage').classList.add('active');
-
-      const detail = document.getElementById('productDetail');
-      const colors = product.variants?.couleur || [];
-      const defaultColor = colors.length > 0 ? colors[0] : null;
-      const defaultImages = defaultColor && product.images && product.images[defaultColor] ? product.images[defaultColor] : [];
-      const mainImage = defaultImages.length > 0 ? defaultImages[0] : '';
-
-      const hasSale = product.salePrice && product.salePrice < product.price;
-      const priceHtml = hasSale ?
-        `<span class="sale">${product.salePrice.toFixed(2)} €</span><span class="old">${product.price.toFixed(2)} €</span>` :
-        `${product.price.toFixed(2)} €`;
-
-      let variantHTML = '';
-      for (const [key, values] of Object.entries(product.variants || {})) {
-        if (key === 'couleur') {
-          const options = values.map(color => {
-            const hexColor = colorMap[color] || '#ccc';
-            return `<span class="color-option ${color === defaultColor ? 'active' : ''}" data-color="${color}" onclick="selectColorPage(this, '${color}', ${product.id})">
-            <span class="color-swatch" style="background-color: ${hexColor};"></span>
-            ${color}
-          </span>`;
-          }).join('');
-          variantHTML += `
-          <div class="variant-group">
-            <label>Couleur</label>
-            <div class="variant-options" id="colorOptionsPage">${options}</div>
-          </div>
-        `;
-        } else {
-          const options = values.map(v => `<span class="${v === 'Unique' ? 'active' : ''}" onclick="selectSizePage(this, '${v}', ${product.id})">${v}</span>`).join('');
-          variantHTML += `
-          <div class="variant-group">
-            <label>${key.charAt(0).toUpperCase() + key.slice(1)}</label>
-            <div class="variant-options" id="sizeOptionsPage">${options}</div>
-          </div>
-        `;
-        }
-      }
-
-      let stockClass = 'stock-badge';
-      if (product.stock <= 3 && product.stock > 0) stockClass += ' warning';
-      else if (product.stock === 0) stockClass += ' danger';
-      const stockLabel = product.stock > 0 ? `En stock (${product.stock})` : 'Rupture';
-
-      const isInCart = cart.find(item => item.id === product.id);
-      const btnText = isInCart ? '✓ Ajouté au panier' : 'Ajouter au panier';
-      const btnClass = isInCart ? 'btn-add-large added' : 'btn-add-large';
-
-      const thumbnails = defaultImages.map((img, idx) =>
-        `<img src="${img}" alt="Photo ${idx+1}" onclick="changeMainImagePage(this, '${img}')" class="${idx === 0 ? 'active' : ''}">`
-      ).join('');
-
-      detail.innerHTML = `
-      <div class="gallery">
-        <img src="${mainImage}" alt="${product.name}" class="main-image" id="mainImagePage">
-        <div class="thumbnails" id="thumbnailsPage">${thumbnails || '<div style="color:#999;">Aucune photo disponible</div>'}</div>
-        <div style="font-size:0.8rem; color:#7a6f5d; margin-top:0.3rem; text-align:center;">
-          <i class="fas fa-images"></i>
-          <span id="imageCounterPage">1 / ${defaultImages.length || 1}</span>
+        <!-- SECTION "RESTONS CONNECTÉS" -->
+        <div class="connect-section">
+            <a href="https://www.linkedin.com/in/aymane-abidine/" target="_blank" rel="noopener noreferrer" class="connect-link linkedin-btn">
+                <i class="fa-brands fa-linkedin"></i> LinkedIn
+            </a>
+            <a href="https://cv-aymane-abidine.vercel.app/" target="_blank" rel="noopener noreferrer" class="connect-link">
+                <span class="emoji">📄</span> CV
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61590392532588" target="_blank" rel="noopener noreferrer" class="connect-link facebook-btn">
+                <i class="fa-brands fa-facebook"></i> Nous suivre
+            </a>
+            <a href="#" onclick="ouvrirMail(); return false;" class="connect-link gmail-btn">
+                <i class="fa-brands fa-google"></i> Gmail
+            </a>
+            <button class="connect-link" onclick="partagerCarte(); return false;" style="background:#faf7f3;border:1px solid #d6cbbc;font-family:inherit;cursor:pointer;">
+                <i class="fa-solid fa-share-nodes"></i> Partager
+            </button>
         </div>
-      </div>
-      <div class="info">
-        <h1>${product.name}</h1>
-        <div class="ref">Réf : ${product.ref}</div>
-        <div class="price-lg" id="productDetailPrice">${priceHtml}</div>
-        <div class="${stockClass}">${stockLabel}</div>
-        <div class="desc">${product.desc}</div>
-        ${variantHTML}
-        <button class="${btnClass}" id="productAddBtn" onclick="openVariantModal(${product.id})">
-          <i class="fas fa-cart-plus" style="margin-right:8px;"></i> ${btnText}
-        </button>
-        <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:0.5rem; font-size:0.8rem; color:#5e5546;">
-          <span><i class="fas fa-truck"></i> Livraison offerte dès 50€</span>
-          <span><i class="fas fa-check-circle"></i> Garantie 2 ans</span>
-          <span><i class="fas fa-credit-card"></i> Paiement 3/4x Klarna</span>
+
+        <div class="footer">
+            ★ <a href="#">Recevoir la lettre</a> — offerte<br />
+            <span style="font-size:12px; color:#c4b3a2;" id="footerYear">saison · sans distraction</span>
         </div>
-        <div style="margin-top:1rem; font-size:0.85rem; color:#7a6f5d;">
-          <span><i class="far fa-eye"></i> ${product.sold + 8} personnes consultent</span>
-          <span style="margin-left:1rem;"><i class="fas fa-shopping-bag"></i> ${product.sold} vendus aujourd'hui</span>
-        </div>
-        <div style="margin-top:1.5rem; border-top:1px solid #e6dfd5; padding-top:1rem;">
-          <div style="font-weight:600; margin-bottom:0.3rem;">Avis clients</div>
-          <div style="margin:0.4rem 0;"><span style="color:#f5b342;">★★★★★</span> <span style="font-size:0.9rem;color:#2a251f;">"Super produit, conforme à la description. Livraison rapide !" — M.</span></div>
-          <div style="margin:0.4rem 0;"><span style="color:#f5b342;">★★★★★</span> <span style="font-size:0.9rem;color:#2a251f;">"Très bonne qualité, je recommande." — T.</span></div>
-        </div>
-      </div>
-    `;
+    </div>
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    <!-- TOAST -->
+    <div id="toast" class="toast">Lien copié dans le presse-papiers !</div>
 
-    // ============================================================
-    //  SÉLECTIONS PAGE PRODUIT
-    // ============================================================
-    window.selectColorPage = function(element, color, productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      document.querySelectorAll('#colorOptionsPage .color-option').forEach(opt => opt.classList.remove('active'));
-      element.classList.add('active');
+    <script>
+        // ============================================================
+        // 1. GESTION DYNAMIQUE : DATE / HEURE / SAISON / JOUR
+        // ============================================================
+        (function initDynamicContent() {
+            // Éléments DOM
+            const dateDisplay = document.getElementById('dateDisplay');
+            const timeDisplay = document.getElementById('timeDisplay');
+            const secondsDisplay = document.getElementById('secondsDisplay');
+            const badgeSaison = document.getElementById('badgeSaison');
+            const splashTitle = document.getElementById('splashTitle');
+            const splashSub = document.getElementById('splashSub');
+            const footerYear = document.getElementById('footerYear');
+            const weekDisplay = document.getElementById('weekDisplay');
+            const pageTitle = document.getElementById('pageTitle');
+            const dailyMessage = document.getElementById('dailyMessage');
+            const dailySubtitle = document.getElementById('dailySubtitle');
+            const iconSaison = document.getElementById('iconSaison');
+            const startIcon = document.getElementById('startIcon');
+            const mainTitle = document.getElementById('mainTitle');
 
-      const images = product.images && product.images[color] ? product.images[color] : [];
-      const mainImg = document.getElementById('mainImagePage');
-      if (mainImg && images.length > 0) {
-        mainImg.src = images[0];
-        mainImg.classList.add('fade');
-        setTimeout(() => mainImg.classList.remove('fade'), 300);
-      }
+            // Constantes
+            const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            const mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-      const thumbnailsContainer = document.getElementById('thumbnailsPage');
-      if (thumbnailsContainer) {
-        if (images.length > 0) {
-          thumbnailsContainer.innerHTML = images.map((img, idx) =>
-            `<img src="${img}" alt="Photo ${idx+1}" onclick="changeMainImagePage(this, '${img}')" class="${idx === 0 ? 'active' : ''}">`
-          ).join('');
-          const counter = document.getElementById('imageCounterPage');
-          if (counter) counter.textContent = `1 / ${images.length}`;
-        } else {
-          thumbnailsContainer.innerHTML = '<div style="color:#999;">Aucune photo disponible</div>';
-          const counter = document.getElementById('imageCounterPage');
-          if (counter) counter.textContent = '0 / 0';
-        }
-      }
+            // Messages personnalisés pour chaque jour
+            const messagesJour = {
+                Dimanche: "🌿 Profitez de ce dimanche pour ralentir et vous ressourcer.",
+                Lundi: "🚀 Nouveau départ, nouvelle semaine, nouveaux objectifs.",
+                Mardi: "☀️ Continuez vos efforts, chaque action vous rapproche de vos objectifs.",
+                Mercredi: "✨ Le milieu de semaine est le moment parfait pour avancer.",
+                Jeudi: "🔥 Gardez le rythme, vos projets prennent forme.",
+                Vendredi: "🎯 Terminez la semaine avec énergie et satisfaction.",
+                Samedi: "🌻 Profitez de cette journée pour créer et vous détendre."
+            };
 
-      const tailleEl = document.querySelector('#sizeOptionsPage .active');
-      const taille = tailleEl ? tailleEl.textContent : (product.variants?.taille?.[0] || 'Unique');
-      const price = getVariantPrice(product, taille, color);
-      updateDetailPrice(product, price);
-    };
+            // Sous-titres personnalisés pour chaque jour
+            const sousTitresJour = {
+                Dimanche: "✧ repos & sérénité ✧",
+                Lundi: "✧ énergie & nouveau départ ✧",
+                Mardi: "✧ douceur & progression ✧",
+                Mercredi: "✧ équilibre & créativité ✧",
+                Jeudi: "✧ concentration & avancée ✧",
+                Vendredi: "✧ accomplissement & satisfaction ✧",
+                Samedi: "✧ liberté & inspiration ✧"
+            };
 
-    window.selectSizePage = function(element, taille, productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      document.querySelectorAll('#sizeOptionsPage span').forEach(opt => opt.classList.remove('active'));
-      element.classList.add('active');
+            function getSaison(date) {
+                const m = date.getMonth() + 1;
+                const j = date.getDate();
 
-      const colorEl = document.querySelector('#colorOptionsPage .active');
-      const color = colorEl ? colorEl.dataset.color : (product.variants?.couleur?.[0] || 'Standard');
-      const price = getVariantPrice(product, taille, color);
-      updateDetailPrice(product, price);
-    };
+                if ((m === 3 && j >= 20) || m === 4 || m === 5 || (m === 6 && j < 21)) {
+                    return { nom: "printemps", emoji: "🌸", ambiance: "renouveau", icone: "🌱" };
+                }
+                if ((m === 6 && j >= 21) || m === 7 || m === 8 || (m === 9 && j < 23)) {
+                    return { nom: "été", emoji: "☀️", ambiance: "productif", icone: "🌻" };
+                }
+                if ((m === 9 && j >= 23) || m === 10 || m === 11 || (m === 12 && j < 21)) {
+                    return { nom: "automne", emoji: "🍂", ambiance: "créatif", icone: "🍁" };
+                }
+                return { nom: "hiver", emoji: "❄️", ambiance: "paisible", icone: "❄️" };
+            }
 
-    function updateDetailPrice(product, price) {
-      const priceContainer = document.getElementById('productDetailPrice');
-      if (!priceContainer) return;
-      const hasSale = product.salePrice && product.salePrice < product.price;
-      if (hasSale) {
-        priceContainer.innerHTML = `<span class="sale">${price.toFixed(2)} €</span><span class="old">${product.price.toFixed(2)} €</span>`;
-      } else {
-        priceContainer.textContent = `${price.toFixed(2)} €`;
-      }
-    }
+            function getWeekNumber(date) {
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                const jeudi = new Date(d);
+                jeudi.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+                const debutAnnee = new Date(jeudi.getFullYear(), 0, 1);
+                return Math.floor((jeudi - debutAnnee) / 86400000 / 7) + 1;
+            }
 
-    window.changeMainImagePage = function(element, src) {
-      const mainImg = document.getElementById('mainImagePage');
-      if (mainImg) {
-        mainImg.src = src;
-        mainImg.classList.add('fade');
-        setTimeout(() => mainImg.classList.remove('fade'), 300);
-        const thumbnails = document.querySelectorAll('#thumbnailsPage img');
-        const index = Array.from(thumbnails).indexOf(element) + 1;
-        const counter = document.getElementById('imageCounterPage');
-        if (counter) counter.textContent = `${index} / ${thumbnails.length}`;
-      }
-      document.querySelectorAll('#thumbnailsPage img').forEach(img => img.classList.remove('active'));
-      element.classList.add('active');
-    };
+            function getSalutation(heure) {
+                if (heure >= 5 && heure < 12) return 'Bonjour';
+                if (heure >= 12 && heure < 18) return 'Bon après-midi';
+                if (heure >= 18 && heure < 22) return 'Bonsoir';
+                return 'Bonne nuit';
+            }
 
-    // ============================================================
-    //  NAVIGATION
-    // ============================================================
-    function showCatalog() {
-      document.getElementById('productPage').classList.remove('active');
-      document.getElementById('aboutPage').classList.remove('active');
-      document.getElementById('catalogView').classList.remove('hidden');
-      document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector('.category-nav a[data-cat="all"]').classList.add('active');
-      currentCategory = 'all';
-      filteredProducts = [...products];
-      applySort();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+            function mettreAJour() {
+                const now = new Date();
+                const saison = getSaison(now);
+                const jour = now.getDay();
+                const jourNom = jours[jour];
+                const heure = now.getHours();
 
-    function showAbout() {
-      document.getElementById('catalogView').classList.add('hidden');
-      document.getElementById('productPage').classList.remove('active');
-      document.getElementById('aboutPage').classList.add('active');
-      document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector('.category-nav a[data-cat="apropos"]').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+                const dateStr = jourNom + ' ' + now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+                dateDisplay.textContent = dateStr;
 
-    // ============================================================
-    //  EXPOSITION GLOBALE
-    // ============================================================
-    window.openVariantModal = openVariantModal;
-    window.confirmVariantSelection = confirmVariantSelection;
-    window.closeVariantModal = closeVariantModal;
-    window.addToCartWithVariants = addToCartWithVariants;
-    window.removeFromCart = removeFromCart;
-    window.updateQuantity = updateQuantity;
-    window.applyGiftCode = applyGiftCode;
-    window.removeGiftCode = removeGiftCode;
-    window.selectColorPage = selectColorPage;
-    window.selectSizePage = selectSizePage;
-    window.changeMainImagePage = changeMainImagePage;
-    window.showCatalog = showCatalog;
-    window.showAbout = showAbout;
-    window.filterCategory = filterCategory;
-    window.applySort = applySort;
-    window.setView = setView;
-    window.toggleCart = toggleCart;
-    window.renderCart = renderCart;
-    window.handleCheckout = handleCheckout;
+                const h = String(now.getHours()).padStart(2, '0');
+                const min = String(now.getMinutes()).padStart(2, '0');
+                const sec = String(now.getSeconds()).padStart(2, '0');
+                timeDisplay.textContent = h + ':' + min;
+                secondsDisplay.textContent = ':' + sec;
 
-    // ============================================================
-    //  MUSIQUE D'AMBIANCE - ENCHAÎNEMENT ROBUSTE
-    // ============================================================
-    const audio1 = document.getElementById('bgMusic1');
-    const audio2 = document.getElementById('bgMusic2');
-    const musicControl = document.getElementById('musicControl');
-    const musicIcon = document.getElementById('musicIcon');
-    const musicStatus = document.getElementById('musicStatus');
+                weekDisplay.textContent = getWeekNumber(now);
+                iconSaison.textContent = saison.icone;
+                startIcon.textContent = saison.emoji;
 
-    let musicPlaying = false;
-    let musicStarted = false;
-    let isFirstTrack = true;
-    let switchTimeout = null;
+                badgeSaison.textContent = saison.emoji + ' ' + saison.nom;
 
-    // Fonction pour basculer sur la 2ème piste
-    function switchToSecondTrack() {
-      if (switchTimeout) {
-        clearTimeout(switchTimeout);
-        switchTimeout = null;
-      }
-      audio1.pause();
-      audio1.currentTime = 0;
-      
-      // Si la musique est en cours, on lance la 2ème
-      if (musicPlaying) {
-        audio2.play()
-          .then(() => {
-            isFirstTrack = false;
-            console.log('🎵 Passage à la 2ème musique (en boucle)');
-          })
-          .catch((err) => {
-            console.log('⚠️ Erreur lancement 2ème musique:', err);
-          });
-      } else {
-        isFirstTrack = false;
-        console.log('🎵 2ème musique prête (en pause)');
-      }
-    }
+                let titreComplet = jourNom + ' · ' + saison.nom + ' · ' + saison.ambiance;
+                splashTitle.textContent = titreComplet;
+                pageTitle.textContent = titreComplet;
+                document.title = titreComplet;
 
-    // Détection de fin de la 1ère piste
-    audio1.addEventListener('ended', switchToSecondTrack);
-    
-    // Fallback : si la 1ère piste ne se termine pas correctement après 30s
-    audio1.addEventListener('play', function() {
-      if (switchTimeout) clearTimeout(switchTimeout);
-      switchTimeout = setTimeout(function() {
-        console.log('⏰ Fallback : passage à la 2ème musique après 30s');
-        if (isFirstTrack && musicPlaying) {
-          switchToSecondTrack();
-        }
-      }, 30000);
-    });
+                const salutation = getSalutation(heure);
+                const emojiSalutation = heure >= 5 && heure < 12 ? '☀️' :
+                                       heure >= 12 && heure < 18 ? '🌤️' :
+                                       heure >= 18 && heure < 22 ? '🌅' : '🌙';
+                mainTitle.innerHTML = salutation + ' <span>' + emojiSalutation + '</span>';
 
-    function toggleMusic() {
-      if (musicPlaying) {
-        // Pause
-        if (isFirstTrack) {
-          audio1.pause();
-        } else {
-          audio2.pause();
-        }
-        musicPlaying = false;
-        musicIcon.className = 'fas fa-music';
-        musicStatus.textContent = '⏸️';
-        if (switchTimeout) {
-          clearTimeout(switchTimeout);
-          switchTimeout = null;
-        }
-      } else {
-        // Lecture
-        if (isFirstTrack) {
-          audio1.play()
-            .then(() => {
-              musicPlaying = true;
-              musicIcon.className = 'fas fa-music';
-              musicStatus.textContent = '▶️';
-              musicStarted = true;
-              console.log('🎵 Lecture 1ère musique');
-            })
-            .catch((err) => {
-              console.log('⚠️ Erreur lecture 1ère musique, tentative 2ème:', err);
-              // Fallback direct sur la 2ème
-              audio2.play()
-                .then(() => {
-                  isFirstTrack = false;
-                  musicPlaying = true;
-                  musicIcon.className = 'fas fa-music';
-                  musicStatus.textContent = '▶️';
-                  musicStarted = true;
-                  console.log('🎵 Lecture directe 2ème musique');
-                })
-                .catch((e) => console.log('❌ Erreur lecture musique:', e));
+                splashSub.textContent = 'bienvenue · ' + saison.ambiance + ' · présent';
+                footerYear.textContent = saison.nom + ' ' + now.getFullYear() + ' · sans distraction';
+                dailyMessage.textContent = messagesJour[jourNom] || 'Chaque jour est une nouvelle page, chaque instant une opportunité.';
+                dailySubtitle.textContent = sousTitresJour[jourNom] || '✧ douceur & légèreté ✧';
+            }
+
+            mettreAJour();
+            setInterval(mettreAJour, 1000);
+        })();
+
+        // ============================================================
+        // 2. MÉTÉO AMÉLIORÉE : GPS PRIORITAIRE + IP FALLBACK
+        // ============================================================
+        (function initWeather() {
+            const weatherEmoji = document.getElementById('weatherEmoji');
+            const weatherTemp = document.getElementById('weatherTemp');
+            const weatherCity = document.getElementById('weatherCity');
+
+            let villeParDefaut = 'Lyon';
+
+            function getWeatherEmoji(code) {
+                const now = new Date();
+                const heure = now.getHours();
+                const estNuit = (heure >= 18 || heure < 6);
+
+                const categories = {
+                    clear: [0],
+                    mostlyClear: [1],
+                    partlyCloudy: [2],
+                    overcast: [3],
+                    fog: [45, 48],
+                    drizzle: [51, 53, 55, 56, 57],
+                    rain: [61, 63, 65, 66, 67],
+                    snow: [71, 73, 75, 77],
+                    showers: [80, 81, 82],
+                    snowShowers: [85, 86],
+                    thunderstorm: [95, 96, 99]
+                };
+
+                let category = 'unknown';
+                for (const [cat, codes] of Object.entries(categories)) {
+                    if (codes.includes(code)) {
+                        category = cat;
+                        break;
+                    }
+                }
+
+                const emojisJour = {
+                    clear: '☀️', mostlyClear: '🌤️', partlyCloudy: '⛅', overcast: '☁️',
+                    fog: '🌫️', drizzle: '🌦️', rain: '🌧️', snow: '❄️',
+                    showers: '🌧️', snowShowers: '❄️', thunderstorm: '⛈️', unknown: '🌍'
+                };
+
+                const emojisNuit = {
+                    clear: '🌙', mostlyClear: '🌙', partlyCloudy: '🌙☁️', overcast: '☁️',
+                    fog: '🌫️', drizzle: '🌧️', rain: '🌧️', snow: '❄️',
+                    showers: '🌧️', snowShowers: '❄️', thunderstorm: '⛈️', unknown: '🌍'
+                };
+
+                return estNuit ? emojisNuit[category] || emojisNuit.unknown : emojisJour[category] || emojisJour.unknown;
+            }
+
+            async function getCityName(lat, lon) {
+                try {
+                    const url = `https://geocoding-api.open-meteo.com/v1/search?latitude=${lat}&longitude=${lon}&count=1&language=fr`;
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Geocoding API error');
+                    const data = await response.json();
+                    if (data.results && data.results.length > 0) {
+                        return data.results[0].name;
+                    }
+                    return null;
+                } catch (error) {
+                    console.log('⚠️ Erreur géocodage :', error);
+                    return null;
+                }
+            }
+
+            async function chargerMeteoAvecCoords(lat, lon, villeSuggestion, source) {
+                try {
+                    if (!lat || !lon) throw new Error('Coordonnées manquantes');
+                    let ville = await getCityName(lat, lon);
+                    if (!ville) ville = villeSuggestion || villeParDefaut;
+
+                    const meteoResponse = await fetch(
+                        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`
+                    );
+                    if (!meteoResponse.ok) throw new Error('Meteo API error');
+                    const meteo = await meteoResponse.json();
+
+                    const temperature = Math.round(meteo.current.temperature_2m);
+                    const code = meteo.current.weather_code;
+
+                    weatherEmoji.textContent = getWeatherEmoji(code);
+                    weatherTemp.textContent = temperature + '°C';
+                    weatherCity.textContent = '📍 ' + ville;
+
+                    console.log('========================================');
+                    console.log('🌤️ MÉTÉO MISE À JOUR');
+                    console.log(`📍 Source : ${source}`);
+                    console.log(`📌 Coordonnées : ${lat.toFixed(4)}, ${lon.toFixed(4)}`);
+                    console.log(`🏙️ Ville : ${ville}`);
+                    console.log(`🌡️ Température : ${temperature}°C`);
+                    console.log(`🔢 Code météo : ${code}`);
+                    console.log('========================================');
+
+                } catch (error) {
+                    console.log('❌ Erreur météo :', error);
+                    weatherEmoji.textContent = '🌍';
+                    weatherTemp.textContent = '--°C';
+                    weatherCity.textContent = '📍 ' + (villeSuggestion || villeParDefaut);
+                }
+            }
+
+            async function chargerMeteoParIP() {
+                try {
+                    const ipResponse = await fetch('https://ipapi.co/json/');
+                    if (!ipResponse.ok) throw new Error('IP API error');
+                    const location = await ipResponse.json();
+                    const lat = location.latitude;
+                    const lon = location.longitude;
+                    const ville = location.city || villeParDefaut;
+                    if (lat && lon) {
+                        await chargerMeteoAvecCoords(lat, lon, ville, 'IP (ipapi.co)');
+                    }
+                } catch (error) {
+                    console.log('❌ Météo IP indisponible :', error);
+                    weatherEmoji.textContent = '🌍';
+                    weatherTemp.textContent = '--°C';
+                    weatherCity.textContent = '📍 ' + villeParDefaut;
+                }
+            }
+
+            function chargerMeteoParGPS() {
+                if (!navigator.geolocation) {
+                    chargerMeteoParIP();
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    async function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        await chargerMeteoAvecCoords(lat, lon, null, 'GPS (navigator.geolocation)');
+                        afficherToast('📍 Position GPS mise à jour');
+                    },
+                    function() {
+                        chargerMeteoParIP();
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+                );
+            }
+
+            chargerMeteoParGPS();
+            setInterval(chargerMeteoParGPS, 900000);
+            document.getElementById('btnPosition').addEventListener('click', chargerMeteoParGPS);
+        })();
+
+        // ============================================================
+        // 3. MUSIQUE AVEC BOUTON "COUPER LE SON" PLUS PETIT
+        // ============================================================
+        (function initMusic() {
+            const startScreen = document.getElementById('startScreen');
+            const startBtn = document.getElementById('startBtn');
+            const btn = document.getElementById('playMusicBtn');
+            const status = document.getElementById('musicStatus');
+            const audio = new Audio('https://files.catbox.moe/krktrv.mp3');
+            audio.loop = true;
+
+            function demarrerMusique() {
+                audio.play()
+                    .then(() => {
+                        status.textContent = '🎵 lecture en cours';
+                        btn.innerHTML = '<span class="icon">⏹</span><span class="btn-text"> Couper le son</span>';
+                        btn.classList.add('small');
+                    })
+                    .catch((err) => {
+                        status.textContent = '⚠️ erreur de lecture';
+                        console.warn(err);
+                    });
+                startScreen.classList.add('hidden');
+            }
+
+            startBtn.addEventListener('click', demarrerMusique);
+
+            btn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => {
+                            status.textContent = '🎵 lecture en cours';
+                            btn.innerHTML = '<span class="icon">⏹</span><span class="btn-text"> Couper le son</span>';
+                            btn.classList.add('small');
+                        })
+                        .catch((err) => {
+                            status.textContent = '⚠️ erreur';
+                            console.warn(err);
+                        });
+                } else {
+                    audio.pause();
+                    status.textContent = '🔇 arrêté';
+                    btn.innerHTML = '<span class="icon">🎧</span><span class="btn-text"> Lancer l’ambiance</span>';
+                    btn.classList.remove('small');
+                }
             });
-        } else {
-          audio2.play()
-            .then(() => {
-              musicPlaying = true;
-              musicIcon.className = 'fas fa-music';
-              musicStatus.textContent = '▶️';
-              musicStarted = true;
-              console.log('🎵 Lecture 2ème musique');
-            })
-            .catch((err) => console.log('❌ Erreur lecture 2ème musique:', err));
-        }
-      }
-    }
 
-    // Fonction qui démarre la musique au premier clic
-    function startMusicOnFirstClick() {
-      if (musicStarted) return;
-      
-      // On précharge la 2ème musique en arrière-plan
-      audio2.load();
-      
-      audio1.play()
-        .then(() => {
-          musicPlaying = true;
-          musicIcon.className = 'fas fa-music';
-          musicStatus.textContent = '▶️';
-          musicStarted = true;
-          console.log('🎵 1ère musique lancée !');
-        })
-        .catch((err) => {
-          console.log('⚠️ Autoplay bloqué, on tente la 2ème directement');
-          // Si la 1ère échoue, on lance la 2ème
-          audio2.play()
-            .then(() => {
-              isFirstTrack = false;
-              musicPlaying = true;
-              musicIcon.className = 'fas fa-music';
-              musicStatus.textContent = '▶️';
-              musicStarted = true;
-              console.log('🎵 2ème musique lancée directement !');
-            })
-            .catch((e) => {
-              console.log('⏸️ Autoplay bloqué, attente clic manuel');
-              musicStatus.textContent = '⏸️';
+            window.addEventListener('beforeunload', function() {
+                audio.pause();
             });
-        });
-      
-      document.removeEventListener('click', startMusicOnFirstClick);
-      document.removeEventListener('touchstart', startMusicOnFirstClick);
-    }
+        })();
 
-    document.addEventListener('click', startMusicOnFirstClick);
-    document.addEventListener('touchstart', startMusicOnFirstClick);
+        // ============================================================
+        // 4. UTILITAIRES
+        // ============================================================
+        function ouvrirMail() {
+            var mail = 'boutiquestyleshopp@gmail.com';
+            var subject = 'Demande d\'information';
+            var body = 'Bonjour, je vous contacte depuis la carte ' + document.title + '...';
+            window.location.href = 'mailto:' + mail + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        }
 
-    window.toggleMusic = toggleMusic;
+        function partagerCarte() {
+            var url = window.location.href;
+            var titre = document.title;
+            var jourNom = new Date().toLocaleDateString('fr-FR', { weekday: 'long' });
+            var texte = 'Découvre cette carte ' + jourNom + ' pleine d\'énergie et de bonnes vibes !';
 
-    // ============================================================
-    //  INIT
-    // ============================================================
-    function init() {
-      renderCatalog();
-      updateCartBadge();
-      document.getElementById('viewGrid').classList.add('active');
-      document.getElementById('checkoutBtn').disabled = true;
-      
-      // Préchargement des musiques
-      audio1.load();
-      audio2.load();
-    }
+            if (navigator.share) {
+                navigator.share({ title: titre, text: texte, url: url }).catch(function(err) {
+                    if (err.name !== 'AbortError') copierLien(url);
+                });
+            } else {
+                copierLien(url);
+            }
+        }
 
-    init();
+        function copierLien(url) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(function() {
+                    afficherToast('Lien copié ! Partagez-le autour de vous ✨');
+                }).catch(function() {
+                    fallbackCopier(url);
+                });
+            } else {
+                fallbackCopier(url);
+            }
+        }
 
-    console.log('✅ StyleShop - 2 musiques (système robuste)');
-    console.log('🎵 Piste 1 → Piste 2 (fallback automatique)');
-    console.log('🎵 Si piste 1 échoue, piste 2 se lance directement');
-  </script>
+        function fallbackCopier(texte) {
+            var textarea = document.createElement('textarea');
+            textarea.value = texte;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                afficherToast('Lien copié ! Partagez-le autour de vous ✨');
+            } catch (err) {
+                afficherToast('Copie manuelle : ' + texte);
+            }
+            document.body.removeChild(textarea);
+        }
 
-  <div style="margin-top: 3rem; border-top: 1px solid #ddd6cb; padding-top: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; font-size:0.8rem; color:#5e5546;">
-    <span><i class="fas fa-hard-hat"></i> Ingénierie-Travaux · Expertise & qualité</span>
-    <span><i class="fas fa-store"></i> StyleShop · Avaux.vercel.app</span>
-  </div>
+        function afficherToast(message) {
+            var toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+    </script>
 
 </body>
 </html>
