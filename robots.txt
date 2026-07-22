@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nordexx-chi.vercel.app.vercel.app/sitemap.xml
