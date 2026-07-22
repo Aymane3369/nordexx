@@ -1252,7 +1252,8 @@
             return variantPriceMap[key] !== undefined ? variantPriceMap[key] : (product.salePrice || product.price);
         }
 // ============================================================
-//  FONCTION DE PARTAGE AVEC OG API (CORRIGÉE)
+/// ============================================================
+//  FONCTION DE PARTAGE AVEC OG API + CACHE-BUSTING
 // ============================================================
 const BASE_URL = 'https://nordexx-chi.vercel.app';
 
@@ -1269,8 +1270,10 @@ function sharePage(type, productId = null) {
         const price = (product.salePrice || product.price).toFixed(2);
         title = `${product.name} - ${price}€`;
         
-        // 🔥 URL DE PARTAGE = API OG (pour les crawlers)
-        shareUrl = `${BASE_URL}/api/og?product=${productId}`;
+        // 🔥 AJOUT : Cache-busting avec timestamp
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substr(2, 9);
+        shareUrl = `${BASE_URL}/api/og?product=${productId}&_=${random}&t=${timestamp}`;
         redirectUrl = `${BASE_URL}/?product=${productId}`;
         
         // Récupérer la bonne image
@@ -1284,13 +1287,15 @@ function sharePage(type, productId = null) {
         trackShare('product', productId);
     } else if (type === 'blog') {
         title = 'Blog StyleShop';
-        shareUrl = `${BASE_URL}/api/og?blog=true`;
+        const timestamp = Date.now();
+        shareUrl = `${BASE_URL}/api/og?blog=true&_=${timestamp}`;
         redirectUrl = `${BASE_URL}/blog`;
         text = `📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ${redirectUrl}`;
         trackShare('blog');
     } else if (type === 'about') {
         title = 'StyleShop / Nordexx';
-        shareUrl = `${BASE_URL}/api/og?about=true`;
+        const timestamp = Date.now();
+        shareUrl = `${BASE_URL}/api/og?about=true&_=${timestamp}`;
         redirectUrl = `${BASE_URL}/about`;
         text = `🏪 *StyleShop / Nordexx*\nL'alliance de l'ingénierie et de la mode. Qualité premium, garantie 2 ans.\n\n🔗 ${redirectUrl}`;
         trackShare('about');
@@ -1307,18 +1312,18 @@ function sharePage(type, productId = null) {
         navigator.share({
             title: title,
             text: text,
-            url: shareUrl  // ✅ Utilise l'URL avec API OG
+            url: shareUrl
         }).catch((err) => {
             console.log('Share cancelled:', err);
         });
         return;
     }
 
-    // 💻 Fallback : copier le lien de l'API OG
+    // 💻 Fallback
     const copyText = `${text}\n\n📱 ${shareUrl}`;
     if (navigator.clipboard) {
         navigator.clipboard.writeText(copyText).then(() => {
-            alert('📋 Lien copié dans le presse-papier ! Partagez-le où vous voulez.\n\n📱 Lien: ' + shareUrl);
+            alert('📋 Lien copié dans le presse-papier !');
         }).catch(() => {
             fallbackShare(copyText);
         });
@@ -1336,7 +1341,6 @@ function fallbackShare(text) {
         document.execCommand('copy');
         alert('📋 Lien copié dans le presse-papier !');
     } catch (e) {
-        // Ouvrir WhatsApp en dernier recours
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     }
     document.body.removeChild(input);
