@@ -8,7 +8,6 @@
     GOOGLE ANALYTICS 4 - CONFIGURATION COMPLÈTE
     ============================================================ -->
     <script>
-        // Configuration GA4
         const GA_MEASUREMENT_ID = 'G-HXSZCHYD64';
 
         function initGA() {
@@ -83,32 +82,45 @@
             });
         }
 
+        function trackShare(contentType, itemId = null, platform = null) {
+            trackEvent('share', {
+                content_type: contentType,
+                item_id: itemId ? String(itemId) : null,
+                method: platform || 'web_share_api',
+                engagement_time_msec: 1000
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', initGA);
     </script>
 
-    <!-- ===== MÉTA-DONNÉES SEO ===== -->
+    <!-- ===== MÉTA-DONNÉES SEO OPTIMISÉES ===== -->
     <title id="metaTitle">StyleShop Nordexx · Vêtements & Accessoires Premium</title>
     <meta name="description" id="metaDescription" content="StyleShop/Nordexx : l'alliance de l'ingénierie et de la mode. Garantie 2 ans & livraison 24h." />
-    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="StyleShop, Nordexx, mode homme, vêtements coton bio, hoodie premium, montre connectée" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow" />
     <link rel="canonical" id="canonicalLink" href="https://nordexx-chi.vercel.app/" />
 
-    <!-- ===== OPEN GRAPH ===== -->
+    <!-- ===== OPEN GRAPH DYNAMIQUE ===== -->
     <meta property="og:site_name" content="StyleShop Nordexx" />
     <meta property="og:title" id="ogTitle" content="StyleShop/Nordexx · La Rigueur de l'Ingénierie au Service du Style" />
     <meta property="og:description" id="ogDescription" content="Découvrez notre collection exclusive : Hoodies, T-shirts Bio et Accessoires Tech." />
     <meta property="og:url" id="ogUrl" content="https://nordexx-chi.vercel.app/" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv" />
+    <meta property="og:image" id="ogImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="fr_FR" />
 
     <!-- ===== TWITTER CARD ===== -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@StyleShop" />
     <meta name="twitter:title" id="twitterTitle" content="StyleShop/Nordexx · Vêtements & Accessoires Premium" />
     <meta name="twitter:description" id="twitterDescription" content="Alliance unique de l'ingénierie et de la mode. Garantie 2 ans." />
-    <meta name="twitter:image" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv" />
+    <meta name="twitter:image" id="twitterImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv" />
 
-    <!-- ===== SCHEMA.ORG ===== -->
+    <!-- ===== SCHEMA.ORG JSON-LD ===== -->
     <script type="application/ld+json" id="schemaOrg">
         {
             "@context": "https://schema.org",
@@ -118,7 +130,11 @@
                 "name": "StyleShop / Nordexx",
                 "url": "https://nordexx-chi.vercel.app/",
                 "logo": "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv",
-                "description": "Boutique en ligne alliant ingénierie et vêtements de haute qualité."
+                "description": "Boutique en ligne alliant ingénierie et vêtements de haute qualité.",
+                "sameAs": [
+                    "https://www.instagram.com/styleshop/",
+                    "https://www.facebook.com/styleshop/"
+                ]
             }, {
                 "@type": "WebSite",
                 "@id": "https://nordexx-chi.vercel.app/#website",
@@ -129,12 +145,14 @@
         }
     </script>
 
-    <!-- ===== PREFETCH ===== -->
+    <!-- ===== PREFETCH & PRECONNECT ===== -->
     <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
     <!-- ===== STYLES ===== -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <style>
         /* ===== STYLES COMPLETS ===== */
@@ -272,6 +290,39 @@
         }
         .reassurance-badge .guarantee-text { font-size: 0.65rem; font-weight: 600; }
 
+        /* ===== BOUTON SHARE UNIVERSEL ===== */
+        .share-btn {
+            background: #1e1e1e; color: white; border: none; padding: 0.5rem 1.2rem;
+            border-radius: 60px; cursor: pointer; font-weight: 600; font-size: 0.8rem;
+            display: inline-flex; align-items: center; gap: 8px;
+            transition: background 0.2s, transform 0.1s;
+            text-decoration: none;
+        }
+        .share-btn:hover { background: #3f3a32; transform: scale(1.02); }
+        .share-btn i { font-size: 1rem; }
+
+        .share-btn-large {
+            background: #1e1e1e; color: white; border: none; padding: 0.7rem 2rem;
+            border-radius: 60px; cursor: pointer; font-weight: 700; font-size: 1rem;
+            display: inline-flex; align-items: center; gap: 12px;
+            transition: background 0.2s, transform 0.1s;
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+        }
+        .share-btn-large:hover { background: #3f3a32; transform: scale(1.02); }
+        .share-btn-large i { font-size: 1.2rem; }
+
+        .share-btn-sm {
+            background: #1e1e1e; color: white; border: none; padding: 0.3rem 0.8rem;
+            border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.7rem;
+            display: inline-flex; align-items: center; gap: 6px;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+        .share-btn-sm:hover { background: #3f3a32; }
+        .share-btn-sm i { font-size: 0.8rem; }
+
         /* --- Variant Modal --- */
         .variant-modal {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
@@ -335,6 +386,7 @@
         .cart-panel .cart-header h2 { font-size: 1.3rem; font-weight: 600; }
         .cart-panel .cart-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #5e5546; padding: 0.2rem 0.5rem; }
 
+        /* --- Shipping Gauge --- */
         .shipping-gauge {
             background: #f8f6f2; border-radius: 12px; padding: 0.8rem 1rem; margin: 0.8rem 0; border: 1px solid #e8e2d6;
         }
@@ -348,6 +400,7 @@
         .shipping-gauge .shipping-text .highlight { font-weight: 700; color: #1e1e1e; }
         .shipping-gauge .shipping-text .free { color: #2d7a4a; font-weight: 700; }
 
+        /* --- Gift Card --- */
         .gift-card-section {
             background: #f8f6f2; border-radius: 16px; padding: 1rem; margin: 1rem 0; border: 2px dashed #d4cdc0;
         }
@@ -366,6 +419,7 @@
         .gift-card-section .gift-btn.remove-gift:hover { background: #8a2a1e; }
         .gift-card-section .gift-message { margin-top: 0.5rem; font-size: 0.85rem; color: #3c6e4b; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
+        /* --- Cart Items --- */
         .cart-item {
             display: flex; align-items: center; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid #f0ebe4;
         }
@@ -487,6 +541,17 @@
         .product-page .btn-add-large:hover { background: #3f3a32; }
         .product-page .btn-add-large.added { background: #2d7a4a; }
 
+        /* Espace pour les boutons sur page produit */
+        .product-page .action-row {
+            display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 0.5rem 0;
+        }
+        .product-page .action-row .share-btn-large {
+            flex: 1; min-width: 180px;
+        }
+        .product-page .action-row .btn-add-large {
+            flex: 1; min-width: 180px; margin: 0;
+        }
+
         .catalog-view.hidden { display: none; }
 
         /* --- Blog --- */
@@ -535,6 +600,9 @@
             .product-page .gallery .main-image { height: 280px; }
             .cart-panel { width: 100vw; max-width: 100vw; }
             .variant-modal .modal-content { padding: 1.5rem; margin: 1rem; }
+            .product-page .action-row { flex-direction: column; }
+            .product-page .action-row .share-btn-large,
+            .product-page .action-row .btn-add-large { flex: 1 1 100%; }
         }
         @media (max-width: 480px) {
             body { padding: 0.5rem; }
@@ -624,6 +692,12 @@
                 <p>Quelles couleurs, matières et coupes feront la tendance cette saison ? Notre équipe d'experts vous dévoile les incontournables du prochain hiver...</p>
                 <a href="#" class="read-more">Lire la suite →</a>
             </article>
+            <!-- Bouton partage Blog -->
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="share-btn-large" onclick="sharePage('blog')">
+                    <i class="fa-solid fa-share-nodes"></i> Partager cet article
+                </button>
+            </div>
         </div>
 
         <!-- ABOUT -->
@@ -639,6 +713,12 @@
                 <div class="value-card"><i class="fas fa-credit-card"></i><h4>Paiement sécurisé</h4><p>3x sans frais Klarna</p></div>
             </div>
             <p><i class="fas fa-map-marker-alt"></i> StyleShop / Nordexx · nordexx-chi.vercel.app</p>
+            <!-- Bouton partage About -->
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="share-btn-large" onclick="sharePage('about')">
+                    <i class="fa-solid fa-share-nodes"></i> Partager StyleShop
+                </button>
+            </div>
         </div>
 
         <!-- MODAL VARIANTES -->
@@ -666,7 +746,7 @@
                 </div>
                 <div id="cartItems"></div>
 
-                <!-- Jauge de livraison gratuite -->
+                <!-- Jauge de livraison -->
                 <div class="shipping-gauge" id="shippingGauge">
                     <div class="shipping-gauge-bar">
                         <div class="progress" id="shippingProgress" style="width: 0%;"></div>
@@ -962,6 +1042,85 @@
         }
 
         // ============================================================
+        //  FONCTION DE PARTAGE UNIVERSEL (fa-share-nodes)
+        // ============================================================
+        const BASE_URL = 'https://nordexx-chi.vercel.app';
+
+        function sharePage(type, productId = null) {
+            let title = '';
+            let text = '';
+            let url = BASE_URL;
+            let image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+
+            if (type === 'product' && productId) {
+                const product = products.find(p => p.id === productId);
+                if (!product) return;
+                const price = (product.salePrice || product.price).toFixed(2);
+                title = `${product.name} - ${price}€`;
+                text = `🛍️ *${product.name}*\n💰 ${price} €\n📝 ${product.desc.substring(0, 80)}...`;
+                url = `${BASE_URL}/?product=${product.id}`;
+                const colors = Object.keys(product.images);
+                if (colors.length > 0 && product.images[colors[0]].length > 0) {
+                    image = product.images[colors[0]][0];
+                }
+                trackShare('product', productId);
+            } else if (type === 'blog') {
+                title = 'Blog StyleShop';
+                text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !';
+                url = `${BASE_URL}/blog`;
+                trackShare('blog');
+            } else if (type === 'about') {
+                title = 'StyleShop / Nordexx';
+                text = '🏪 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode. Qualité premium, garantie 2 ans.';
+                url = `${BASE_URL}/about`;
+                trackShare('about');
+            } else {
+                title = 'StyleShop Nordexx';
+                text = '🛍️ *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans. Livraison offerte dès 50€.';
+                trackShare('home');
+            }
+
+            // Utiliser l'API Web Share si disponible (mobile)
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text,
+                    url: url
+                }).catch(() => {});
+                return;
+            }
+
+            // Fallback : copier le lien dans le presse-papier avec un message
+            const shareText = `${text}\n\n🔗 ${url}`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('📋 Lien copié dans le presse-papier ! Partagez-le où vous voulez.');
+                }).catch(() => {
+                    fallbackShare(shareText, url);
+                });
+            } else {
+                fallbackShare(shareText, url);
+            }
+        }
+
+        function fallbackShare(text, url) {
+            // Créer un input caché pour copier le texte
+            const input = document.createElement('textarea');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            try {
+                document.execCommand('copy');
+                alert('📋 Lien copié dans le presse-papier ! Partagez-le où vous voulez.');
+            } catch (e) {
+                // Ouvrir dans une nouvelle fenêtre
+                window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            }
+            document.body.removeChild(input);
+        }
+
+        // ============================================================
         //  ÉTAT
         // ============================================================
         let cart = [];
@@ -1070,10 +1229,10 @@
         });
 
         // ============================================================
-        //  META TAGS
+        //  META TAGS DYNAMIQUES (OPEN GRAPH POUR CHAQUE ONGLET)
         // ============================================================
         function updateMetaTags(page, product) {
-            const baseUrl = 'https://nordexx-chi.vercel.app';
+            const baseUrl = BASE_URL;
             let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium | Livraison Offerte';
             let description = 'StyleShop/Nordexx : l\'alliance de l\'ingénierie et de la mode. Hoodies, T-shirts bio, montres connectées. Garantie 2 ans & livraison 24h.';
             let image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
@@ -1093,10 +1252,19 @@
                 }
             } else if (page === 'blog') {
                 title = 'Blog · StyleShop Nordexx | Conseils Mode & Tendances';
-                description = 'Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison.';
+                description = 'Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison sur le blog StyleShop Nordexx.';
+                image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+                url = `${baseUrl}/blog`;
             } else if (page === 'about') {
                 title = 'À propos · StyleShop Nordexx | Ingénierie & Mode Premium';
-                description = 'Découvrez l\'histoire de StyleShop/Nordexx, l\'alliance unique de l\'ingénierie et de la mode.';
+                description = 'Découvrez l\'histoire de StyleShop/Nordexx, l\'alliance unique de l\'ingénierie et de la mode. Qualité, confiance et expertise.';
+                image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+                url = `${baseUrl}/about`;
+            } else if (page === 'category') {
+                const catName = document.querySelector(`.category-nav a[data-cat="${currentCategory}"]`)?.textContent || currentCategory;
+                title = `${catName} · StyleShop Nordexx | Collection Premium`;
+                description = `Découvrez notre collection ${catName} chez StyleShop/Nordexx. Qualité, style et livraison offerte dès 50€.`;
+                url = `${baseUrl}/?category=${currentCategory}`;
             }
 
             document.getElementById('metaTitle').textContent = title;
@@ -1165,11 +1333,11 @@
                         "highPrice": Math.max(...allPrices).toFixed(2),
                         "offerCount": allPrices.length,
                         "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-                        "url": `https://nordexx-chi.vercel.app/?product=${product.id}`,
+                        "url": `${BASE_URL}/?product=${product.id}`,
                         "priceValidUntil": new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]
                     },
                     "image": product.images[Object.keys(product.images)[0]]?.[0] || '',
-                    "url": `https://nordexx-chi.vercel.app/?product=${product.id}`,
+                    "url": `${BASE_URL}/?product=${product.id}`,
                     "warranty": {
                         "@type": "WarrantyPromise",
                         "durationOfWarranty": "P2Y",
@@ -1183,18 +1351,18 @@
                     "@graph": [
                         {
                             "@type": "Organization",
-                            "@id": "https://nordexx-chi.vercel.app/#organization",
+                            "@id": `${BASE_URL}/#organization`,
                             "name": "StyleShop / Nordexx",
-                            "url": "https://nordexx-chi.vercel.app/",
+                            "url": BASE_URL,
                             "logo": "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv",
                             "description": "Boutique en ligne alliant ingénierie et vêtements de haute qualité."
                         },
                         {
                             "@type": "WebSite",
-                            "@id": "https://nordexx-chi.vercel.app/#website",
-                            "url": "https://nordexx-chi.vercel.app/",
+                            "@id": `${BASE_URL}/#website`,
+                            "url": BASE_URL,
                             "name": "StyleShop Nordexx",
-                            "publisher": { "@id": "https://nordexx-chi.vercel.app/#organization" }
+                            "publisher": { "@id": `${BASE_URL}/#organization` }
                         }
                     ]
                 };
@@ -1259,13 +1427,18 @@
                             <span><i class="fas fa-star" aria-hidden="true"></i> ${p.sold + 5}</span>
                             <span><i class="fas fa-shopping-bag" aria-hidden="true"></i> ${p.sold} vendus</span>
                         </div>
-                        <button class="${btnClass}" data-id="${p.id}">${btnText}</button>
+                        <div style="display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:0.2rem;">
+                            <button class="btn-add" data-id="${p.id}">${btnText}</button>
+                            <button class="share-btn-sm" onclick="event.stopPropagation(); sharePage('product', ${p.id})" aria-label="Partager">
+                                <i class="fa-solid fa-share-nodes"></i> Partager
+                            </button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
 
                 card.addEventListener('click', (e) => {
-                    if (e.target.tagName === 'BUTTON' || e.target.closest('.btn-add')) return;
+                    if (e.target.tagName === 'BUTTON' || e.target.closest('.btn-add') || e.target.closest('.share-btn-sm')) return;
                     navigate('product', p.id);
                 });
 
@@ -1421,7 +1594,7 @@
         }
 
         // ============================================================
-        //  CONFIRMATION VARIANTES
+        //  CONFIRMATION DES VARIANTES
         // ============================================================
         function confirmVariantSelection() {
             const product = products.find(p => p.id === pendingProductId);
@@ -1790,7 +1963,7 @@
         }
 
         // ============================================================
-        //  CHECKOUT AVEC STRIPE (FONCTIONNEL)
+        //  CHECKOUT AVEC STRIPE
         // ============================================================
         async function handleCheckout() {
             if (cart.length === 0) {
@@ -1805,7 +1978,6 @@
             btn.innerHTML = '⏳ Redirection...';
 
             try {
-                // ===== TRACKING GA4 BEGIN_CHECKOUT =====
                 if (typeof trackBeginCheckout !== 'undefined') {
                     trackBeginCheckout(cart, total);
                 }
@@ -1815,10 +1987,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         items: cart.map(i => ({
+                            id: i.id,
                             name: i.name,
                             price: i.price,
                             quantity: i.quantity,
-                            image: i.image || ''
+                            image: i.image || '',
+                            category: i.category || 'vetements'
                         })),
                         total: total
                     })
@@ -1920,9 +2094,17 @@
                     ${urgencyText}
                     <div class="desc">${product.desc}</div>
                     ${variantHTML}
-                    <button class="${btnClass}" id="productAddBtn" onclick="openVariantModal(${product.id})">
-                        <i class="fas fa-cart-plus" style="margin-right:8px;" aria-hidden="true"></i> ${btnText}
-                    </button>
+                    
+                    <!-- ===== ACTIONS : AJOUTER + PARTAGER ===== -->
+                    <div class="action-row">
+                        <button class="btn-add-large" id="productAddBtn" onclick="openVariantModal(${product.id})">
+                            <i class="fas fa-cart-plus" style="margin-right:8px;" aria-hidden="true"></i> ${btnText}
+                        </button>
+                        <button class="share-btn-large" onclick="sharePage('product', ${product.id})">
+                            <i class="fa-solid fa-share-nodes"></i> Partager
+                        </button>
+                    </div>
+                    
                     <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:0.5rem; font-size:0.8rem; color:#5e5546;">
                         <span><i class="fas fa-truck" aria-hidden="true"></i> Livraison offerte dès 50€</span>
                         <span><i class="fas fa-check-circle" aria-hidden="true"></i> Garantie 2 ans</span>
@@ -2023,7 +2205,7 @@
         //  SITEMAP
         // ============================================================
         function generateSitemap() {
-            const baseUrl = 'https://nordexx-chi.vercel.app';
+            const baseUrl = BASE_URL;
             const today = new Date().toISOString().split('T')[0];
             
             let urls = [
@@ -2198,12 +2380,15 @@
             audio1.load();
             audio2.load();
 
-            console.log('✅ StyleShop/Nordexx - 9 produits');
+            console.log('✅ StyleShop/Nordexx - Version Ultra-Optimisée');
+            console.log('📱 Partage universel avec fa-share-nodes');
             console.log('🎵 Musique d\'ambiance avec enchaînement');
             console.log('🔐 Mode admin : Ctrl+Shift+A');
             console.log('📦 Livraison offerte dès 50€');
             console.log('🛡️ Garantie 2 ans sur tous les produits');
             console.log('💳 Paiement Stripe fonctionnel');
+            console.log('📊 Google Analytics 4 activé');
+            console.log('🚀 Objectif : 100 000 acheteurs/mois');
         }
 
         // Exposer les fonctions globalement
@@ -2231,6 +2416,7 @@
         window.downloadSitemap = downloadSitemap;
         window.toggleMusic = toggleMusic;
         window.toggleAdmin = toggleAdmin;
+        window.sharePage = sharePage;
 
         init();
     </script>
