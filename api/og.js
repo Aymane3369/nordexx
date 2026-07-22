@@ -56,6 +56,91 @@ const products = {
         price: '35.00',
         desc: 'Pull col rond, maille épaisse. Idéal pour l\'hiver.'
     }
+}
+    // api/og.js - Ajoutez ces cas supplémentaires
+
+// Dans la partie de traitement des requêtes, après le mapping des produits
+module.exports = (req, res) => {
+    const { product, blog, about } = req.query;
+    
+    // Cas du Blog
+    if (blog) {
+        const html = generateBlogOG();
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.send(html);
+    }
+    
+    // Cas de la page À propos
+    if (about) {
+        const html = generateAboutOG();
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        return res.send(html);
+    }
+    
+    // Cas du produit (votre code existant)
+    const p = products[product] || null;
+    // ... reste du code existant
+};
+
+// Ajoutez ces fonctions après vos mappings
+function generateBlogOG() {
+    const image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Blog · StyleShop Nordexx</title>
+    <meta property="og:site_name" content="StyleShop Nordexx" />
+    <meta property="og:title" content="Blog · StyleShop Nordexx | Conseils Mode & Tendances" />
+    <meta property="og:description" content="Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison sur le blog StyleShop Nordexx." />
+    <meta property="og:image" content="${image}" />
+    <meta property="og:url" content="https://nordexx-chi.vercel.app/blog" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="${image}" />
+    <meta http-equiv="refresh" content="0; url=/blog" />
+</head>
+<body style="font-family: Arial; text-align: center; padding: 50px; background: #f8f6f2;">
+    <div style="max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px;">
+        <h1>📰 Blog StyleShop</h1>
+        <p>Conseils mode, tendances et guides</p>
+        <a href="/blog" style="display: inline-block; margin-top: 15px; padding: 10px 30px; background: #1e1e1e; color: white; border-radius: 30px; text-decoration: none;">Voir le blog →</a>
+    </div>
+</body>
+</html>
+    `;
+}
+
+function generateAboutOG() {
+    const image = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>À propos · StyleShop Nordexx</title>
+    <meta property="og:site_name" content="StyleShop Nordexx" />
+    <meta property="og:title" content="À propos · StyleShop Nordexx | Ingénierie & Mode Premium" />
+    <meta property="og:description" content="Découvrez l'histoire de StyleShop/Nordexx, l'alliance unique de l'ingénierie et de la mode. Qualité, confiance et expertise." />
+    <meta property="og:image" content="${image}" />
+    <meta property="og:url" content="https://nordexx-chi.vercel.app/about" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="${image}" />
+    <meta http-equiv="refresh" content="0; url=/about" />
+</head>
+<body style="font-family: Arial; text-align: center; padding: 50px; background: #f8f6f2;">
+    <div style="max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px;">
+        <h1>🏪 StyleShop / Nordexx</h1>
+        <p>L'alliance de l'ingénierie et de la mode</p>
+        <a href="/about" style="display: inline-block; margin-top: 15px; padding: 10px 30px; background: #1e1e1e; color: white; border-radius: 30px; text-decoration: none;">En savoir plus →</a>
+    </div>
+</body>
+</html>
+    `;
 };
 
 const defaultImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
