@@ -1,20 +1,196 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>❌ Paiement annulé - StyleShop/Nordexx</title>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HXSZCHYD64"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-HXSZCHYD64');
+    </script>
+
     <style>
-        body { font-family: Arial; text-align: center; padding: 50px; background: #f8f6f2; }
-        .cancel-box { background: white; padding: 40px; border-radius: 20px; max-width: 500px; margin: 0 auto; }
-        .cross { font-size: 60px; color: #c0392b; }
-        .btn { background: #1e1e1e; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; display: inline-block; margin-top: 20px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: #f8f6f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            margin: 0;
+        }
+        .cancel-box {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 32px;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .cross {
+            font-size: 64px;
+            color: #c0392b;
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            font-size: 1.8rem;
+            color: #1e1e1e;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #5e5546;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        .offers {
+            margin: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .offers .offer {
+            background: #fcf1d6;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #a67c2e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.5rem;
+            background: #1e1e1e;
+            color: white;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #3f3a32;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .btn-outline {
+            background: transparent;
+            color: #1e1e1e;
+            border: 2px solid #e8e2d6;
+        }
+        .btn-outline:hover {
+            background: #f8f6f2;
+            transform: scale(1.02);
+        }
+        .btn-group {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .btn-group .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+        .help-text {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e8e2d6;
+            font-size: 0.85rem;
+            color: #7a6f5d;
+        }
+        .help-text a {
+            color: #1e1e1e;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .help-text a:hover { text-decoration: underline; }
+
+        @media (max-width: 480px) {
+            .cancel-box { padding: 2rem 1.5rem; }
+            .btn-group { flex-direction: column; }
+            .btn-group .btn { min-width: auto; }
+        }
     </style>
 </head>
 <body>
+
     <div class="cancel-box">
         <div class="cross">❌</div>
         <h1>Paiement annulé</h1>
-        <p>Votre paiement a été annulé. Vous pouvez réessayer quand vous voulez.</p>
-        <a href="/" class="btn">Retourner au site</a>
+        <p class="subtitle">Votre paiement a été annulé.<br>Aucun montant n'a été débité.</p>
+
+        <div class="offers">
+            <div class="offer">💡 Utilisez le code <strong>BIENVENUE10</strong> pour -10% sur votre commande</div>
+            <div class="offer">🚚 Livraison offerte dès 50€ d'achat</div>
+        </div>
+
+        <div class="btn-group">
+            <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Retourner au site</a>
+            <a href="/" class="btn btn-outline"><i class="fas fa-shopping-cart"></i> Voir le panier</a>
+        </div>
+
+        <div class="help-text">
+            ❓ Une question ? <a href="/about">Contactez-nous</a>
+        </div>
     </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <script>
+        // ============================================================
+        //  RÉCUPÉRATION DU STATUT
+        // ============================================================
+        const params = new URLSearchParams(window.location.search);
+        const cancel = params.get('cancel');
+        
+        if (cancel) {
+            console.log('❌ Paiement annulé');
+            
+            // Tracker l'annulation GA4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'checkout_cancelled', {
+                    currency: 'EUR'
+                });
+            }
+        }
+
+        // ============================================================
+        //  REDIRECTION AUTOMATIQUE
+        // ============================================================
+        console.log('❌ Page d\'annulation de paiement');
+        console.log('🔄 Redirection vers l\'accueil dans 10s...');
+        
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 10000);
+    </script>
+
 </body>
 </html>
