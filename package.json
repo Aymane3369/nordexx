@@ -1,7 +1,16 @@
 {
-  "name": "styleshop/Nordexx",
-  "version": "1.0.0",
+  "name": "styleshop-nordexx",
+  "version": "2.0.0",
+  "description": "StyleShop/Nordexx - E-commerce de vêtements et accessoires premium",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
   "dependencies": {
     "stripe": "^13.0.0"
-  }
+  },
+  "keywords": ["ecommerce", "fashion", "clothing", "shop"],
+  "author": "StyleShop/Nordexx",
+  "license": "MIT"
 }
