@@ -1,6 +1,4 @@
 // api/create-checkout-session.js
-// Gestion du paiement Stripe avec Klarna, livraison, et tracking
-
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -21,7 +19,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const { items, total, coupon, shipping } = req.body;
+        const { items, total, coupon } = req.body;
 
         // ============================================================
         // 2. VALIDATION
@@ -31,25 +29,31 @@ module.exports = async (req, res) => {
         }
 
         // ============================================================
-        // 3. URL DE BASE
+        // 3. URL DE BASE - CORRIGÉE
         // ============================================================
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : 'https://nordexx-chi.vercel.app';
+        // Utiliser une URL fixe ou détecter automatiquement
+        let baseUrl = 'https://nordexx-chi.vercel.app'; // ⚠️ Remplacez par VOTRE URL
+        
+        // Si vous êtes en développement local
+        if (process.env.NODE_ENV === 'development' || req.headers.host?.includes('localhost')) {
+            baseUrl = 'http://localhost:3000';
+        }
+        
+        // Si Vercel fournit l'URL
+        if (process.env.VERCEL_URL) {
+            baseUrl = `https://${process.env.VERCEL_URL}`;
+        }
+
+        console.log('🔗 Base URL:', baseUrl);
 
         // ============================================================
         // 4. CRÉATION DE LA SESSION STRIPE
         // ============================================================
-        const session = await stripe.checkout.sessions.create({
-            // Moyens de paiement acceptés
-            payment_method_types: [
-                'card',          // CB classique
-                'klarna'         // Paiement en 3x/4x
-            ],
-
+        const sessionData = {
+            payment_method_types: ['card'], // ⚠️ Klarna nécessite une activation spéciale
+            
             mode: 'payment',
-
-            // ===== ARTICLES DU PANIER =====
+            
             line_items: items.map(item => ({
                 price_data: {
                     currency: 'eur',
@@ -64,92 +68,70 @@ module.exports = async (req, res) => {
                             category: item.category || 'vetements'
                         }
                     },
-                    unit_amount: Math.round(item.price * 100), // Stripe = centimes
+                    unit_amount: Math.round(item.price * 100),
                 },
                 quantity: item.quantity,
             })),
-
-            // ===== COLLECTE DE L'ADRESSE DE LIVRAISON =====
+            
+            // ===== COLLECTE DE L'ADRESSE =====
             shipping_address_collection: {
-                allowed_countries: [
-                    'FR', 'BE', 'DE', 'ES', 'IT', 'NL', 'CH', 'LU', 'MC', 'PT'
-                ]
+                allowed_countries: ['FR', 'BE', 'DE', 'ES', 'IT', 'NL', 'CH', 'LU']
             },
-
+            
             // ===== COLLECTE DU TÉLÉPHONE =====
             phone_number_collection: {
                 enabled: true
             },
-
+            
             // ===== EMAIL CLIENT =====
             customer_creation: 'always',
-
-            // ===== OPTIONS DE LIVRAISON =====
-            shipping_options: [
-                {
-                    shipping_rate_data: {
-                        type: 'fixed_amount',
-                        fixed_amount: {
-                            amount: 0,
-                            currency: 'eur',
-                        },
-                        display_name: '🚚 Livraison offerte (2-4 jours)',
-                        delivery_estimate: {
-                            minimum: { unit: 'business_day', value: 2 },
-                            maximum: { unit: 'business_day', value: 4 },
-                        },
-                    },
-                },
-                {
-                    shipping_rate_data: {
-                        type: 'fixed_amount',
-                        fixed_amount: {
-                            amount: 550, // 5.50 €
-                            currency: 'eur',
-                        },
-                        display_name: '🚀 Livraison express (24h)',
-                        delivery_estimate: {
-                            minimum: { unit: 'business_day', value: 1 },
-                            maximum: { unit: 'business_day', value: 1 },
-                        },
-                    },
-                }
-            ],
-
+            
             // ===== MÉTADONNÉES =====
             metadata: {
                 coupon: coupon || 'none',
                 total: String(total || 0),
                 platform: 'vercel'
             },
-
+            
             // ===== URL DE RETOUR =====
             success_url: `${baseUrl}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${baseUrl}/?cancel=true`,
-
+            
             // ===== EXPIRATION =====
-            expires_at: Math.floor(Date.now() / 1000) + 1800, // 30 minutes
-
-            // ===== RÉCUPÉRATION DU PANIER =====
-            payment_intent_data: {
-                metadata: {
-                    items_count: String(items.length),
-                    total_items: items.reduce((sum, i) => sum + i.quantity, 0)
-                }
-            }
-        });
+            expires_at: Math.floor(Date.now() / 1000) + 1800,
+        };
 
         // ============================================================
-        // 5. LOG DE SUIVI
+        // 5. AJOUT DE KLARNA SEULEMENT SI ACTIVÉ
         // ============================================================
+        // Klarna nécessite une activation dans Stripe
+        // Si vous voulez l'activer, décommentez cette ligne :
+        // sessionData.payment_method_types.push('klarna');
+
+        // ============================================================
+        // 6. AJOUT DES OPTIONS DE LIVRAISON (optionnel)
+        // ============================================================
+        // sessionData.shipping_options = [
+        //     {
+        //         shipping_rate_data: {
+        //             type: 'fixed_amount',
+        //             fixed_amount: { amount: 0, currency: 'eur' },
+        //             display_name: '🚚 Livraison offerte',
+        //             delivery_estimate: {
+        //                 minimum: { unit: 'business_day', value: 2 },
+        //                 maximum: { unit: 'business_day', value: 4 }
+        //             }
+        //         }
+        //     }
+        // ];
+
+        const session = await stripe.checkout.sessions.create(sessionData);
+
         console.log('✅ Session Stripe créée:', session.id);
         console.log('💰 Total:', total || 'calculé automatiquement');
         console.log('📦 Articles:', items.length);
         console.log('🔗 URL:', session.url);
 
-        // ============================================================
-        // 6. RÉPONSE
-        // ============================================================
         return res.status(200).json({
             url: session.url,
             sessionId: session.id
@@ -157,8 +139,23 @@ module.exports = async (req, res) => {
 
     } catch (error) {
         console.error('❌ Erreur Stripe:', error);
+        
+        // Message d'erreur plus clair
+        let errorMessage = error.message || 'Erreur lors de la création de la session de paiement';
+        
+        // Si c'est une erreur de clé Stripe
+        if (error.type === 'StripeAuthenticationError') {
+            errorMessage = 'Clé Stripe invalide. Vérifiez la variable STRIPE_SECRET_KEY.';
+        }
+        
+        // Si c'est une erreur de paramètre
+        if (error.type === 'StripeInvalidRequestError') {
+            errorMessage = `Paramètre invalide: ${error.message}`;
+        }
+
         return res.status(500).json({
-            error: error.message || 'Erreur lors de la création de la session de paiement'
+            error: errorMessage,
+            code: error.type || 'unknown_error'
         });
     }
 };
