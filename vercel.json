@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/product/:id",
+      "destination": "/api/og?product=:id"
+    },
+    {
+      "source": "/blog",
+      "destination": "/api/og?blog=true"
+    },
+    {
+      "source": "/about",
+      "destination": "/api/og?about=true"
+    },
+    {
       "source": "/api/create-checkout-session",
       "destination": "/api/create-checkout-session"
     },
