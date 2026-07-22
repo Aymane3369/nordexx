@@ -1251,84 +1251,96 @@
             const key = `${product.id}-${taille}-${couleur}`;
             return variantPriceMap[key] !== undefined ? variantPriceMap[key] : (product.salePrice || product.price);
         }
+// ============================================================
+//  FONCTION DE PARTAGE AVEC OG API (CORRIGÉE)
+// ============================================================
+const BASE_URL = 'https://nordexx-chi.vercel.app';
 
-        // ============================================================
-        //  FONCTION DE PARTAGE UNIVERSEL AVEC OG API
-        // ============================================================
-        const BASE_URL = 'https://nordexx-chi.vercel.app';
+function sharePage(type, productId = null) {
+    let title = '';
+    let text = '';
+    let shareUrl = BASE_URL;
+    let redirectUrl = BASE_URL;
 
-        function sharePage(type, productId = null) {
-            let title = '';
-            let text = '';
-            let url = BASE_URL;
-            let shareUrl = BASE_URL;
+    if (type === 'product' && productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        const price = (product.salePrice || product.price).toFixed(2);
+        title = `${product.name} - ${price}€`;
+        
+        // 🔥 URL DE PARTAGE = API OG (pour les crawlers)
+        shareUrl = `${BASE_URL}/api/og?product=${productId}`;
+        redirectUrl = `${BASE_URL}/?product=${productId}`;
+        
+        // Récupérer la bonne image
+        const colors = Object.keys(product.images);
+        const image = colors.length > 0 && product.images[colors[0]].length > 0 
+            ? product.images[colors[0]][0] 
+            : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+        
+        text = `🛍️ *${product.name}*\n💰 ${price} €\n📝 ${product.desc.substring(0, 80)}...\n\n🔗 ${redirectUrl}`;
+        
+        trackShare('product', productId);
+    } else if (type === 'blog') {
+        title = 'Blog StyleShop';
+        shareUrl = `${BASE_URL}/api/og?blog=true`;
+        redirectUrl = `${BASE_URL}/blog`;
+        text = `📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ${redirectUrl}`;
+        trackShare('blog');
+    } else if (type === 'about') {
+        title = 'StyleShop / Nordexx';
+        shareUrl = `${BASE_URL}/api/og?about=true`;
+        redirectUrl = `${BASE_URL}/about`;
+        text = `🏪 *StyleShop / Nordexx*\nL'alliance de l'ingénierie et de la mode. Qualité premium, garantie 2 ans.\n\n🔗 ${redirectUrl}`;
+        trackShare('about');
+    } else {
+        text = `🛍️ *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans. Livraison offerte dès 50€.\n\n🔗 ${BASE_URL}`;
+        shareUrl = BASE_URL;
+        trackShare('home');
+    }
 
-            if (type === 'product' && productId) {
-                const product = products.find(p => p.id === productId);
-                if (!product) return;
-                
-                const price = (product.salePrice || product.price).toFixed(2);
-                title = `${product.name} - ${price}€`;
-                
-                // Utilisation de l'API OG
-                shareUrl = `${BASE_URL}/api/og?product=${productId}`;
-                url = `${BASE_URL}/?product=${productId}`;
-                text = `🛍️ *${product.name}*\n💰 ${price} €\n📝 ${product.desc.substring(0, 80)}...\n\n🔗 ${url}`;
-                
-                trackShare('product', productId);
-            } else if (type === 'blog') {
-                title = 'Blog StyleShop';
-                shareUrl = `${BASE_URL}/api/og?blog=true`;
-                url = `${BASE_URL}/blog`;
-                text = `📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ${url}`;
-                trackShare('blog');
-            } else if (type === 'about') {
-                title = 'StyleShop / Nordexx';
-                shareUrl = `${BASE_URL}/api/og?about=true`;
-                url = `${BASE_URL}/about`;
-                text = `🏪 *StyleShop / Nordexx*\nL'alliance de l'ingénierie et de la mode. Qualité premium, garantie 2 ans.\n\n🔗 ${url}`;
-                trackShare('about');
-            } else {
-                text = `🛍️ *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans. Livraison offerte dès 50€.\n\n🔗 ${BASE_URL}`;
-                trackShare('home');
-            }
+    console.log('📤 Partage via URL:', shareUrl);
 
-            // Utiliser l'API Web Share (mobile)
-            if (navigator.share) {
-                navigator.share({
-                    title: title,
-                    text: text,
-                    url: shareUrl
-                }).catch(() => {});
-                return;
-            }
+    // 📱 Utiliser l'API Web Share (mobile)
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: text,
+            url: shareUrl  // ✅ Utilise l'URL avec API OG
+        }).catch((err) => {
+            console.log('Share cancelled:', err);
+        });
+        return;
+    }
 
-            // Fallback : copier dans le presse-papier
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(`${text}\n\n📱 ${shareUrl}`).then(() => {
-                    alert('📋 Lien copié dans le presse-papier ! Partagez-le où vous voulez.');
-                }).catch(() => {
-                    fallbackShare(text, shareUrl);
-                });
-            } else {
-                fallbackShare(text, shareUrl);
-            }
-        }
+    // 💻 Fallback : copier le lien de l'API OG
+    const copyText = `${text}\n\n📱 ${shareUrl}`;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(copyText).then(() => {
+            alert('📋 Lien copié dans le presse-papier ! Partagez-le où vous voulez.\n\n📱 Lien: ' + shareUrl);
+        }).catch(() => {
+            fallbackShare(copyText);
+        });
+    } else {
+        fallbackShare(copyText);
+    }
+}
 
-        function fallbackShare(text, url) {
-            const input = document.createElement('textarea');
-            input.value = `${text}\n\n🔗 ${url}`;
-            document.body.appendChild(input);
-            input.select();
-            try {
-                document.execCommand('copy');
-                alert('📋 Lien copié dans le presse-papier !');
-            } catch (e) {
-                window.open(`https://wa.me/?text=${encodeURIComponent(text + '\n\n' + url)}`, '_blank');
-            }
-            document.body.removeChild(input);
-        }
-
+function fallbackShare(text) {
+    const input = document.createElement('textarea');
+    input.value = text;
+    document.body.appendChild(input);
+    input.select();
+    try {
+        document.execCommand('copy');
+        alert('📋 Lien copié dans le presse-papier !');
+    } catch (e) {
+        // Ouvrir WhatsApp en dernier recours
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+    document.body.removeChild(input);
+}
         // ============================================================
         //  ÉTAT
         // ============================================================
