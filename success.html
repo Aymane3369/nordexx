@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>✅ Paiement réussi - StyleShop/Nordexx</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; background: #f8f6f2; }
+        .success-box { background: white; padding: 40px; border-radius: 20px; max-width: 500px; margin: 0 auto; }
+        .check { font-size: 60px; color: #2d7a4a; }
+        .btn { background: #1e1e1e; color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="success-box">
+        <div class="check">✅</div>
+        <h1>Commande confirmée !</h1>
+        <p>Votre paiement a été accepté. Vous recevrez un email de confirmation.</p>
+        <p style="color: #7a6f5d;">Numéro de commande : <strong id="orderId">...</strong></p>
+        <a href="/" class="btn">Retourner au site</a>
+    </div>
+    <script>
+        // Récupérer l'ID de session depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const sessionId = params.get('session_id');
+        if (sessionId) {
+            document.getElementById('orderId').textContent = sessionId.slice(-8).toUpperCase();
+            
+            // Vider le panier
+            localStorage.removeItem('nordexx_cart');
+            
+            // Tracker la conversion GA4
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    transaction_id: sessionId,
+                    value: 0, // À récupérer depuis l'API
+                    currency: 'EUR'
+                });
+            }
+        }
+    </script>
+</body>
+</html>
