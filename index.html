@@ -26,7 +26,7 @@
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" id="twitterTitle" content="StyleShop/Nordexx · Vêtements et accessoires Premium" />
+    <meta name="twitter:title" id="twitterTitle" content="StyleShop Nordexx · Vêtements et accessoires Premium" />
     <meta name="twitter:description" id="twitterDescription" content="Alliance unique de l'ingénierie et de la mode. +1000 clients satisfaits. Garantie 2 ans." />
     <meta name="twitter:image" id="twitterImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_600,c_fill/1000143347_ttqayv" />
     
@@ -1182,8 +1182,8 @@ function navigate(page, param) {
     let url = '/';
     if (page === 'product' && param) url = '/?product=' + param;
     else if (page === 'category' && param) url = '/?category=' + param;
-    else if (page === 'blog') url = '/blog';
-    else if (page === 'about') url = '/about';
+    else if (page === 'blog') url = '/?page=blog';
+    else if (page === 'about') url = '/?page=about';
     
     if (window.location.pathname + window.location.search !== url) {
         window.history.pushState({ page: page, param: param }, '', url);
@@ -2050,50 +2050,56 @@ function renderRelatedProducts(productId) {
 }
 
 // ============================================================
-// SHARE FUNCTION
+// SHARE FUNCTION - CORRIGÉE BUG 1
 // ============================================================
 function sharePage(type, productId) {
     let title = '';
     let text = '';
     let shareUrl = BASE_URL;
+    let timestamp = Date.now();
     
     if (type === 'product' && productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
+        
+        // ✅ UNE SEULE URL pour tout - l'URL OG /api/og?product=X
+        const link = BASE_URL + '/api/og?product=' + productId + '&_=' + timestamp;
         title = product.name + ' - ' + price + '€';
-        const timestamp = Date.now();
-        shareUrl = BASE_URL + '/?product=' + productId + '&_=' + timestamp;
-        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 80) + '...\n\n🔗 ' + shareUrl;
+        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + link;
+        shareUrl = link;
+        
     } else if (type === 'blog') {
+        // ✅ Utiliser ?page=blog pour éviter la boucle
+        const link = BASE_URL + '/?page=blog&_=' + timestamp;
         title = 'Blog StyleShop';
-        const timestamp = Date.now();
-        shareUrl = BASE_URL + '/blog?_=' + timestamp;
-        text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
+        text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + link;
+        shareUrl = link;
+        
     } else if (type === 'about') {
+        const link = BASE_URL + '/?page=about&_=' + timestamp;
         title = 'StyleShop / Nordexx';
-        const timestamp = Date.now();
-        shareUrl = BASE_URL + '/about?_=' + timestamp;
-        text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode. Qualité premium, garantie 2 ans.\n\n🔗 ' + shareUrl;
+        text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + link;
+        shareUrl = link;
+        
     } else {
-        text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans. Livraison offerte dès 50€.\n\n🔗 ' + BASE_URL;
+        text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
         shareUrl = BASE_URL;
     }
     
+    // ✅ Même URL partout
     if (navigator.share) {
         navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {});
         return;
     }
     
-    const copyText = text + '\n\n📱 ' + shareUrl;
+    // Fallback copie
     if (navigator.clipboard) {
-        navigator.clipboard.writeText(copyText).then(() => {
+        navigator.clipboard.writeText(text).then(() => {
             alert('📋 Lien copié dans le presse-papier !');
-        }).catch(() => {
-            fallbackShare(copyText);
-        });
+        }).catch(() => fallbackShare(text));
     } else {
-        fallbackShare(copyText);
+        fallbackShare(text);
     }
 }
 
@@ -2132,11 +2138,11 @@ function updateMetaTags(page, product) {
     } else if (page === 'blog') {
         title = 'Blog · StyleShop Nordexx | Conseils Mode & Tendances';
         description = 'Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison sur le blog StyleShop Nordexx.';
-        url = BASE_URL + '/blog';
+        url = BASE_URL + '/?page=blog';
     } else if (page === 'about') {
         title = 'À propos · StyleShop Nordexx | Ingénierie & Mode Premium';
         description = "Découvrez l'histoire de StyleShop/Nordexx, l'alliance unique de l'ingénierie et de la mode. Qualité, confiance et expertise.";
-        url = BASE_URL + '/about';
+        url = BASE_URL + '/?page=about';
     }
     
     document.getElementById('metaTitle').textContent = title;
@@ -2160,8 +2166,8 @@ function generateSitemap() {
     const today = new Date().toISOString().split('T')[0];
     let urls = [
         { loc: '/', priority: 1.0, changefreq: 'daily' },
-        { loc: '/blog', priority: 0.7, changefreq: 'weekly' },
-        { loc: '/about', priority: 0.8, changefreq: 'monthly' }
+        { loc: '/?page=blog', priority: 0.7, changefreq: 'weekly' },
+        { loc: '/?page=about', priority: 0.8, changefreq: 'monthly' }
     ];
     const categories = ['all', 'vetements', 'accessoires', 'nouveautes'];
     categories.forEach(cat => {
@@ -2340,6 +2346,78 @@ window.toggleAdmin = function() {
 };
 
 // ============================================================
+// HANDLE PAGE PARAM - CORRIGÉ BUG 2
+// ============================================================
+function handlePageParam() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    const productId = urlParams.get('product');
+    const category = urlParams.get('category');
+    
+    if (productId) {
+        navigate('product', parseInt(productId));
+    } else if (category) {
+        navigate('category', category);
+    } else if (pageParam === 'blog') {
+        navigate('blog');
+    } else if (pageParam === 'about') {
+        navigate('about');
+    } else {
+        navigate('home');
+    }
+}
+
+// ============================================================
+// GESTION DU RETOUR ARRIÈRE (POPSTATE)
+// ============================================================
+window.addEventListener('popstate', function(event) {
+    const path = window.location.pathname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    const productId = urlParams.get('product');
+    const category = urlParams.get('category');
+    
+    if (pageParam === 'blog') {
+        navigate('blog');
+    } else if (pageParam === 'about') {
+        navigate('about');
+    } else if (productId) {
+        navigate('product', parseInt(productId));
+    } else if (category) {
+        navigate('category', category);
+    } else {
+        navigate('home');
+    }
+});
+
+// ============================================================
+// CONVERSION AUTOMATIQUE DES LIENS STATIQUES
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Tous les liens qui pointent vers /blog ou /about
+    document.querySelectorAll('a[href="/blog"], a[href="/about"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            if (href === '/blog') {
+                navigate('blog');
+            } else if (href === '/about') {
+                navigate('about');
+            }
+        });
+    });
+    
+    // Lien du header (retour à l'accueil)
+    const brand = document.querySelector('.shop-header h1');
+    if (brand) {
+        brand.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigate('home');
+        });
+    }
+});
+
+// ============================================================
 // INIT
 // ============================================================
 function init() {
@@ -2350,25 +2428,17 @@ function init() {
     document.getElementById('viewGrid').classList.add('active');
     document.getElementById('checkoutBtn').disabled = true;
     
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('product');
-    const category = urlParams.get('category');
-    
-    if (productId) {
-        navigate('product', parseInt(productId));
-    } else if (category) {
-        navigate('category', category);
-    } else {
-        navigate('home');
-    }
+    handlePageParam();
     
     audio1.load();
     audio2.load();
-    console.log('🚀 StyleShop/Nordexx - Version 3.0 "Parfaite"');
+    console.log('🚀 StyleShop/Nordexx - Version 3.1 "Corrigée"');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
     console.log('🚚 Livraison offerte dès 50€');
     console.log('🛡️ Garantie 2 ans sur tous les produits');
+    console.log('✅ Bug partage corrigé : une seule URL');
+    console.log('✅ Bug /blog et /about corrigé : ?page=');
 }
 
 // Expose global functions
