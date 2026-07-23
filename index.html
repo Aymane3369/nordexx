@@ -273,7 +273,6 @@
     <link rel="canonical" id="canonicalLink" href="https://nordexx-chi.vercel.app/" />
     
     <!-- ===== HRENGLANG CORRIGÉ ===== -->
-    <!-- Suppression des hreflang vers /en/ qui n'existe pas -->
     <link rel="alternate" hreflang="fr" href="https://nordexx-chi.vercel.app/" />
     <link rel="alternate" hreflang="x-default" href="https://nordexx-chi.vercel.app/" />
 
@@ -1594,143 +1593,105 @@
         // ============================================================
         //  ROUTAGE SPA
         // ============================================================
-      function init() {
-    initAdminMode();
-    loadCart();
-    renderCatalog();
-    updateCartBadge();
-    document.getElementById('viewGrid').classList.add('active');
-    document.getElementById('checkoutBtn').disabled = true;
-
-    // 🔍 DÉTECTION DE L'URL AU CHARGEMENT
-    const path = window.location.pathname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('product');
-    const category = urlParams.get('category');
-    
-    // 🎯 Navigation en fonction de l'URL
-    if (path === '/blog') {
-        navigate('blog');
-    } else if (path === '/about') {
-        navigate('about');
-    } else if (productId) {
-        navigate('product', parseInt(productId));
-    } else if (category) {
-        navigate('category', category);
-    } else {
-        navigate('home');
-    }
-
-    // 🎵 Chargement de la musique
-    audio1.load();
-    audio2.load();
-
-    console.log('🚀 StyleShop/Nordexx - Version 3.0 "Parfaite"');
-    console.log('📊 Google Analytics 4 + GTM Activés');
-    console.log('📱 Partage universel avec OG Dynamique + Cache-Busting');
-    console.log('🎵 Musique d\'ambiance avec enchaînement');
-    console.log('🔐 Mode admin : Ctrl+Shift+A');
-    console.log('📦 Livraison offerte dès 50€');
-    console.log('🛡️ Garantie 2 ans sur tous les produits');
-    console.log('💳 Paiement Stripe + Klarna fonctionnel');
-      }
-        // ============================================================
-//  GESTION DU RETOUR ARRIÈRE (POPSTATE)
-// ============================================================
-window.addEventListener('popstate', function(event) {
-    const path = window.location.pathname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('product');
-    const category = urlParams.get('category');
-    
-    console.log('🔙 Popstate détecté:', path);
-    
-    if (path === '/blog') {
-        navigate('blog');
-    } else if (path === '/about') {
-        navigate('about');
-    } else if (productId) {
-        navigate('product', parseInt(productId));
-    } else if (category) {
-        navigate('category', category);
-    } else {
-        navigate('home');
-    }
-});
         function navigate(page, param) {
-    currentPage = page;
-    console.log('🧭 Navigation vers:', page, param);
+            currentPage = page;
+            console.log('🧭 Navigation vers:', page, param);
 
-    // 🏠 Construction de l'URL
-    let url = '/';
-    if (page === 'product' && param) {
-        url = `/?product=${param}`;
-    } else if (page === 'category' && param) {
-        url = `/?category=${param}`;
-    } else if (page === 'blog') {
-        url = '/blog';
-    } else if (page === 'about') {
-        url = '/about';
-    }
-    
-    // 📝 Mise à jour de l'historique (sans recharger la page)
-    if (window.location.pathname + window.location.search !== url) {
-        window.history.pushState({ page, param }, '', url);
-    }
+            // 🏠 Construction de l'URL
+            let url = '/';
+            if (page === 'product' && param) {
+                url = `/?product=${param}`;
+            } else if (page === 'category' && param) {
+                url = `/?category=${param}`;
+            } else if (page === 'blog') {
+                url = '/blog';
+            } else if (page === 'about') {
+                url = '/about';
+            }
+            
+            // 📝 Mise à jour de l'historique (sans recharger la page)
+            if (window.location.pathname + window.location.search !== url) {
+                window.history.pushState({ page, param }, '', url);
+            }
 
-    // 🎯 Masquer/Afficher les sections
-    document.getElementById('catalogView').classList.add('hidden');
-    document.getElementById('productPage').classList.remove('active');
-    document.getElementById('aboutPage').classList.remove('active');
-    document.getElementById('blogPage').classList.remove('active');
+            // 🎯 Masquer/Afficher les sections
+            document.getElementById('catalogView').classList.add('hidden');
+            document.getElementById('productPage').classList.remove('active');
+            document.getElementById('aboutPage').classList.remove('active');
+            document.getElementById('blogPage').classList.remove('active');
 
-    // 📄 Affichage de la page demandée
-    if (page === 'home') {
-        document.getElementById('catalogView').classList.remove('hidden');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        document.querySelector('.category-nav a[data-cat="all"]')?.classList.add('active');
-        currentCategory = 'all';
-        filteredProducts = [...products];
-        applySort();
-        updateMetaTags('home');
-        
-    } else if (page === 'product' && param) {
-        document.getElementById('productPage').classList.add('active');
-        showProductPage(parseInt(param));
-        renderRelatedProducts(parseInt(param));
-        
-    } else if (page === 'category' && param) {
-        document.getElementById('catalogView').classList.remove('hidden');
-        const el = document.querySelector(`.category-nav a[data-cat="${param}"]`);
-        if (el) {
-            filterCategory(param, el);
-        } else {
-            currentCategory = param;
-            filteredProducts = products.filter(p => p.category === param || (p.tags && p.tags.includes(param)));
-            applySort();
+            // 📄 Affichage de la page demandée
+            if (page === 'home') {
+                document.getElementById('catalogView').classList.remove('hidden');
+                document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+                document.querySelector('.category-nav a[data-cat="all"]')?.classList.add('active');
+                currentCategory = 'all';
+                filteredProducts = [...products];
+                applySort();
+                updateMetaTags('home');
+                
+            } else if (page === 'product' && param) {
+                document.getElementById('productPage').classList.add('active');
+                showProductPage(parseInt(param));
+                renderRelatedProducts(parseInt(param));
+                
+            } else if (page === 'category' && param) {
+                document.getElementById('catalogView').classList.remove('hidden');
+                const el = document.querySelector(`.category-nav a[data-cat="${param}"]`);
+                if (el) {
+                    filterCategory(param, el);
+                } else {
+                    currentCategory = param;
+                    filteredProducts = products.filter(p => p.category === param || (p.tags && p.tags.includes(param)));
+                    applySort();
+                }
+                
+            } else if (page === 'blog') {
+                document.getElementById('blogPage').classList.add('active');
+                document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+                document.querySelector('.category-nav a[data-cat="blog"]')?.classList.add('active');
+                updateMetaTags('blog');
+                
+            } else if (page === 'about') {
+                document.getElementById('aboutPage').classList.add('active');
+                document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+                document.querySelector('.category-nav a[data-cat="apropos"]')?.classList.add('active');
+                updateMetaTags('about');
+            }
+
+            // 📊 Tracking
+            if (typeof trackPageView !== 'undefined') {
+                trackPageView(window.location.pathname + window.location.search);
+            }
+
+            // 🔝 Scroll en haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-    } else if (page === 'blog') {
-        document.getElementById('blogPage').classList.add('active');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        document.querySelector('.category-nav a[data-cat="blog"]')?.classList.add('active');
-        updateMetaTags('blog');
-        
-    } else if (page === 'about') {
-        document.getElementById('aboutPage').classList.add('active');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        document.querySelector('.category-nav a[data-cat="apropos"]')?.classList.add('active');
-        updateMetaTags('about');
-    }
 
-    // 📊 Tracking
-    if (typeof trackPageView !== 'undefined') {
-        trackPageView(window.location.pathname + window.location.search);
-    }
+        // ============================================================
+        //  GESTION DU RETOUR ARRIÈRE (POPSTATE)
+        // ============================================================
+        window.addEventListener('popstate', function(event) {
+            const path = window.location.pathname;
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('product');
+            const category = urlParams.get('category');
+            
+            console.log('🔙 Popstate détecté:', path);
+            
+            if (path === '/blog') {
+                navigate('blog');
+            } else if (path === '/about') {
+                navigate('about');
+            } else if (productId) {
+                navigate('product', parseInt(productId));
+            } else if (category) {
+                navigate('category', category);
+            } else {
+                navigate('home');
+            }
+        });
 
-    // 🔝 Scroll en haut
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
         // ============================================================
         //  META TAGS DYNAMIQUES
         // ============================================================
@@ -2961,47 +2922,50 @@ window.addEventListener('popstate', function(event) {
         <span><i class="fas fa-hard-hat" aria-hidden="true"></i> Ingénierie-Travaux · Expertise & qualité</span>
         <span><i class="fas fa-store" aria-hidden="true"></i> StyleShop / Nordexx · nordexx-chi.vercel.app</span>
     </div>
-// ============================================================
-//  CONVERSION AUTOMATIQUE DES LIENS STATIQUES
-// ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    // 🔗 Tous les liens qui pointent vers /blog ou /about
-    document.querySelectorAll('a[href="/blog"], a[href="/about"]').forEach(el => {
-        el.addEventListener('click', function(e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            if (href === '/blog') {
-                navigate('blog');
-            } else if (href === '/about') {
-                navigate('about');
-            }
-        });
-    });
 
-    // 🔙 Tous les liens qui contiennent "blog" ou "about" dans leur classe ou texte
-    document.querySelectorAll('.blog-cta, .about-cta, [onclick*="blog"], [onclick*="about"]').forEach(el => {
-        if (!el.hasAttribute('data-converted')) {
-            el.setAttribute('data-converted', 'true');
-            el.addEventListener('click', function(e) {
-                e.preventDefault();
-                const text = this.textContent.toLowerCase();
-                if (text.includes('blog') || this.classList.contains('blog-cta')) {
-                    navigate('blog');
-                } else if (text.includes('about') || this.classList.contains('about-cta') || text.includes('en savoir')) {
-                    navigate('about');
+    <!-- ============================================================
+    CONVERSION AUTOMATIQUE DES LIENS STATIQUES
+    ============================================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 🔗 Tous les liens qui pointent vers /blog ou /about
+            document.querySelectorAll('a[href="/blog"], a[href="/about"]').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    if (href === '/blog') {
+                        navigate('blog');
+                    } else if (href === '/about') {
+                        navigate('about');
+                    }
+                });
+            });
+
+            // 🔙 Tous les liens qui contiennent "blog" ou "about" dans leur classe ou texte
+            document.querySelectorAll('.blog-cta, .about-cta, [onclick*="blog"], [onclick*="about"]').forEach(el => {
+                if (!el.hasAttribute('data-converted')) {
+                    el.setAttribute('data-converted', 'true');
+                    el.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const text = this.textContent.toLowerCase();
+                        if (text.includes('blog') || this.classList.contains('blog-cta')) {
+                            navigate('blog');
+                        } else if (text.includes('about') || this.classList.contains('about-cta') || text.includes('en savoir')) {
+                            navigate('about');
+                        }
+                    });
                 }
             });
-        }
-    });
 
-    // 🏠 Lien du header (retour à l'accueil)
-    const brand = document.querySelector('.shop-header h1');
-    if (brand) {
-        brand.addEventListener('click', function(e) {
-            e.preventDefault();
-            navigate('home');
+            // 🏠 Lien du header (retour à l'accueil)
+            const brand = document.querySelector('.shop-header h1');
+            if (brand) {
+                brand.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigate('home');
+                });
+            }
         });
-    }
-});
+    </script>
 </body>
 </html>
