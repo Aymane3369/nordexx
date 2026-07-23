@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : 'https://n-rduxx.vercel.app';
+      : 'https://nordexx-chi.vercel.app';
 
     const session = await stripe.checkout.sessions.create({
 
