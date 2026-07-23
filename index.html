@@ -2961,6 +2961,47 @@ window.addEventListener('popstate', function(event) {
         <span><i class="fas fa-hard-hat" aria-hidden="true"></i> Ingénierie-Travaux · Expertise & qualité</span>
         <span><i class="fas fa-store" aria-hidden="true"></i> StyleShop / Nordexx · nordexx-chi.vercel.app</span>
     </div>
+// ============================================================
+//  CONVERSION AUTOMATIQUE DES LIENS STATIQUES
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+    // 🔗 Tous les liens qui pointent vers /blog ou /about
+    document.querySelectorAll('a[href="/blog"], a[href="/about"]').forEach(el => {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            const href = this.getAttribute('href');
+            if (href === '/blog') {
+                navigate('blog');
+            } else if (href === '/about') {
+                navigate('about');
+            }
+        });
+    });
 
+    // 🔙 Tous les liens qui contiennent "blog" ou "about" dans leur classe ou texte
+    document.querySelectorAll('.blog-cta, .about-cta, [onclick*="blog"], [onclick*="about"]').forEach(el => {
+        if (!el.hasAttribute('data-converted')) {
+            el.setAttribute('data-converted', 'true');
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                const text = this.textContent.toLowerCase();
+                if (text.includes('blog') || this.classList.contains('blog-cta')) {
+                    navigate('blog');
+                } else if (text.includes('about') || this.classList.contains('about-cta') || text.includes('en savoir')) {
+                    navigate('about');
+                }
+            });
+        }
+    });
+
+    // 🏠 Lien du header (retour à l'accueil)
+    const brand = document.querySelector('.shop-header h1');
+    if (brand) {
+        brand.addEventListener('click', function(e) {
+            e.preventDefault();
+            navigate('home');
+        });
+    }
+});
 </body>
 </html>
