@@ -57,10 +57,10 @@ module.exports = async (req, res) => {
       customer_creation: 'always',
 
       success_url:
-        `${baseUrl}/?success=true&session_id={CHECKOUT_SESSION_ID}`,
+        `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
 
       cancel_url:
-        `${baseUrl}/?cancel=true`,
+        `${baseUrl}/cancel`,
     });
 
 
