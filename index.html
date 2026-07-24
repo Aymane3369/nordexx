@@ -1433,19 +1433,209 @@
 
 <script>
 // ============================================================
-// DONNÉES PRODUITS
+// DONNÉES PRODUITS - AVEC IMAGE PAR DÉFAUT POUR CHAQUE PRODUIT
 // ============================================================
+const defaultProductImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+
 const products = [
-    { id: 1, name: "T-shirt d'été", ref: "TSH-ETE", price: 28.96, salePrice: 25.96, stock: 14, sold: 12, category: "vetements", tags: ["nouveautes"], desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } },
-    { id: 2, name: "T-shirt blanc coton bio", ref: "TSH-COTON", price: 24.90, salePrice: 21.90, stock: 18, sold: 8, category: "vetements", tags: ["nouveautes"], desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal pour le quotidien.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc"] } },
-    { id: 3, name: "Montre connectée Pro", ref: "WATCH-PRO", price: 48.80, salePrice: 35.00, stock: 9, sold: 9, category: "accessoires", tags: ["nouveautes"], desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours. Résistance à l'eau IP68. Compatible iOS/Android.", images: { "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm"] }, variants: { taille: ["Unique"], couleur: ["Noir", "Blanc"] } },
-    { id: 4, name: "Pull Bleu Turquoise", ref: "PULL-TURQ", price: 39.00, salePrice: null, stock: 8, sold: 5, category: "vetements", tags: [], desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne. Parfait pour la mi-saison.", images: { "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Bleu Turquoise"] } },
-    { id: 5, name: "Hoodie Premium", ref: "HOODIE-PRE", price: 59.90, salePrice: 49.90, stock: 3, sold: 13, category: "vetements", tags: ["nouveautes"], desc: "Hoodie avec capuche double, poche kangourou. Coton premium, coupe contractée. Confort absolu et style urbain. Garantie 2 ans.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb"], "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl"], "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc", "Gris", "Bleu"] } },
-    { id: 6, name: "Pull Marrant", ref: "PULL-FUN", price: 32.00, salePrice: 30.90, stock: 5, sold: 11, category: "vetements", tags: [], desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance. Pour ceux qui aiment sortir du lot.", images: { "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w"] }, variants: { taille: ["M", "L", "XL"], couleur: ["Marrant", "Blanc"] } },
-    { id: 7, name: "Casquette Outdoor", ref: "CAP-OUT", price: 19.90, salePrice: 14.90, stock: 12, sold: 10, category: "accessoires", tags: ["nouveautes"], desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport.", images: { "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"], "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"] }, variants: { taille: ["Unique"], couleur: ["Bleu Marine", "Noir"] } },
-    { id: 8, name: "T-shirt Logo", ref: "TSH-LOGO", price: 25.00, salePrice: 21.99, stock: 16, sold: 10, category: "vetements", tags: ["nouveautes"], desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique et élégante.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } },
-    { id: 9, name: "Pull Hiver", ref: "PULL-WINTER", price: 35.00, salePrice: null, stock: 2, sold: 13, category: "vetements", tags: [], desc: "Pull col rond, maille épaisseur. Idéal pour l'hiver. 100% laine mérinos pour une chaleur optimale.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }, last: true }
+    { 
+        id: 1, 
+        name: "T-shirt d'été", 
+        ref: "TSH-ETE", 
+        price: 28.96, 
+        salePrice: 25.96, 
+        stock: 14, 
+        sold: 12, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7",
+        images: { 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } 
+    },
+    { 
+        id: 2, 
+        name: "T-shirt blanc coton bio", 
+        ref: "TSH-COTON", 
+        price: 24.90, 
+        salePrice: 21.90, 
+        stock: 18, 
+        sold: 8, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal pour le quotidien.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv",
+        images: { 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc"] } 
+    },
+    { 
+        id: 3, 
+        name: "Montre connectée Pro", 
+        ref: "WATCH-PRO", 
+        price: 48.80, 
+        salePrice: 35.00, 
+        stock: 9, 
+        sold: 9, 
+        category: "accessoires", 
+        tags: ["nouveautes"], 
+        desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours. Résistance à l'eau IP68. Compatible iOS/Android.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic",
+        images: { 
+            "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"], 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm"] 
+        }, 
+        variants: { taille: ["Unique"], couleur: ["Noir", "Blanc"] } 
+    },
+    { 
+        id: 4, 
+        name: "Pull Bleu Turquoise", 
+        ref: "PULL-TURQ", 
+        price: 39.00, 
+        salePrice: null, 
+        stock: 8, 
+        sold: 5, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne. Parfait pour la mi-saison.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg",
+        images: { 
+            "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Bleu Turquoise"] } 
+    },
+    { 
+        id: 5, 
+        name: "Hoodie Premium", 
+        ref: "HOODIE-PRE", 
+        price: 59.90, 
+        salePrice: 49.90, 
+        stock: 3, 
+        sold: 13, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "Hoodie avec capuche double, poche kangourou. Coton premium, coupe contractée. Confort absolu et style urbain. Garantie 2 ans.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb",
+        images: { 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb"], 
+            "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl"], 
+            "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc", "Gris", "Bleu"] } 
+    },
+    { 
+        id: 6, 
+        name: "Pull Marrant", 
+        ref: "PULL-FUN", 
+        price: 32.00, 
+        salePrice: 30.90, 
+        stock: 5, 
+        sold: 11, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance. Pour ceux qui aiment sortir du lot.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly",
+        images: { 
+            "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly"], 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w"] 
+        }, 
+        variants: { taille: ["M", "L", "XL"], couleur: ["Marrant", "Blanc"] } 
+    },
+    { 
+        id: 7, 
+        name: "Casquette Outdoor", 
+        ref: "CAP-OUT", 
+        price: 19.90, 
+        salePrice: 14.90, 
+        stock: 12, 
+        sold: 10, 
+        category: "accessoires", 
+        tags: ["nouveautes"], 
+        desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa",
+        images: { 
+            "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"], 
+            "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"] 
+        }, 
+        variants: { taille: ["Unique"], couleur: ["Bleu Marine", "Noir"] } 
+    },
+    { 
+        id: 8, 
+        name: "T-shirt Logo", 
+        ref: "TSH-LOGO", 
+        price: 25.00, 
+        salePrice: 21.99, 
+        stock: 16, 
+        sold: 10, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique et élégante.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag",
+        images: { 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } 
+    },
+    { 
+        id: 9, 
+        name: "Pull Hiver", 
+        ref: "PULL-WINTER", 
+        price: 35.00, 
+        salePrice: null, 
+        stock: 2, 
+        sold: 13, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull col rond, maille épaisseur. Idéal pour l'hiver. 100% laine mérinos pour une chaleur optimale.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd",
+        images: { 
+            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd"] 
+        }, 
+        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }, 
+        last: true 
+    }
 ];
+
+// ============================================================
+// FONCTION POUR RÉCUPÉRER L'IMAGE D'UN PRODUIT AVEC FALLBACK
+// ============================================================
+function getProductImage(product, couleur = null) {
+    if (!product) return defaultProductImage;
+    
+    // Si une couleur spécifique est demandée
+    if (couleur && product.images && product.images[couleur] && product.images[couleur].length > 0) {
+        return product.images[couleur][0];
+    }
+    
+    // Sinon, récupérer la première image disponible
+    const colors = Object.keys(product.images || {});
+    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
+        return product.images[colors[0]][0];
+    }
+    
+    // Fallback vers l'image par défaut du produit
+    if (product.defaultImage) {
+        return product.defaultImage;
+    }
+    
+    // Fallback ultime
+    return defaultProductImage;
+}
+
+// ============================================================
+// FONCTION POUR ÉVITER LE CACHE DES IMAGES
+// ============================================================
+function getImageWithCacheBuster(url) {
+    if (!url) return defaultProductImage;
+    // Si l'URL contient déjà un paramètre, ajoute un autre paramètre
+    if (url.includes('?')) {
+        return url + '&cb=' + Date.now();
+    }
+    return url + '?cb=' + Date.now();
+}
 
 // ============================================================
 // VARIANT PRICE MAP
@@ -1709,7 +1899,7 @@ function renderBreadcrumb(page, param) {
 }
 
 // ============================================================
-// RENDER CATALOG
+// RENDER CATALOG - AVEC IMAGES CORRIGÉES
 // ============================================================
 function renderCatalog() {
     const grid = document.getElementById('productGrid');
@@ -1734,10 +1924,9 @@ function renderCatalog() {
         if (p.stock <= 3 && p.stock > 0) stockClass += ' warning';
         else if (p.stock === 0) stockClass += ' danger';
 
-        const colors = p.variants?.couleur || [];
-        const firstColor = colors.length > 0 ? colors[0] : null;
-        const colorImages = firstColor && p.images && p.images[firstColor] ? p.images[firstColor] : [];
-        const imgSrc = colorImages.length > 0 ? colorImages[0] : '';
+        // Récupération de l'image avec fallback
+        const imgSrc = getProductImage(p);
+        const imgSrcWithCache = getImageWithCacheBuster(imgSrc);
 
         const isInCart = cart.find(item => item.id === p.id);
         const btnText = isInCart ? '✅ Ajouté' : 'Ajouter';
@@ -1757,7 +1946,7 @@ function renderCatalog() {
         }
 
         card.innerHTML = `
-            <img src="${imgSrc}" alt="${p.name} - vêtement premium StyleShop" class="product-image" loading="lazy" decoding="async" width="400" height="560" itemprop="image">
+            <img src="${imgSrcWithCache}" alt="${p.name} - vêtement premium StyleShop" class="product-image" loading="lazy" decoding="async" width="400" height="560" itemprop="image" onerror="this.src='${defaultProductImage}'">
             <div class="card-content">
                 <h3 itemprop="name">${p.name}</h3>
                 <div style="font-size:0.8rem;color:#7a6f5d;" itemprop="sku">${p.ref}</div>
@@ -2010,7 +2199,7 @@ function addToCartWithVariants(productId, variants) {
     const couleur = variants.couleur || 'Standard';
     const price = getVariantPrice(product, taille, couleur);
     const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
-    const image = productImages.length > 0 ? productImages[0] : '';
+    const image = productImages.length > 0 ? productImages[0] : getProductImage(product);
 
     const existing = cart.find(item => item.id === productId && JSON.stringify(item.variants) === JSON.stringify(variants));
 
@@ -2217,11 +2406,11 @@ function renderCart() {
         const variantText = item.variants ? Object.entries(item.variants).map(([k, v]) => k + ': ' + v).join(' · ') : '';
         const colorName = item.couleur || 'Standard';
         const hexColor = colorMap[colorName] || '#ccc';
-        const imageSrc = item.image || '';
+        const imageSrc = item.image || getProductImage(products.find(p => p.id === item.id));
 
         html += `
             <div class="cart-item">
-                <img src="${imageSrc}" alt="${item.name}" loading="lazy" decoding="async" width="60" height="60">
+                <img src="${imageSrc}" alt="${item.name}" loading="lazy" decoding="async" width="60" height="60" onerror="this.src='${defaultProductImage}'">
                 <div class="item-info">
                     <div class="item-name">
                         ${item.name}
@@ -2336,7 +2525,7 @@ async function handleCheckout() {
 document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
 
 // ============================================================
-// PRODUCT PAGE
+// PRODUCT PAGE - AVEC IMAGES CORRIGÉES
 // ============================================================
 function showProductPage(productId) {
     const product = products.find(p => p.id === productId);
@@ -2355,7 +2544,8 @@ function showProductPage(productId) {
     const colors = product.variants?.couleur || [];
     const defaultColor = colors.length > 0 ? colors[0] : null;
     const defaultImages = defaultColor && product.images && product.images[defaultColor] ? product.images[defaultColor] : [];
-    const mainImage = defaultImages.length > 0 ? defaultImages[0] : '';
+    const mainImage = defaultImages.length > 0 ? defaultImages[0] : getProductImage(product);
+    const mainImageWithCache = getImageWithCacheBuster(mainImage);
     const hasSale = product.salePrice && product.salePrice < product.price;
 
     let priceHtml;
@@ -2387,13 +2577,13 @@ function showProductPage(productId) {
     const btnText = isInCart ? '✅ Ajouté au panier' : 'Ajouter au panier';
     const btnClass = isInCart ? 'btn-add-large added' : 'btn-add-large';
 
-    const thumbnails = defaultImages.map((img, idx) => '<img src="' + img + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80">').join('');
+    const thumbnails = defaultImages.map((img, idx) => '<img src="' + getImageWithCacheBuster(img) + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80" onerror="this.src=\'' + defaultProductImage + '\'">').join('');
 
     const urgencyText = (product.stock <= 5 && product.stock > 0) ? '<div class="stock-urgency" style="margin:0.5rem 0;font-size:1rem;"><i class="fas fa-clock" aria-hidden="true"></i> ⚡ Plus que ' + product.stock + ' exemplaires !</div>' : '';
 
     detail.innerHTML = `
         <div class="gallery">
-            <img src="${mainImage}" alt="${product.name} - vêtement premium StyleShop" class="main-image" id="mainImagePage" width="600" height="400" itemprop="image">
+            <img src="${mainImageWithCache}" alt="${product.name} - vêtement premium StyleShop" class="main-image" id="mainImagePage" width="600" height="400" itemprop="image" onerror="this.src='${defaultProductImage}'">
             <div class="thumbnails" id="thumbnailsPage">${thumbnails || '<div style="color:#999;">Photo disponible</div>'}</div>
             <div style="font-size:0.8rem; color:#7a6f5d; margin-top:0.3rem; text-align:center;">
                 <i class="fas fa-images" aria-hidden="true"></i>
@@ -2511,7 +2701,7 @@ function showProductPage(productId) {
         "@type": "Product",
         "name": product.name,
         "description": product.desc,
-        "image": mainImage || defaultImage,
+        "image": mainImage || defaultProductImage,
         "sku": product.ref,
         "brand": {
             "@type": "Brand",
@@ -2551,7 +2741,7 @@ window.selectColorPage = function(element, color, productId) {
     const images = product.images && product.images[color] ? product.images[color] : [];
     const mainImg = document.getElementById('mainImagePage');
     if (mainImg && images.length > 0) {
-        mainImg.src = images[0];
+        mainImg.src = getImageWithCacheBuster(images[0]);
         mainImg.classList.add('fade');
         setTimeout(() => mainImg.classList.remove('fade'), 300);
     }
@@ -2559,7 +2749,7 @@ window.selectColorPage = function(element, color, productId) {
     const thumbnailsContainer = document.getElementById('thumbnailsPage');
     if (thumbnailsContainer) {
         if (images.length > 0) {
-            thumbnailsContainer.innerHTML = images.map((img, idx) => '<img src="' + img + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80">').join('');
+            thumbnailsContainer.innerHTML = images.map((img, idx) => '<img src="' + getImageWithCacheBuster(img) + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80" onerror="this.src=\'' + defaultProductImage + '\'">').join('');
             const counter = document.getElementById('imageCounterPage');
             if (counter) counter.textContent = '1 / ' + images.length;
         } else {
@@ -2602,7 +2792,7 @@ function updateDetailPrice(product, price) {
 window.changeMainImagePage = function(element, src) {
     const mainImg = document.getElementById('mainImagePage');
     if (mainImg) {
-        mainImg.src = src;
+        mainImg.src = getImageWithCacheBuster(src);
         mainImg.classList.add('fade');
         setTimeout(() => mainImg.classList.remove('fade'), 300);
         const thumbnails = document.querySelectorAll('#thumbnailsPage img');
@@ -2630,8 +2820,8 @@ function renderRelatedProducts(productId) {
 
     let html = '<h3 style="font-size:1.3rem;margin:1.5rem 0 1rem;font-weight:600;">🤝 Vous aimerez aussi</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.2rem;">';
     related.forEach(p => {
-        const colors = Object.keys(p.images);
-        const img = colors.length > 0 && p.images[colors[0]].length > 0 ? p.images[colors[0]][0] : '';
+        const img = getProductImage(p);
+        const imgWithCache = getImageWithCacheBuster(img);
         const price = (p.salePrice || p.price).toFixed(2);
         const hasSale = p.salePrice && p.salePrice < p.price;
         let priceHtml;
@@ -2641,7 +2831,7 @@ function renderRelatedProducts(productId) {
             priceHtml = price + '€';
         }
         html += '<div style="background:white;border-radius:16px;padding:0.8rem;border:1px solid #efebe6;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;text-align:center;" onclick="navigate(\'product\', ' + p.id + ')">' +
-            '<img src="' + img + '" alt="' + p.name + '" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" loading="lazy" decoding="async">' +
+            '<img src="' + imgWithCache + '" alt="' + p.name + '" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" loading="lazy" decoding="async" onerror="this.src=\'' + defaultProductImage + '\'">' +
             '<div style="font-weight:600;font-size:0.9rem;">' + p.name + '</div>' +
             '<div style="color:#1e1e1e;font-weight:700;font-size:0.95rem;">' + priceHtml + '</div>' +
             '<div style="font-size:0.7rem;color:#7a6f5d;">⭐ ' + (p.sold + 5) + '</div>' +
@@ -2652,21 +2842,36 @@ function renderRelatedProducts(productId) {
 }
 
 // ============================================================
-// SHARE FUNCTION
+// SHARE FUNCTION - AVEC IMAGE CORRIGÉE POUR L'APERÇU
 // ============================================================
 function addCacheBuster(url) {
     return url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
+}
+
+function getShareImage(product) {
+    if (!product) return defaultProductImage;
+    // Récupère la première image disponible
+    const colors = Object.keys(product.images || {});
+    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
+        return product.images[colors[0]][0];
+    }
+    return product.defaultImage || defaultProductImage;
 }
 
 function sharePage(type, productId) {
     let title = '';
     let text = '';
     let shareUrl = BASE_URL;
+    let imageUrl = defaultProductImage;
 
     if (type === 'product' && productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
+        
+        // Récupération de l'image du produit avec fallback
+        imageUrl = getShareImage(product);
+        imageUrl = getImageWithCacheBuster(imageUrl);
 
         shareUrl = addCacheBuster(BASE_URL + getProductUrl(product));
         title = product.name + ' - ' + price + '€';
@@ -2676,16 +2881,22 @@ function sharePage(type, productId) {
         shareUrl = BASE_URL + '/blog';
         title = 'Blog StyleShop';
         text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
+        imageUrl = defaultProductImage;
 
     } else if (type === 'about') {
         shareUrl = BASE_URL + '/a-propos';
         title = 'StyleShop / Nordexx';
         text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
+        imageUrl = defaultProductImage;
 
     } else {
         shareUrl = addCacheBuster(BASE_URL);
         text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
+        imageUrl = defaultProductImage;
     }
+
+    // Mise à jour des meta tags Open Graph avant le partage
+    updateShareMetaTags(title, text, imageUrl, shareUrl);
 
     if (navigator.share) {
         navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {});
@@ -2701,21 +2912,60 @@ function sharePage(type, productId) {
     }
 }
 
-// ============================================================
-// META TAGS
-// ============================================================
-const defaultImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/1000143347_ttqayv';
+function fallbackShare(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        alert('📋 Lien copié dans le presse-papier !');
+    } catch (e) {
+        prompt('📋 Copiez ce lien :', text);
+    }
+    document.body.removeChild(textarea);
+}
 
+// ============================================================
+// MISE À JOUR DES META TAGS POUR LE PARTAGE
+// ============================================================
+function updateShareMetaTags(title, description, imageUrl, url) {
+    // Met à jour les meta tags Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    
+    if (ogTitle) ogTitle.content = title;
+    if (ogDesc) ogDesc.content = description;
+    if (ogImage) ogImage.content = imageUrl;
+    if (ogUrl) ogUrl.content = url;
+    
+    // Met à jour les Twitter Cards
+    const twTitle = document.querySelector('meta[name="twitter:title"]');
+    const twDesc = document.querySelector('meta[name="twitter:description"]');
+    const twImage = document.querySelector('meta[name="twitter:image"]');
+    
+    if (twTitle) twTitle.content = title;
+    if (twDesc) twDesc.content = description;
+    if (twImage) twImage.content = imageUrl;
+    
+    // Met à jour le titre de la page
+    document.title = title;
+}
+
+// ============================================================
+// META TAGS - AVEC IMAGE CORRIGÉE
+// ============================================================
 function updateMetaTags(page, product) {
     let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium | Livraison Offerte 24h';
     let description = "StyleShop/Nordexx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Sweats à capuche, T-shirts bio, montres connectées. Garantie 2 ans et livraison 24h.";
-    let image = defaultImage;
+    let image = defaultProductImage;
     let url = BASE_URL;
 
     if (page === 'product' && product) {
         const price = (product.salePrice || product.price).toFixed(2);
         title = product.name + ' · StyleShop Nordexx | ' + price + '€';
-        // Troncature sur espace pour éviter de couper un mot
         let desc = product.desc;
         if (desc.length > 155) {
             desc = desc.substring(0, 155);
@@ -2723,36 +2973,40 @@ function updateMetaTags(page, product) {
             if (lastSpace > 0) desc = desc.substring(0, lastSpace) + '...';
         }
         description = desc;
-        const colors = Object.keys(product.images);
-        if (colors.length > 0 && product.images[colors[0]].length > 0) {
-            image = product.images[colors[0]][0];
-        }
+        image = getShareImage(product);
+        image = getImageWithCacheBuster(image);
         url = BASE_URL + getProductUrl(product);
     } else if (page === 'blog') {
         title = 'Blog · StyleShop Nordexx | Conseils Mode & Tendances';
         description = 'Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison sur le blog StyleShop Nordexx.';
         url = BASE_URL + '/blog';
+        image = defaultProductImage;
     } else if (page === 'about') {
         title = 'À propos · StyleShop Nordexx | Ingénierie & Mode Premium';
         description = "Découvrez l'histoire de StyleShop/Nordexx, l'alliance unique de l'ingénierie et de la mode. Qualité, confiance et expertise.";
         url = BASE_URL + '/a-propos';
+        image = defaultProductImage;
     } else if (page === 'category') {
         const catName = document.querySelector('.category-nav a[data-cat="' + currentCategory + '"]')?.textContent || currentCategory;
         title = catName + ' · StyleShop Nordexx | Collection Premium';
         description = 'Découvrez notre collection ' + catName + ' chez StyleShop/Nordexx. Qualité, style et livraison offerte dès 50€.';
         url = BASE_URL + '/categorie/' + currentCategory;
+        image = defaultProductImage;
     } else if (page === 'mentions-legales') {
         title = 'Mentions légales · StyleShop Nordexx';
         description = 'Mentions légales du site StyleShop/Nordexx. Informations éditeur, hébergement et conditions d\'utilisation.';
         url = BASE_URL + '/mentions-legales';
+        image = defaultProductImage;
     } else if (page === 'cgv') {
         title = 'Conditions générales de vente · StyleShop Nordexx';
         description = 'Conditions générales de vente de StyleShop/Nordexx. Paiement, livraison, retour et garantie.';
         url = BASE_URL + '/cgv';
+        image = defaultProductImage;
     } else if (page === 'confidentialite') {
         title = 'Politique de confidentialité · StyleShop Nordexx';
         description = 'Politique de confidentialité de StyleShop/Nordexx. Protection des données, cookies et droits des utilisateurs.';
         url = BASE_URL + '/confidentialite';
+        image = defaultProductImage;
     }
 
     document.getElementById('metaTitle').textContent = title;
@@ -2771,7 +3025,7 @@ function updateMetaTags(page, product) {
 }
 
 // ============================================================
-// SITEMAP
+// SITEMAP - AVEC IMAGES CORRIGÉES
 // ============================================================
 function generateSitemap() {
     const baseUrl = BASE_URL;
@@ -2795,6 +3049,10 @@ function generateSitemap() {
     });
     products.forEach(p => {
         const productImages = Object.values(p.images).flat();
+        // Ajouter l'image par défaut si elle n'est pas déjà dans la liste
+        if (p.defaultImage && !productImages.includes(p.defaultImage)) {
+            productImages.push(p.defaultImage);
+        }
         let imageTags = '';
         productImages.forEach(img => {
             imageTags += '    <image:image><image:loc>' + img + '</image:loc></image:image>\n';
@@ -3177,22 +3435,14 @@ function init() {
 
     audio1.load();
     audio2.load();
-    console.log('🚀 StyleShop/Nordexx - Version 6.0 "SEO Ultime"');
+    console.log('🚀 StyleShop/Nordexx - Version 6.1 "Images Corrigées"');
+    console.log('📸 Toutes les images ont maintenant un fallback');
+    console.log('🔗 Le partage affiche la bonne image dans l\'aperçu');
+    console.log('🔄 Cache-buster ajouté pour éviter les problèmes de cache');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
     console.log('🚚 Livraison offerte dès 50€');
     console.log('🛡️ Garantie 2 ans sur tous les produits');
-    console.log('✅ URLs propres : /produit/nom-5');
-    console.log('✅ Schema Product + AggregateRating + FAQ');
-    console.log('✅ Breadcrumbs avec Schema');
-    console.log('✅ Descriptions de catégories');
-    console.log('✅ Avis clients intégrés');
-    console.log('✅ Compteur de visiteurs en direct');
-    console.log('✅ Pages juridiques : mentions légales, CGV, confidentialité');
-    console.log('✅ Sitemap HTML intégré en footer');
-    console.log('✅ Méta descriptions tronquées sur espace');
-    console.log('✅ Liens externes en nofollow');
-    console.log('✅ Éléments tactiles optimisés mobile');
 }
 
 // Expose global functions
@@ -3219,158 +3469,157 @@ window.toggleMusic = toggleMusic;
 window.toggleAdmin = toggleAdmin;
 window.sharePage = sharePage;
 
-    init();
+init();
 
-    // ============================================================
-    // FAQ section + JSON-LD
-    // ============================================================
-    function renderFAQSection(faqs) {
-        if (!Array.isArray(faqs) || faqs.length === 0) return;
-        let container = document.getElementById('faq');
-        if (!container) {
-            container = document.createElement('section');
-            container.id = 'faq';
-            container.style.padding = '1.5rem';
-            const title = document.createElement('h2');
-            title.textContent = 'Foire aux questions';
-            container.appendChild(title);
-            const list = document.createElement('div');
-            list.id = 'faqList';
-            container.appendChild(list);
-            document.body.insertBefore(container, document.querySelector('footer'));
-        }
-        const list = document.getElementById('faqList');
-        list.innerHTML = '';
-        faqs.forEach((f, i) => {
-            const qa = document.createElement('div');
-            qa.className = 'faq-item';
-            const q = document.createElement('button');
-            q.className = 'faq-question';
-            q.textContent = f.question;
-            q.setAttribute('aria-expanded', 'false');
-            const a = document.createElement('div');
-            a.className = 'faq-answer';
-            a.style.display = 'none';
-            a.innerHTML = f.answer;
-            q.addEventListener('click', () => {
-                const opened = q.getAttribute('aria-expanded') === 'true';
-                q.setAttribute('aria-expanded', opened ? 'false' : 'true');
-                a.style.display = opened ? 'none' : 'block';
-            });
-            qa.appendChild(q);
-            qa.appendChild(a);
-            list.appendChild(qa);
+// ============================================================
+// FAQ section + JSON-LD
+// ============================================================
+function renderFAQSection(faqs) {
+    if (!Array.isArray(faqs) || faqs.length === 0) return;
+    let container = document.getElementById('faq');
+    if (!container) {
+        container = document.createElement('section');
+        container.id = 'faq';
+        container.style.padding = '1.5rem';
+        const title = document.createElement('h2');
+        title.textContent = 'Foire aux questions';
+        container.appendChild(title);
+        const list = document.createElement('div');
+        list.id = 'faqList';
+        container.appendChild(list);
+        document.body.insertBefore(container, document.querySelector('footer'));
+    }
+    const list = document.getElementById('faqList');
+    list.innerHTML = '';
+    faqs.forEach((f, i) => {
+        const qa = document.createElement('div');
+        qa.className = 'faq-item';
+        const q = document.createElement('button');
+        q.className = 'faq-question';
+        q.textContent = f.question;
+        q.setAttribute('aria-expanded', 'false');
+        const a = document.createElement('div');
+        a.className = 'faq-answer';
+        a.style.display = 'none';
+        a.innerHTML = f.answer;
+        q.addEventListener('click', () => {
+            const opened = q.getAttribute('aria-expanded') === 'true';
+            q.setAttribute('aria-expanded', opened ? 'false' : 'true');
+            a.style.display = opened ? 'none' : 'block';
         });
-    }
+        qa.appendChild(q);
+        qa.appendChild(a);
+        list.appendChild(qa);
+    });
+}
 
-    function injectFAQJsonLd(faqs) {
-        if (!Array.isArray(faqs) || faqs.length === 0) return;
-        const faqStructured = {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            "mainEntity": faqs.map(f => ({
-                "@type": "Question",
-                "name": f.question,
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": f.answer
-                }
-            }))
-        };
-        let el = document.getElementById('jsonld-faq');
-        if (!el) {
-            el = document.createElement('script');
-            el.id = 'jsonld-faq';
-            el.type = 'application/ld+json';
-            document.head.appendChild(el);
-        }
-        el.textContent = JSON.stringify(faqStructured);
+function injectFAQJsonLd(faqs) {
+    if (!Array.isArray(faqs) || faqs.length === 0) return;
+    const faqStructured = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.question,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.answer
+            }
+        }))
+    };
+    let el = document.getElementById('jsonld-faq');
+    if (!el) {
+        el = document.createElement('script');
+        el.id = 'jsonld-faq';
+        el.type = 'application/ld+json';
+        document.head.appendChild(el);
     }
+    el.textContent = JSON.stringify(faqStructured);
+}
 
-    // ============================================================
-    // Newsletter form + submit handler (frontend only)
-    // ============================================================
-    function renderNewsletterForm() {
-        // Place form into #newsletterSlot if present, else append to footer
-        const footer = document.querySelector('footer');
-        if (!footer) return;
-        const slot = document.getElementById('newsletterSlot');
-        const wrapper = document.createElement('div');
-        wrapper.style.display = 'flex';
-        wrapper.style.flexDirection = 'column';
-        wrapper.style.gap = '0.4rem';
-        const label = document.createElement('div');
-        label.innerHTML = '<strong>Inscris-toi à la newsletter</strong><br><small>Promos exclusives & nouveautés</small>';
-        const form = document.createElement('form');
-        form.id = 'newsletterForm';
-        form.innerHTML = '<input type="email" name="email" placeholder="ton@e-mail.com" required style="padding:0.5rem;border-radius:6px;border:1px solid #ddd;width:220px;margin-right:0.5rem;">'
-            + '<button type="submit" style="padding:0.5rem 0.8rem;border-radius:6px;background:#1e90ff;color:#fff;border:none;">S’inscrire</button>';
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = form.email.value;
-            if (!email) return;
-            fetch('/api/newsletter', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            }).then(r => {
-                if (r.ok) {
-                    form.innerHTML = '<em>Merci, vérifie ta boîte mail !</em>';
-                } else {
-                    form.innerHTML = '<em>Erreur, réessaie plus tard.</em>';
-                }
-            }).catch(() => { form.innerHTML = '<em>Erreur réseau.</em>'; });
-        });
-        wrapper.appendChild(label);
-        wrapper.appendChild(form);
-        if (slot) slot.appendChild(wrapper); else footer.appendChild(wrapper);
+// ============================================================
+// Newsletter form + submit handler (frontend only)
+// ============================================================
+function renderNewsletterForm() {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    const slot = document.getElementById('newsletterSlot');
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.flexDirection = 'column';
+    wrapper.style.gap = '0.4rem';
+    const label = document.createElement('div');
+    label.innerHTML = '<strong>Inscris-toi à la newsletter</strong><br><small>Promos exclusives & nouveautés</small>';
+    const form = document.createElement('form');
+    form.id = 'newsletterForm';
+    form.innerHTML = '<input type="email" name="email" placeholder="ton@e-mail.com" required style="padding:0.5rem;border-radius:6px;border:1px solid #ddd;width:220px;margin-right:0.5rem;">'
+        + '<button type="submit" style="padding:0.5rem 0.8rem;border-radius:6px;background:#1e90ff;color:#fff;border:none;">S\'inscrire</button>';
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = form.email.value;
+        if (!email) return;
+        fetch('/api/newsletter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        }).then(r => {
+            if (r.ok) {
+                form.innerHTML = '<em>Merci, vérifie ta boîte mail !</em>';
+            } else {
+                form.innerHTML = '<em>Erreur, réessaie plus tard.</em>';
+            }
+        }).catch(() => { form.innerHTML = '<em>Erreur réseau.</em>'; });
+    });
+    wrapper.appendChild(label);
+    wrapper.appendChild(form);
+    if (slot) slot.appendChild(wrapper); else footer.appendChild(wrapper);
+}
+
+// ============================================================
+// Sticky CTA A/B variant simple test
+// ============================================================
+function setupStickyCtaVariant() {
+    const variant = localStorage.getItem('stickyCtaVariant') || (Math.random() < 0.5 ? 'A' : 'B');
+    localStorage.setItem('stickyCtaVariant', variant);
+    const cta = document.getElementById('stickyCta');
+    if (!cta) return;
+    if (variant === 'A') {
+        cta.style.background = '#ff6b6b';
+        cta.textContent = 'Voir nos meilleures ventes';
+    } else {
+        cta.style.background = '#1e90ff';
+        cta.textContent = 'Découvrez les nouveautés';
     }
+}
 
-    // ============================================================
-    // Sticky CTA A/B variant simple test
-    // ============================================================
-    function setupStickyCtaVariant() {
-        const variant = localStorage.getItem('stickyCtaVariant') || (Math.random() < 0.5 ? 'A' : 'B');
-        localStorage.setItem('stickyCtaVariant', variant);
-        const cta = document.getElementById('stickyCta');
-        if (!cta) return;
-        if (variant === 'A') {
-            cta.style.background = '#ff6b6b';
-            cta.textContent = 'Voir nos meilleures ventes';
-        } else {
-            cta.style.background = '#1e90ff';
-            cta.textContent = 'Découvrez les nouveautés';
-        }
-    }
+// ============================================================
+// Trust badges rendering
+// ============================================================
+function renderTrustBadges() {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    const badges = document.createElement('div');
+    badges.style.display = 'flex';
+    badges.style.gap = '0.6rem';
+    badges.style.alignItems = 'center';
+    badges.innerHTML = '<img alt="Livraison" src="/assets/truck.svg" style="height:28px">'
+        + '<img alt="Paiement sécurisé" src="/assets/secure.svg" style="height:28px">'
+        + '<img alt="SAV 2 ans" src="/assets/warranty.svg" style="height:28px">';
+    footer.insertBefore(badges, footer.firstChild);
+}
 
-    // ============================================================
-    // Trust badges rendering
-    // ============================================================
-    function renderTrustBadges() {
-        const footer = document.querySelector('footer');
-        if (!footer) return;
-        const badges = document.createElement('div');
-        badges.style.display = 'flex';
-        badges.style.gap = '0.6rem';
-        badges.style.alignItems = 'center';
-        badges.innerHTML = '<img alt="Livraison" src="/assets/truck.svg" style="height:28px">'
-            + '<img alt="Paiement sécurisé" src="/assets/secure.svg" style="height:28px">'
-            + '<img alt="SAV 2 ans" src="/assets/warranty.svg" style="height:28px">';
-        footer.insertBefore(badges, footer.firstChild);
-    }
-
-    // Small init for the new features
-    try {
-        const sampleFaqs = [
-            { question: 'Quel est le délai de livraison ?', answer: 'Le délai moyen est de 2-5 jours ouvrés.' },
-            { question: 'Comment effectuer un retour ?', answer: 'Contacte-nous et tu recevras une étiquette de retour gratuite.' }
-        ];
-        renderFAQSection(sampleFaqs);
-        injectFAQJsonLd(sampleFaqs);
-        renderNewsletterForm();
-        renderTrustBadges();
-        setupStickyCtaVariant();
-    } catch (err) { console.warn('Init extras failed', err); }
+// Small init for the new features
+try {
+    const sampleFaqs = [
+        { question: 'Quel est le délai de livraison ?', answer: 'Le délai moyen est de 2-5 jours ouvrés.' },
+        { question: 'Comment effectuer un retour ?', answer: 'Contacte-nous et tu recevras une étiquette de retour gratuite.' }
+    ];
+    renderFAQSection(sampleFaqs);
+    injectFAQJsonLd(sampleFaqs);
+    renderNewsletterForm();
+    renderTrustBadges();
+    setupStickyCtaVariant();
+} catch (err) { console.warn('Init extras failed', err); }
 </script>
 
 <!-- ✅ FOOTER AMÉLIORÉ avec pages juridiques et sitemap HTML -->
