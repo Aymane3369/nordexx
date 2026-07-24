@@ -1600,41 +1600,51 @@ const products = [
 ];
 
 // ============================================================
-// FONCTION POUR RÉCUPÉRER L'IMAGE D'UN PRODUIT AVEC FALLBACK
+// IMAGE UTILITIES - VERSION FINALE AVEC CACHE-BUSTER ET FALLBACK
 // ============================================================
-function getProductImage(product, couleur = null) {
-    if (!product) return defaultProductImage;
-    
-    // Si une couleur spécifique est demandée
-    if (couleur && product.images && product.images[couleur] && product.images[couleur].length > 0) {
-        return product.images[couleur][0];
+/**
+ * getImageWithCacheBuster(url)
+ * Ajoute un paramètre 'v=' avec un timestamp pour forcer le rafraîchissement.
+ * Retourne toujours une URL valide (fallback sur defaultProductImage si url invalide).
+ */
+function getImageWithCacheBuster(url) {
+    if (!url || typeof url !== 'string' || url.trim() === '') {
+        return defaultProductImage;
     }
-    
-    // Sinon, récupérer la première image disponible
-    const colors = Object.keys(product.images || {});
-    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
-        return product.images[colors[0]][0];
-    }
-    
-    // Fallback vers l'image par défaut du produit
-    if (product.defaultImage) {
-        return product.defaultImage;
-    }
-    
-    // Fallback ultime
-    return defaultProductImage;
+    const separator = url.includes('?') ? '&' : '?';
+    return url + separator + 'v=' + Date.now();
 }
 
-// ============================================================
-// FONCTION POUR ÉVITER LE CACHE DES IMAGES
-// ============================================================
-function getImageWithCacheBuster(url) {
-    if (!url) return defaultProductImage;
-    // Si l'URL contient déjà un paramètre, ajoute un autre paramètre
-    if (url.includes('?')) {
-        return url + '&cb=' + Date.now();
+/**
+ * getProductImage(product, couleur)
+ * Ordre de résolution :
+ * 1. Image correspondant à la couleur spécifiée
+ * 2. Première image de la première couleur disponible
+ * 3. product.defaultImage
+ * 4. defaultProductImage (globale)
+ * Applique systématiquement le cache‑buster sur l'URL retournée.
+ */
+function getProductImage(product, couleur = null) {
+    if (!product) return getImageWithCacheBuster(defaultProductImage);
+
+    // 1. Couleur spécifique
+    if (couleur && product.images && product.images[couleur] && product.images[couleur].length > 0) {
+        return getImageWithCacheBuster(product.images[couleur][0]);
     }
-    return url + '?cb=' + Date.now();
+
+    // 2. Première image disponible
+    const colors = Object.keys(product.images || {});
+    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
+        return getImageWithCacheBuster(product.images[colors[0]][0]);
+    }
+
+    // 3. defaultImage du produit
+    if (product.defaultImage) {
+        return getImageWithCacheBuster(product.defaultImage);
+    }
+
+    // 4. Fallback global
+    return getImageWithCacheBuster(defaultProductImage);
 }
 
 // ============================================================
@@ -1924,7 +1934,7 @@ function renderCatalog() {
         if (p.stock <= 3 && p.stock > 0) stockClass += ' warning';
         else if (p.stock === 0) stockClass += ' danger';
 
-        // Récupération de l'image avec fallback
+        // Récupération de l'image avec fallback et cache-buster
         const imgSrc = getProductImage(p);
         const imgSrcWithCache = getImageWithCacheBuster(imgSrc);
 
@@ -1946,7 +1956,15 @@ function renderCatalog() {
         }
 
         card.innerHTML = `
-            <img src="${imgSrcWithCache}" alt="${p.name} - vêtement premium StyleShop" class="product-image" loading="lazy" decoding="async" width="400" height="560" itemprop="image" onerror="this.src='${defaultProductImage}'">
+            <img src="${imgSrcWithCache}"
+                 alt="${p.name} - vêtement premium StyleShop"
+                 class="product-image"
+                 loading="lazy"
+                 decoding="async"
+                 width="400"
+                 height="560"
+                 itemprop="image"
+                 onerror="this.onerror=null; this.src='${defaultProductImage}';">
             <div class="card-content">
                 <h3 itemprop="name">${p.name}</h3>
                 <div style="font-size:0.8rem;color:#7a6f5d;" itemprop="sku">${p.ref}</div>
@@ -2199,6 +2217,7 @@ function addToCartWithVariants(productId, variants) {
     const couleur = variants.couleur || 'Standard';
     const price = getVariantPrice(product, taille, couleur);
     const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
+    // Utiliser getProductImage pour avoir le fallback et le cache-buster
     const image = productImages.length > 0 ? productImages[0] : getProductImage(product);
 
     const existing = cart.find(item => item.id === productId && JSON.stringify(item.variants) === JSON.stringify(variants));
@@ -2377,7 +2396,7 @@ function getFinalTotal() {
 }
 
 // ============================================================
-// RENDER CART
+// RENDER CART - AVEC ONERROR SUR LES IMAGES
 // ============================================================
 function renderCart() {
     const container = document.getElementById('cartItems');
@@ -2406,11 +2425,19 @@ function renderCart() {
         const variantText = item.variants ? Object.entries(item.variants).map(([k, v]) => k + ': ' + v).join(' · ') : '';
         const colorName = item.couleur || 'Standard';
         const hexColor = colorMap[colorName] || '#ccc';
-        const imageSrc = item.image || getProductImage(products.find(p => p.id === item.id));
+        const product = products.find(p => p.id === item.id);
+        const imageSrc = item.image || (product ? getProductImage(product) : defaultProductImage);
+        const imageWithCache = getImageWithCacheBuster(imageSrc);
 
         html += `
             <div class="cart-item">
-                <img src="${imageSrc}" alt="${item.name}" loading="lazy" decoding="async" width="60" height="60" onerror="this.src='${defaultProductImage}'">
+                <img src="${imageWithCache}" 
+                     alt="${item.name}" 
+                     loading="lazy" 
+                     decoding="async" 
+                     width="60" 
+                     height="60" 
+                     onerror="this.onerror=null; this.src='${defaultProductImage}';">
                 <div class="item-info">
                     <div class="item-name">
                         ${item.name}
@@ -2577,13 +2604,30 @@ function showProductPage(productId) {
     const btnText = isInCart ? '✅ Ajouté au panier' : 'Ajouter au panier';
     const btnClass = isInCart ? 'btn-add-large added' : 'btn-add-large';
 
-    const thumbnails = defaultImages.map((img, idx) => '<img src="' + getImageWithCacheBuster(img) + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80" onerror="this.src=\'' + defaultProductImage + '\'">').join('');
+    const thumbnails = defaultImages.map((img, idx) => `
+        <img src="${getImageWithCacheBuster(img)}" 
+             alt="Photo ${idx+1} du produit ${product.name}" 
+             onclick="changeMainImagePage(this, '${img}')" 
+             class="${idx === 0 ? 'active' : ''}" 
+             loading="lazy" 
+             decoding="async" 
+             width="100" 
+             height="80" 
+             onerror="this.onerror=null; this.src='${defaultProductImage}';">
+    `).join('');
 
     const urgencyText = (product.stock <= 5 && product.stock > 0) ? '<div class="stock-urgency" style="margin:0.5rem 0;font-size:1rem;"><i class="fas fa-clock" aria-hidden="true"></i> ⚡ Plus que ' + product.stock + ' exemplaires !</div>' : '';
 
     detail.innerHTML = `
         <div class="gallery">
-            <img src="${mainImageWithCache}" alt="${product.name} - vêtement premium StyleShop" class="main-image" id="mainImagePage" width="600" height="400" itemprop="image" onerror="this.src='${defaultProductImage}'">
+            <img src="${mainImageWithCache}" 
+                 alt="${product.name} - vêtement premium StyleShop" 
+                 class="main-image" 
+                 id="mainImagePage" 
+                 width="600" 
+                 height="400" 
+                 itemprop="image" 
+                 onerror="this.onerror=null; this.src='${defaultProductImage}';">
             <div class="thumbnails" id="thumbnailsPage">${thumbnails || '<div style="color:#999;">Photo disponible</div>'}</div>
             <div style="font-size:0.8rem; color:#7a6f5d; margin-top:0.3rem; text-align:center;">
                 <i class="fas fa-images" aria-hidden="true"></i>
@@ -2749,7 +2793,17 @@ window.selectColorPage = function(element, color, productId) {
     const thumbnailsContainer = document.getElementById('thumbnailsPage');
     if (thumbnailsContainer) {
         if (images.length > 0) {
-            thumbnailsContainer.innerHTML = images.map((img, idx) => '<img src="' + getImageWithCacheBuster(img) + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80" onerror="this.src=\'' + defaultProductImage + '\'">').join('');
+            thumbnailsContainer.innerHTML = images.map((img, idx) => `
+                <img src="${getImageWithCacheBuster(img)}" 
+                     alt="Photo ${idx+1} du produit ${product.name}" 
+                     onclick="changeMainImagePage(this, '${img}')" 
+                     class="${idx === 0 ? 'active' : ''}" 
+                     loading="lazy" 
+                     decoding="async" 
+                     width="100" 
+                     height="80" 
+                     onerror="this.onerror=null; this.src='${defaultProductImage}';">
+            `).join('');
             const counter = document.getElementById('imageCounterPage');
             if (counter) counter.textContent = '1 / ' + images.length;
         } else {
@@ -2805,7 +2859,7 @@ window.changeMainImagePage = function(element, src) {
 };
 
 // ============================================================
-// RELATED PRODUCTS
+// RELATED PRODUCTS - AVEC ONERROR SUR LES IMAGES
 // ============================================================
 function renderRelatedProducts(productId) {
     const product = products.find(p => p.id === productId);
@@ -2830,12 +2884,19 @@ function renderRelatedProducts(productId) {
         } else {
             priceHtml = price + '€';
         }
-        html += '<div style="background:white;border-radius:16px;padding:0.8rem;border:1px solid #efebe6;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;text-align:center;" onclick="navigate(\'product\', ' + p.id + ')">' +
-            '<img src="' + imgWithCache + '" alt="' + p.name + '" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" loading="lazy" decoding="async" onerror="this.src=\'' + defaultProductImage + '\'">' +
-            '<div style="font-weight:600;font-size:0.9rem;">' + p.name + '</div>' +
-            '<div style="color:#1e1e1e;font-weight:700;font-size:0.95rem;">' + priceHtml + '</div>' +
-            '<div style="font-size:0.7rem;color:#7a6f5d;">⭐ ' + (p.sold + 5) + '</div>' +
-            '</div>';
+        html += `
+            <div style="background:white;border-radius:16px;padding:0.8rem;border:1px solid #efebe6;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;text-align:center;" onclick="navigate('product', ${p.id})">
+                <img src="${imgWithCache}" 
+                     alt="${p.name}" 
+                     style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" 
+                     loading="lazy" 
+                     decoding="async" 
+                     onerror="this.onerror=null; this.src='${defaultProductImage}';">
+                <div style="font-weight:600;font-size:0.9rem;">${p.name}</div>
+                <div style="color:#1e1e1e;font-weight:700;font-size:0.95rem;">${priceHtml}</div>
+                <div style="font-size:0.7rem;color:#7a6f5d;">⭐ ${p.sold + 5}</div>
+            </div>
+        `;
     });
     html += '</div>';
     container.innerHTML = html;
@@ -2850,7 +2911,6 @@ function addCacheBuster(url) {
 
 function getShareImage(product) {
     if (!product) return defaultProductImage;
-    // Récupère la première image disponible
     const colors = Object.keys(product.images || {});
     if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
         return product.images[colors[0]][0];
@@ -2868,8 +2928,6 @@ function sharePage(type, productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-        
-        // Récupération de l'image du produit avec fallback
         imageUrl = getShareImage(product);
         imageUrl = getImageWithCacheBuster(imageUrl);
 
@@ -2895,7 +2953,6 @@ function sharePage(type, productId) {
         imageUrl = defaultProductImage;
     }
 
-    // Mise à jour des meta tags Open Graph avant le partage
     updateShareMetaTags(title, text, imageUrl, shareUrl);
 
     if (navigator.share) {
@@ -2930,27 +2987,20 @@ function fallbackShare(text) {
 // MISE À JOUR DES META TAGS POUR LE PARTAGE
 // ============================================================
 function updateShareMetaTags(title, description, imageUrl, url) {
-    // Met à jour les meta tags Open Graph
     const ogTitle = document.querySelector('meta[property="og:title"]');
     const ogDesc = document.querySelector('meta[property="og:description"]');
     const ogImage = document.querySelector('meta[property="og:image"]');
     const ogUrl = document.querySelector('meta[property="og:url"]');
-    
     if (ogTitle) ogTitle.content = title;
     if (ogDesc) ogDesc.content = description;
     if (ogImage) ogImage.content = imageUrl;
     if (ogUrl) ogUrl.content = url;
-    
-    // Met à jour les Twitter Cards
     const twTitle = document.querySelector('meta[name="twitter:title"]');
     const twDesc = document.querySelector('meta[name="twitter:description"]');
     const twImage = document.querySelector('meta[name="twitter:image"]');
-    
     if (twTitle) twTitle.content = title;
     if (twDesc) twDesc.content = description;
     if (twImage) twImage.content = imageUrl;
-    
-    // Met à jour le titre de la page
     document.title = title;
 }
 
@@ -3049,7 +3099,6 @@ function generateSitemap() {
     });
     products.forEach(p => {
         const productImages = Object.values(p.images).flat();
-        // Ajouter l'image par défaut si elle n'est pas déjà dans la liste
         if (p.defaultImage && !productImages.includes(p.defaultImage)) {
             productImages.push(p.defaultImage);
         }
@@ -3372,7 +3421,6 @@ window.addEventListener('popstate', function(event) {
 // CONVERSION AUTOMATIQUE DES LIENS STATIQUES
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Intercepter les liens internes (root-relative ou absolus vers la même origine)
     document.querySelectorAll('a[href^="/"], a[href^="' + BASE_URL + '"]').forEach(el => {
         if (el.target === '_blank' || el.hasAttribute('download')) return;
         el.addEventListener('click', function(e) {
@@ -3381,10 +3429,10 @@ document.addEventListener('DOMContentLoaded', function() {
             let pathname = raw;
             try {
                 const url = new URL(raw, BASE_URL);
-                if (url.origin !== new URL(BASE_URL).origin) return; // lien externe
+                if (url.origin !== new URL(BASE_URL).origin) return;
                 pathname = url.pathname + url.search;
             } catch (err) {
-                // ignore malformés
+                // ignore
             }
             e.preventDefault();
             if (pathname.startsWith('/produit/')) {
@@ -3405,7 +3453,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pathname === '/cgv') { navigate('cgv'); return; }
             if (pathname === '/confidentialite') { navigate('confidentialite'); return; }
             if (pathname === '/' || pathname === '') { navigate('home'); return; }
-            // fallback: pushState + re-evaluer
             window.history.pushState({}, '', pathname);
             handleUrlParams();
         });
@@ -3435,10 +3482,9 @@ function init() {
 
     audio1.load();
     audio2.load();
-    console.log('🚀 StyleShop/Nordexx - Version 6.1 "Images Corrigées"');
-    console.log('📸 Toutes les images ont maintenant un fallback');
-    console.log('🔗 Le partage affiche la bonne image dans l\'aperçu');
-    console.log('🔄 Cache-buster ajouté pour éviter les problèmes de cache');
+    console.log('🚀 StyleShop/Nordexx - Version 7.0 "Images Ultra Robuste"');
+    console.log('📸 Cache-buster + fallback intégrés partout');
+    console.log('🛡️ onerror sur toutes les images');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
     console.log('🚚 Livraison offerte dès 50€');
