@@ -2281,37 +2281,30 @@ function renderRelatedProducts(productId) {
 // ============================================================
 // SHARE FUNCTION
 // ============================================================
-
 function sharePage(type, productId) {
     let title = '';
     let text = '';
     let shareUrl = BASE_URL;
-    let timestamp = Date.now();
     
     if (type === 'product' && productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
         
-        // ✅ URL propre pour le partage (le robot sera redirigé vers l'API OG)
-        const productSlug = getProductSlug(product);
-        const link = BASE_URL + '/produit/' + productSlug + '-' + productId;
-        
+        // ✅ URL de l'API OG (pour les bonnes balises)
+        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
         title = product.name + ' - ' + price + '€';
-        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + link;
-        shareUrl = link;
+        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
         
     } else if (type === 'blog') {
-        const link = BASE_URL + '/blog';
+        shareUrl = BASE_URL + '/api/og?blog=true&_=' + Date.now();
         title = 'Blog StyleShop';
-        text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + link;
-        shareUrl = link;
+        text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
         
     } else if (type === 'about') {
-        const link = BASE_URL + '/a-propos';
+        shareUrl = BASE_URL + '/api/og?about=true&_=' + Date.now();
         title = 'StyleShop / Nordexx';
-        text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + link;
-        shareUrl = link;
+        text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
         
     } else {
         text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
