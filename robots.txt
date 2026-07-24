@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+Allow: /produit/
+Allow: /categorie/
+Allow: /blog
+Allow: /a-propos
+Disallow: /api/
+Disallow: /success
+Disallow: /cancel
+
 Sitemap: https://nordexx-chi.vercel.app/sitemap.xml
