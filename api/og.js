@@ -10,7 +10,7 @@ module.exports = (req, res) => {
         '4': { name: "Pull Bleu Turquoise", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg", price: "39.00", desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne." },
         '5': { name: "Hoodie Premium", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb", price: "49.90", desc: "Hoodie avec capuche doublée, poche kangourou. Coton premium." },
         '6': { name: "Pull Marrant", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly", price: "30.90", desc: "Pull avec imprimé original et humoristique. 100% coton." },
-        '7': { name: "Casquette Outdoor", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa", price: "14.90", desc: "Casquette premium à bec de canard. Protection UV, réglable." },
+        '7': { name: "Casquette Outdoor", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa", price: "14.90", desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport." },
         '8': { name: "T-shirt Logo", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag", price: "21.99", desc: "T-shirt avec logo brodé. Coton peigné, finition soignée." },
         '9': { name: "Pull Hiver", image: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd", price: "35.00", desc: "Pull col rond, maille épaisse. Idéal pour l'hiver." }
     };
@@ -20,7 +20,7 @@ module.exports = (req, res) => {
     
     // 🎯 Déterminer les métadonnées
     let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium';
-    let description = 'L\'alliance de l\'ingénierie et de la mode. Garantie 2 ans. Livraison offerte dès 50€.';
+    let description = "L'alliance de l'ingénierie et de la mode. Garantie 2 ans. Livraison offerte dès 50€.";
     let image = defaultImage;
     let url = BASE_URL;
     let productName = '';
@@ -40,11 +40,11 @@ module.exports = (req, res) => {
         url = BASE_URL + '/api/og?blog=true';
     } else if (about) {
         title = 'À propos · StyleShop Nordexx | Ingénierie & Mode Premium';
-        description = 'Découvrez l\'histoire de StyleShop/Nordexx, l\'alliance unique de l\'ingénierie et de la mode.';
+        description = "Découvrez l'histoire de StyleShop/Nordexx, l'alliance unique de l'ingénierie et de la mode.";
         url = BASE_URL + '/api/og?about=true';
     }
     
-    // 🔧 HTML UNIQUEMENT POUR LES BALISES OG (SANS REDIRECTION)
+    // 🔧 HTML avec les BALISES OG (SANS redirection)
     const html = `<!DOCTYPE html>
 <html>
 <head>
@@ -89,6 +89,7 @@ module.exports = (req, res) => {
     
     <!-- ===== STYLE POUR L'AFFICHAGE HUMAIN ===== -->
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             text-align: center;
@@ -101,51 +102,22 @@ module.exports = (req, res) => {
             justify-content: center;
         }
         .card {
-            max-width: 500px;
+            max-width: 480px;
             margin: 0 auto;
             background: white;
             padding: 30px;
-            border-radius: 20px;
+            border-radius: 24px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             border: 1px solid #efebe6;
         }
         .card img {
             width: 100%;
             max-width: 280px;
-            border-radius: 12px;
+            border-radius: 14px;
             margin-bottom: 20px;
-            aspect-ratio: 1/1;
+            aspect-ratio: 3/4;
             object-fit: cover;
-        }
-        .card h1 {
-            font-size: 24px;
-            color: #1e1e1e;
-            margin: 10px 0 5px;
-        }
-        .card .price {
-            font-size: 28px;
-            color: #c0392b;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .card .desc {
-            color: #5e5546;
-            margin: 10px 0 20px;
-            line-height: 1.6;
-        }
-        .card .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: #1e1e1e;
-            color: white;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .card .btn:hover {
-            background: #3f3a32;
-            transform: scale(1.02);
+            background: #eae5dd;
         }
         .card .badge {
             display: inline-block;
@@ -153,32 +125,89 @@ module.exports = (req, res) => {
             color: #2d7a4a;
             padding: 2px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        .card h1 {
+            font-size: 24px;
+            color: #1e1e1e;
+            margin: 8px 0 4px;
+        }
+        .card .ref {
+            font-size: 0.8rem;
+            color: #8a7d6a;
+            margin-bottom: 8px;
+        }
+        .card .price {
+            font-size: 28px;
+            color: #c0392b;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        .card .price .old {
+            font-size: 18px;
+            color: #9b8d7a;
+            text-decoration: line-through;
+            font-weight: 400;
+            margin-left: 10px;
+        }
+        .card .desc {
+            color: #5e5546;
+            margin: 12px 0 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .card .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            background: #1e1e1e;
+            color: white;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .card .btn:hover {
+            background: #3f3a32;
+            transform: scale(1.02);
         }
         .card .footer {
             margin-top: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #9b8d7a;
             border-top: 1px solid #e8e2d6;
             padding-top: 15px;
+            line-height: 1.5;
         }
-        .share-link {
-            margin-top: 15px;
+        .card .share-link {
+            margin-top: 14px;
             font-size: 0.75rem;
             color: #7a6f5d;
-            word-break: break-all;
         }
-        .share-link input {
+        .card .share-link input {
             width: 100%;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border: 1px solid #d4cdc0;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.8rem;
             background: #f8f6f2;
             color: #1e1e1e;
             margin-top: 5px;
+            cursor: pointer;
+        }
+        .card .share-link input:hover {
+            background: #ede8e0;
+        }
+        .card .guarantee {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #2d7a4a;
+            font-weight: 600;
+            margin: 6px 0;
         }
     </style>
 </head>
@@ -187,12 +216,14 @@ module.exports = (req, res) => {
         <img src="${image}" alt="${title}" loading="lazy">
         <div class="badge">🌟 Premium</div>
         <h1>${productName || 'StyleShop Nordexx'}</h1>
+        ${productName ? '<div class="ref">Réf : ' + (product === '7' ? 'CAP-OUT' : 'PROD-' + product) + '</div>' : ''}
         ${productPrice ? '<div class="price">' + productPrice + ' €</div>' : ''}
+        <div class="guarantee">🛡️ Garantie 2 ans incluse</div>
         <div class="desc">${description}</div>
-        <a href="${BASE_URL}" class="btn">🛒 Découvrir la boutique</a>
+        <a href="${BASE_URL}" class="btn">🛒 Voir le produit</a>
         <div class="share-link">
             <label style="display:block;margin-bottom:4px;font-weight:500;">📋 Copier le lien</label>
-            <input type="text" value="${BASE_URL}" readonly onclick="this.select();document.execCommand('copy');alert('Lien copié !')">
+            <input type="text" value="${BASE_URL}" readonly onclick="this.select();document.execCommand('copy');alert('✅ Lien copié dans le presse-papier !')">
         </div>
         <div class="footer">
             StyleShop / Nordexx · Livraison offerte dès 50€ · Garantie 2 ans
