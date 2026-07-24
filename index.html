@@ -1648,6 +1648,21 @@ function getProductImage(product, couleur = null) {
 }
 
 // ============================================================
+// NOUVEAU - GÉNÉRATION D'IMAGE OPEN GRAPH AVEC CLOUDINARY
+// ============================================================
+function getOGImageUrl(product) {
+    if (!product) return defaultProductImage;
+    // Construction d'une image avec le nom du produit en surimpression
+    const baseUrl = 'https://res.cloudinary.com/nrv87gxz/image/upload';
+    // Utiliser l'image du produit (ou fallback)
+    const imageId = product.defaultImage ? product.defaultImage.split('/').pop().split('?')[0] : '1000143347_ttqayv';
+    // Texte encodé
+    const text = encodeURIComponent(product.name + ' - ' + (product.salePrice || product.price).toFixed(2) + '€');
+    // Génération de l'image avec texte superposé
+    return `${baseUrl}/f_auto,q_auto,w_1200,h_630,c_fill,l_text:Arial_64:${text},co_rgb:FFFFFF,c_fit,w_800,h_200/${imageId}`;
+}
+
+// ============================================================
 // VARIANT PRICE MAP
 // ============================================================
 const variantPriceMap = {
@@ -2911,11 +2926,8 @@ function addCacheBuster(url) {
 
 function getShareImage(product) {
     if (!product) return defaultProductImage;
-    const colors = Object.keys(product.images || {});
-    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
-        return product.images[colors[0]][0];
-    }
-    return product.defaultImage || defaultProductImage;
+    // Utilise l'image générée avec texte
+    return getOGImageUrl(product);
 }
 
 function sharePage(type, productId) {
@@ -3012,7 +3024,7 @@ function updateShareMetaTags(title, description, imageUrl, url) {
 }
 
 // ============================================================
-// META TAGS - AVEC IMAGE CORRIGÉE
+// META TAGS - AVEC IMAGE CORRIGÉE (OG générée)
 // ============================================================
 function updateMetaTags(page, product) {
     let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium | Livraison Offerte 24h';
@@ -3030,7 +3042,8 @@ function updateMetaTags(page, product) {
             if (lastSpace > 0) desc = desc.substring(0, lastSpace) + '...';
         }
         description = desc;
-        image = getShareImage(product);
+        // Utilise l'image générée avec texte
+        image = getOGImageUrl(product);
         image = getImageWithCacheBuster(image);
         url = BASE_URL + getProductUrl(product);
     } else if (page === 'blog') {
@@ -3489,13 +3502,12 @@ function init() {
 
     audio1.load();
     audio2.load();
-    console.log('🚀 StyleShop/Nordexx - Version 7.0 "Images Ultra Robuste"');
+    console.log('🚀 StyleShop/Nordexx - Version 7.1 "OG Image Dynamique"');
+    console.log('🖼️ L\'image de partage est générée avec le nom du produit');
     console.log('📸 Cache-buster + fallback intégrés partout');
     console.log('🛡️ onerror sur toutes les images');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
-    console.log('🚚 Livraison offerte dès 50€');
-    console.log('🛡️ Garantie 2 ans sur tous les produits');
 }
 
 // Expose global functions
@@ -3734,4 +3746,3 @@ try {
 
 </body>
 </html>
-
