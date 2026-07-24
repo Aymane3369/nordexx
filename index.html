@@ -2965,51 +2965,43 @@ function renderRelatedProducts(productId) {
 // ============================================================
 // SHARE FUNCTION - AVEC IMAGE CORRIGÉE POUR L'APERÇU
 // ============================================================
-function addCacheBuster(url) {
-    return url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
-}
 
-function getShareImage(product) {
-    if (!product) return defaultProductImage;
-    return getOGImageUrl(product);
-}
-
+// ============================================================
+// SHARE FUNCTION - RETOUR À /api/og POUR L'APERÇU SERVEUR
+// ============================================================
 function sharePage(type, productId) {
     let title = '';
     let text = '';
     let shareUrl = BASE_URL;
-    let imageUrl = defaultProductImage;
 
     if (type === 'product' && productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-        imageUrl = getShareImage(product);
-        imageUrl = getImageWithCacheBuster(imageUrl);
 
-        shareUrl = addCacheBuster(BASE_URL + getProductUrl(product));
+        // ✅ URL vers la route serveur qui génère les balises og:image dynamiquement
+        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
         title = product.name + ' - ' + price + '€';
         text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
 
     } else if (type === 'blog') {
-        shareUrl = BASE_URL + '/blog';
+        shareUrl = BASE_URL + '/api/og?blog=true&_=' + Date.now();
         title = 'Blog StyleShop';
         text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
-        imageUrl = defaultProductImage;
 
     } else if (type === 'about') {
-        shareUrl = BASE_URL + '/a-propos';
+        shareUrl = BASE_URL + '/api/og?about=true&_=' + Date.now();
         title = 'StyleShop / Nordexx';
         text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
-        imageUrl = defaultProductImage;
 
     } else {
-        shareUrl = addCacheBuster(BASE_URL);
+        shareUrl = BASE_URL + '/api/og?_=' + Date.now();
         text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
-        imageUrl = defaultProductImage;
     }
 
-    updateShareMetaTags(title, text, imageUrl, shareUrl);
+    // On garde la mise à jour des meta tags pour l'utilisateur qui navigue sur la SPA elle-même
+    // (utile si Web Share API affiche un aperçu depuis la page courante sur certains OS)
+    updateShareMetaTags(title, text, type === 'product' && productId ? getShareImage(products.find(p => p.id === productId)) : defaultProductImage, shareUrl);
 
     if (navigator.share) {
         navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {});
@@ -3024,21 +3016,6 @@ function sharePage(type, productId) {
         fallbackShare(text);
     }
 }
-
-function fallbackShare(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    try {
-        document.execCommand('copy');
-        alert('📋 Lien copié dans le presse-papier !');
-    } catch (e) {
-        prompt('📋 Copiez ce lien :', text);
-    }
-    document.body.removeChild(textarea);
-}
-
 // ============================================================
 // MISE À JOUR DES META TAGS POUR LE PARTAGE
 // ============================================================
