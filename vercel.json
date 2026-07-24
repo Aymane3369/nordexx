@@ -1,18 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/product/:id",
-      "destination": "/api/og?product=:id"
-    },
-    {
-      "source": "/blog",
-      "destination": "/api/og?blog=true"
-    },
-    {
-      "source": "/about",
-      "destination": "/api/og?about=true"
-    },
-    {
       "source": "/api/create-checkout-session",
       "destination": "/api/create-checkout-session"
     },
@@ -43,6 +31,22 @@
     {
       "source": "/cancel",
       "destination": "/cancel.html"
+    },
+    {
+      "source": "/produit/:slug-:id",
+      "destination": "/index.html?product=:id"
+    },
+    {
+      "source": "/categorie/:cat",
+      "destination": "/index.html?category=:cat"
+    },
+    {
+      "source": "/blog",
+      "destination": "/index.html?page=blog"
+    },
+    {
+      "source": "/a-propos",
+      "destination": "/index.html?page=about"
     },
     {
       "source": "/(.*)",
