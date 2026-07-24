@@ -2281,6 +2281,7 @@ function renderRelatedProducts(productId) {
 // ============================================================
 // SHARE FUNCTION
 // ============================================================
+
 function sharePage(type, productId) {
     let title = '';
     let text = '';
@@ -2291,20 +2292,27 @@ function sharePage(type, productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-        const link = BASE_URL + '/api/og?product=' + productId + '&_=' + timestamp;
+        
+        // ✅ URL propre pour le partage (le robot sera redirigé vers l'API OG)
+        const productSlug = getProductSlug(product);
+        const link = BASE_URL + '/produit/' + productSlug + '-' + productId;
+        
         title = product.name + ' - ' + price + '€';
         text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + link;
         shareUrl = link;
+        
     } else if (type === 'blog') {
-        const link = BASE_URL + '/api/og?blog=true&_=' + timestamp;
+        const link = BASE_URL + '/blog';
         title = 'Blog StyleShop';
         text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + link;
         shareUrl = link;
+        
     } else if (type === 'about') {
-        const link = BASE_URL + '/api/og?about=true&_=' + timestamp;
+        const link = BASE_URL + '/a-propos';
         title = 'StyleShop / Nordexx';
         text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + link;
         shareUrl = link;
+        
     } else {
         text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
         shareUrl = BASE_URL;
@@ -2323,7 +2331,6 @@ function sharePage(type, productId) {
         fallbackShare(text);
     }
 }
-
 function fallbackShare(text) {
     const input = document.createElement('textarea');
     input.value = text;
