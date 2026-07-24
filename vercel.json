@@ -34,7 +34,7 @@
     },
     {
       "source": "/produit/:slug-:id",
-      "destination": "/index.html?product=:id"
+      "destination": "/api/og?product=:id"
     },
     {
       "source": "/categorie/:cat",
@@ -42,11 +42,11 @@
     },
     {
       "source": "/blog",
-      "destination": "/index.html?page=blog"
+      "destination": "/api/og?blog=true"
     },
     {
       "source": "/a-propos",
-      "destination": "/index.html?page=about"
+      "destination": "/api/og?about=true"
     },
     {
       "source": "/(.*)",
@@ -58,7 +58,8 @@
       "source": "/api/og",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
       ]
     },
     {
@@ -105,12 +106,6 @@
       "source": "/cancel.html",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/(.*).(css|js|mjs)",
-      "headers": [
-        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
       ]
     },
     {
