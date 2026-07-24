@@ -2331,19 +2331,6 @@ function sharePage(type, productId) {
         fallbackShare(text);
     }
 }
-function fallbackShare(text) {
-    const input = document.createElement('textarea');
-    input.value = text;
-    document.body.appendChild(input);
-    input.select();
-    try {
-        document.execCommand('copy');
-        alert('📋 Lien copié dans le presse-papier !');
-    } catch (e) {
-        window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
-    }
-    document.body.removeChild(input);
-}
 
 // ============================================================
 // META TAGS
