@@ -1,18 +1,3 @@
-Parfait, j’ai bien compris. Vous voulez que je parte de votre version actuelle (celle que vous venez de m’envoyer) et que j’y ajoute uniquement les corrections pour les images et tout ce qui concerne l’aperçu des liens (Open Graph, Twitter Cards) pour que le partage fonctionne parfaitement.
-
-J’ai donc :
-
-· Conservé votre structure HTML/CSS/JS (avec sticky‑CTA, exit‑intent, newsletter, FAQ, etc.)
-· Ajouté les fonctions getImageWithCacheBuster() et getProductImage() avec fallback
-· Ajouté les gestionnaires onerror sur toutes les balises <img> (grille, page produit, miniatures, panier, produits associés)
-· Vérifié que les balises og:image:alt et twitter:image:alt sont bien présentes et mises à jour dynamiquement par updateMetaTags() et updateShareMetaTags()
-· Corrigé la fonction sharePage() pour qu’elle utilise l’image du produit avec cache‑buster et qu’elle mette à jour les meta tags avant le partage
-
-Le code ci‑dessous est intégralement fonctionnel et reprend exactement votre base. Vous n’avez qu’à le copier‑coller dans votre fichier index.html sur Vercel.
-
----
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -3749,6 +3734,4 @@ try {
 
 </body>
 </html>
-```
 
-Ce code est prêt à être déployé sur Vercel. Toutes les images bénéficient du cache‑buster et du fallback, et l’aperçu des liens (Open Graph / Twitter) affiche correctement le titre, la description et l’image du produit.
