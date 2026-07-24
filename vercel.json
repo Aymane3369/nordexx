@@ -1,122 +1,234 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/create-checkout-session",
-      "destination": "/api/create-checkout-session"
+// api/og.js
+// Ce fichier est appelé par Vercel lorsqu'un robot ou un utilisateur visite /produit/:slug-:id
+// Il génère un HTML avec les balises Open Graph pour le partage, puis redirige vers la SPA.
+
+// Liste des produits (identique à celle du frontend)
+// Idéalement, mutualisez ces données dans un fichier partagé (ex: data/products.js)
+const products = [
+    { 
+        id: 1, 
+        name: "T-shirt d'été", 
+        ref: "TSH-ETE", 
+        price: 28.96, 
+        salePrice: 25.96, 
+        stock: 14, 
+        sold: 12, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7",
+        images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] } 
     },
-    {
-      "source": "/api/og",
-      "destination": "/api/og"
+    { 
+        id: 2, 
+        name: "T-shirt blanc coton bio", 
+        ref: "TSH-COTON", 
+        price: 24.90, 
+        salePrice: 21.90, 
+        stock: 18, 
+        sold: 8, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal pour le quotidien.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv",
+        images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] } 
     },
-    {
-      "source": "/api/webhook",
-      "destination": "/api/webhook"
+    { 
+        id: 3, 
+        name: "Montre connectée Pro", 
+        ref: "WATCH-PRO", 
+        price: 48.80, 
+        salePrice: 35.00, 
+        stock: 9, 
+        sold: 9, 
+        category: "accessoires", 
+        tags: ["nouveautes"], 
+        desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours. Résistance à l'eau IP68. Compatible iOS/Android.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic",
+        images: { "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm"] } 
     },
-    {
-      "source": "/api/sitemap",
-      "destination": "/api/sitemap"
+    { 
+        id: 4, 
+        name: "Pull Bleu Turquoise", 
+        ref: "PULL-TURQ", 
+        price: 39.00, 
+        salePrice: null, 
+        stock: 8, 
+        sold: 5, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne. Parfait pour la mi-saison.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg",
+        images: { "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg"] } 
     },
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
+    { 
+        id: 5, 
+        name: "Hoodie Premium", 
+        ref: "HOODIE-PRE", 
+        price: 59.90, 
+        salePrice: 49.90, 
+        stock: 3, 
+        sold: 13, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "Hoodie avec capuche double, poche kangourou. Coton premium, coupe contractée. Confort absolu et style urbain. Garantie 2 ans.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb",
+        images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb"], "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl"], "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr"] } 
     },
-    {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
+    { 
+        id: 6, 
+        name: "Pull Marrant", 
+        ref: "PULL-FUN", 
+        price: 32.00, 
+        salePrice: 30.90, 
+        stock: 5, 
+        sold: 11, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance. Pour ceux qui aiment sortir du lot.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly",
+        images: { "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w"] } 
     },
-    {
-      "source": "/success",
-      "destination": "/success.html"
+    { 
+        id: 7, 
+        name: "Casquette Outdoor", 
+        ref: "CAP-OUT", 
+        price: 19.90, 
+        salePrice: 14.90, 
+        stock: 12, 
+        sold: 10, 
+        category: "accessoires", 
+        tags: ["nouveautes"], 
+        desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa",
+        images: { "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"], "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"] } 
     },
-    {
-      "source": "/cancel",
-      "destination": "/cancel.html"
+    { 
+        id: 8, 
+        name: "T-shirt Logo", 
+        ref: "TSH-LOGO", 
+        price: 25.00, 
+        salePrice: 21.99, 
+        stock: 16, 
+        sold: 10, 
+        category: "vetements", 
+        tags: ["nouveautes"], 
+        desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique et élégante.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag",
+        images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag"] } 
     },
-    {
-      "source": "/produit/:slug-:id",
-      "destination": "/api/og?product=:id"
-    },
-    {
-      "source": "/categorie/:cat",
-      "destination": "/index.html?category=:cat"
-    },
-    {
-      "source": "/blog",
-      "destination": "/api/og?blog=true"
-    },
-    {
-      "source": "/a-propos",
-      "destination": "/api/og?about=true"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+    { 
+        id: 9, 
+        name: "Pull Hiver", 
+        ref: "PULL-WINTER", 
+        price: 35.00, 
+        salePrice: null, 
+        stock: 2, 
+        sold: 13, 
+        category: "vetements", 
+        tags: [], 
+        desc: "Pull col rond, maille épaisseur. Idéal pour l'hiver. 100% laine mérinos pour une chaleur optimale.",
+        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd",
+        images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd"] } 
     }
-  ],
-  "headers": [
-    {
-      "source": "/api/og",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Content-Type", "value": "text/html; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/api/sitemap",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/sitemap.xml",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/robots.txt",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600" },
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
-      ]
-    },
-    {
-      "source": "/api/create-checkout-session",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" }
-      ]
-    },
-    {
-      "source": "/api/webhook",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    },
-    {
-      "source": "/success.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/cancel.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" }
-      ]
+];
+
+const defaultProductImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+const BASE_URL = 'https://nordexx-chi.vercel.app';
+
+/**
+ * Génère l'URL de l'image Open Graph avec le nom du produit superposé.
+ */
+function getOGImageUrl(product) {
+    if (!product) return defaultProductImage;
+    // On prend la première image du produit, ou son defaultImage
+    const imageId = product.defaultImage ? product.defaultImage.split('/').pop().split('?')[0] : '1000143347_ttqayv';
+    const text = encodeURIComponent(product.name + ' - ' + (product.salePrice || product.price).toFixed(2) + '€');
+    // Construction de l'image Cloudinary avec texte
+    return `https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_630,c_fill,l_text:Arial_64:${text},co_rgb:FFFFFF,c_fit,w_800,h_200/${imageId}`;
+}
+
+/**
+ * Retourne le slug du produit pour l'URL
+ */
+function getProductSlug(product) {
+    if (!product) return '';
+    return product.name.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+export default function handler(req, res) {
+    // Récupérer l'ID du produit depuis les paramètres de l'URL
+    const { product } = req.query;
+    if (!product) {
+        // Si pas d'ID, on renvoie la page d'accueil ou une erreur
+        return res.status(404).send('Produit non spécifié');
     }
-  ]
+
+    const productId = parseInt(product, 10);
+    const foundProduct = products.find(p => p.id === productId);
+
+    if (!foundProduct) {
+        return res.status(404).send('Produit non trouvé');
+    }
+
+    // Déterminer le prix affiché
+    const displayPrice = (foundProduct.salePrice || foundProduct.price).toFixed(2);
+    const title = foundProduct.name + ' · StyleShop Nordexx | ' + displayPrice + '€';
+    const description = foundProduct.desc.substring(0, 155) + '...';
+    const imageUrl = getOGImageUrl(foundProduct);
+    const productUrl = BASE_URL + '/produit/' + getProductSlug(foundProduct) + '-' + foundProduct.id;
+    const fullUrl = productUrl; // on utilise l'URL canonique
+
+    // Construire le HTML avec les balises OG et une redirection
+    const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <title>${title}</title>
+    <meta name="description" content="${description}" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:image" content="${imageUrl}" />
+    <meta property="og:image:alt" content="${foundProduct.name} - aperçu produit" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="${fullUrl}" />
+    <meta property="og:type" content="product" />
+    <meta property="og:site_name" content="StyleShop Nordexx" />
+    <meta property="og:locale" content="fr_FR" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
+    <meta name="twitter:image" content="${imageUrl}" />
+    <meta name="twitter:image:alt" content="${foundProduct.name} - aperçu produit" />
+    
+    <!-- Redirection vers la SPA -->
+    <meta http-equiv="refresh" content="0; url=${fullUrl}" />
+    
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 2rem; background: #f8f6f2; }
+        a { color: #16213e; }
+    </style>
+</head>
+<body>
+    <h1>${foundProduct.name}</h1>
+    <p>Vous allez être redirigé vers la page produit.</p>
+    <p><a href="${fullUrl}">Cliquez ici si la redirection ne fonctionne pas</a></p>
+</body>
+</html>
+    `;
+
+    // Envoyer le HTML
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.status(200).send(html);
 }
