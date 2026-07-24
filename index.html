@@ -1498,180 +1498,25 @@
 
 <script>
 // ============================================================
-// DONNÉES PRODUITS - AVEC IMAGE PAR DÉFAUT POUR CHAQUE PRODUIT
+// DONNÉES PRODUITS - VERSION PROGRAMME 2 (URLs qui fonctionnent)
 // ============================================================
 const defaultProductImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
 
 const products = [
-    { 
-        id: 1, 
-        name: "T-shirt d'été", 
-        ref: "TSH-ETE", 
-        price: 28.96, 
-        salePrice: 25.96, 
-        stock: 14, 
-        sold: 12, 
-        category: "vetements", 
-        tags: ["nouveautes"], 
-        desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7",
-        images: { 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } 
-    },
-    { 
-        id: 2, 
-        name: "T-shirt blanc coton bio", 
-        ref: "TSH-COTON", 
-        price: 24.90, 
-        salePrice: 21.90, 
-        stock: 18, 
-        sold: 8, 
-        category: "vetements", 
-        tags: ["nouveautes"], 
-        desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal pour le quotidien.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv",
-        images: { 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc"] } 
-    },
-    { 
-        id: 3, 
-        name: "Montre connectée Pro", 
-        ref: "WATCH-PRO", 
-        price: 48.80, 
-        salePrice: 35.00, 
-        stock: 9, 
-        sold: 9, 
-        category: "accessoires", 
-        tags: ["nouveautes"], 
-        desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours. Résistance à l'eau IP68. Compatible iOS/Android.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic",
-        images: { 
-            "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"], 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm"] 
-        }, 
-        variants: { taille: ["Unique"], couleur: ["Noir", "Blanc"] } 
-    },
-    { 
-        id: 4, 
-        name: "Pull Bleu Turquoise", 
-        ref: "PULL-TURQ", 
-        price: 39.00, 
-        salePrice: null, 
-        stock: 8, 
-        sold: 5, 
-        category: "vetements", 
-        tags: [], 
-        desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne. Parfait pour la mi-saison.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg",
-        images: { 
-            "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Bleu Turquoise"] } 
-    },
-    { 
-        id: 5, 
-        name: "Hoodie Premium", 
-        ref: "HOODIE-PRE", 
-        price: 59.90, 
-        salePrice: 49.90, 
-        stock: 3, 
-        sold: 13, 
-        category: "vetements", 
-        tags: ["nouveautes"], 
-        desc: "Hoodie avec capuche double, poche kangourou. Coton premium, coupe contractée. Confort absolu et style urbain. Garantie 2 ans.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb",
-        images: { 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb"], 
-            "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl"], 
-            "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc", "Gris", "Bleu"] } 
-    },
-    { 
-        id: 6, 
-        name: "Pull Marrant", 
-        ref: "PULL-FUN", 
-        price: 32.00, 
-        salePrice: 30.90, 
-        stock: 5, 
-        sold: 11, 
-        category: "vetements", 
-        tags: [], 
-        desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance. Pour ceux qui aiment sortir du lot.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly",
-        images: { 
-            "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly"], 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w"] 
-        }, 
-        variants: { taille: ["M", "L", "XL"], couleur: ["Marrant", "Blanc"] } 
-    },
-    { 
-        id: 7, 
-        name: "Casquette Outdoor", 
-        ref: "CAP-OUT", 
-        price: 19.90, 
-        salePrice: 14.90, 
-        stock: 12, 
-        sold: 10, 
-        category: "accessoires", 
-        tags: ["nouveautes"], 
-        desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa",
-        images: { 
-            "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"], 
-            "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"] 
-        }, 
-        variants: { taille: ["Unique"], couleur: ["Bleu Marine", "Noir"] } 
-    },
-    { 
-        id: 8, 
-        name: "T-shirt Logo", 
-        ref: "TSH-LOGO", 
-        price: 25.00, 
-        salePrice: 21.99, 
-        stock: 16, 
-        sold: 10, 
-        category: "vetements", 
-        tags: ["nouveautes"], 
-        desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique et élégante.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag",
-        images: { 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } 
-    },
-    { 
-        id: 9, 
-        name: "Pull Hiver", 
-        ref: "PULL-WINTER", 
-        price: 35.00, 
-        salePrice: null, 
-        stock: 2, 
-        sold: 13, 
-        category: "vetements", 
-        tags: [], 
-        desc: "Pull col rond, maille épaisseur. Idéal pour l'hiver. 100% laine mérinos pour une chaleur optimale.",
-        defaultImage: "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd",
-        images: { 
-            "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd"] 
-        }, 
-        variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }, 
-        last: true 
-    }
+    { id: 1, name: "T-shirt d'été", ref: "TSH-ETE", price: 28.96, salePrice: 25.96, stock: 14, sold: 12, category: "vetements", tags: ["nouveautes"], desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } },
+    { id: 2, name: "T-shirt blanc coton bio", ref: "TSH-COTON", price: 24.90, salePrice: 21.90, stock: 18, sold: 8, category: "vetements", tags: ["nouveautes"], desc: "T-shirt blanc 100% coton bio. Confort absolu et respirabilité. Idéal pour le quotidien.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc"] } },
+    { id: 3, name: "Montre connectée Pro", ref: "WATCH-PRO", price: 48.80, salePrice: 35.00, stock: 9, sold: 9, category: "accessoires", tags: ["nouveautes"], desc: "Montre connectée homme & femme. Écran AMOLED, autonomie 7 jours. Résistance à l'eau IP68. Compatible iOS/Android.", images: { "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143357_mfpyic"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143359_ves0lm"] }, variants: { taille: ["Unique"], couleur: ["Noir", "Blanc"] } },
+    { id: 4, name: "Pull Bleu Turquoise", ref: "PULL-TURQ", price: 39.00, salePrice: null, stock: 8, sold: 5, category: "vetements", tags: [], desc: "Pull en maille douce, couleur bleu turquoise. Coupe droite et moderne. Parfait pour la mi-saison.", images: { "Bleu Turquoise": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142364_btulbg"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Bleu Turquoise"] } },
+    { id: 5, name: "Hoodie Premium", ref: "HOODIE-PRE", price: 59.90, salePrice: 49.90, stock: 3, sold: 13, category: "vetements", tags: ["nouveautes"], desc: "Hoodie avec capuche double, poche kangourou. Coton premium, coupe contractée. Confort absolu et style urbain. Garantie 2 ans.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142320_spxhgb"], "Gris": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142324_mukozl"], "Bleu": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142314_qvr0pr"] }, variants: { taille: ["S", "M", "L", "XL"], couleur: ["Blanc", "Gris", "Bleu"] } },
+    { id: 6, name: "Pull Marrant", ref: "PULL-FUN", price: 32.00, salePrice: 30.90, stock: 5, sold: 11, category: "vetements", tags: [], desc: "Pull avec imprimé original et humoristique. 100% coton, coupe tendance. Pour ceux qui aiment sortir du lot.", images: { "Marrant": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142350_imvwly"], "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142346_mi9q4w"] }, variants: { taille: ["M", "L", "XL"], couleur: ["Marrant", "Blanc"] } },
+    { id: 7, name: "Casquette Outdoor", ref: "CAP-OUT", price: 19.90, salePrice: 14.90, stock: 12, sold: 10, category: "accessoires", tags: ["nouveautes"], desc: "Casquette premium à bec de canard. Protection UV, réglable. Parfaite pour l'extérieur et le sport.", images: { "Bleu Marine": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143372_spatwa"], "Noir": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143375_jn8a3h"] }, variants: { taille: ["Unique"], couleur: ["Bleu Marine", "Noir"] } },
+    { id: 8, name: "T-shirt Logo", ref: "TSH-LOGO", price: 25.00, salePrice: 21.99, stock: 16, sold: 10, category: "vetements", tags: ["nouveautes"], desc: "T-shirt avec logo brodé. Coton peigné, finition soignée. Coupe classique et élégante.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142507_qczqag"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } },
+    { id: 9, name: "Pull Hiver", ref: "PULL-WINTER", price: 35.00, salePrice: null, stock: 2, sold: 13, category: "vetements", tags: [], desc: "Pull col rond, maille épaisseur. Idéal pour l'hiver. 100% laine mérinos pour une chaleur optimale.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000142368_c8rtpd"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] }, last: true }
 ];
 
 // ============================================================
-// IMAGE UTILITIES - VERSION FINALE AVEC CACHE-BUSTER ET FALLBACK
+// IMAGE UTILITIES - AVEC CACHE-BUSTER ET FALLBACK
 // ============================================================
-/**
- * getImageWithCacheBuster(url)
- * Ajoute un paramètre 'v=' avec un timestamp pour forcer le rafraîchissement.
- * Retourne toujours une URL valide (fallback sur defaultProductImage si url invalide).
- */
 function getImageWithCacheBuster(url) {
     if (!url || typeof url !== 'string' || url.trim() === '') {
         return defaultProductImage;
@@ -1680,15 +1525,6 @@ function getImageWithCacheBuster(url) {
     return url + separator + 'v=' + Date.now();
 }
 
-/**
- * getProductImage(product, couleur)
- * Ordre de résolution :
- * 1. Image correspondant à la couleur spécifiée
- * 2. Première image de la première couleur disponible
- * 3. product.defaultImage
- * 4. defaultProductImage (globale)
- * Applique systématiquement le cache‑buster sur l'URL retournée.
- */
 function getProductImage(product, couleur = null) {
     if (!product) return getImageWithCacheBuster(defaultProductImage);
 
@@ -1703,27 +1539,23 @@ function getProductImage(product, couleur = null) {
         return getImageWithCacheBuster(product.images[colors[0]][0]);
     }
 
-    // 3. defaultImage du produit
-    if (product.defaultImage) {
-        return getImageWithCacheBuster(product.defaultImage);
-    }
-
-    // 4. Fallback global
+    // 3. Fallback global
     return getImageWithCacheBuster(defaultProductImage);
 }
 
 // ============================================================
-// NOUVEAU - GÉNÉRATION D'IMAGE OPEN GRAPH AVEC CLOUDINARY
+// GÉNÉRATION D'IMAGE OPEN GRAPH AVEC CLOUDINARY
 // ============================================================
 function getOGImageUrl(product) {
     if (!product) return defaultProductImage;
-    // Construction d'une image avec le nom du produit en surimpression
     const baseUrl = 'https://res.cloudinary.com/nrv87gxz/image/upload';
-    // Utiliser l'image du produit (ou fallback)
-    const imageId = product.defaultImage ? product.defaultImage.split('/').pop().split('?')[0] : '1000143347_ttqayv';
-    // Texte encodé
+    const colors = Object.keys(product.images || {});
+    let imageId = '1000143347_ttqayv';
+    if (colors.length > 0 && product.images[colors[0]] && product.images[colors[0]].length > 0) {
+        const urlParts = product.images[colors[0]][0].split('/');
+        imageId = urlParts[urlParts.length - 1].split('?')[0];
+    }
     const text = encodeURIComponent(product.name + ' - ' + (product.salePrice || product.price).toFixed(2) + '€');
-    // Génération de l'image avec texte superposé
     return `${baseUrl}/f_auto,q_auto,w_1200,h_630,c_fill,l_text:Arial_64:${text},co_rgb:FFFFFF,c_fit,w_800,h_200/${imageId}`;
 }
 
@@ -1949,43 +1781,6 @@ function renderBreadcrumb(page, param) {
     }
 
     container.innerHTML = html;
-
-    const breadcrumbSchema = document.getElementById('breadcrumbSchema') || document.createElement('script');
-    breadcrumbSchema.id = 'breadcrumbSchema';
-    breadcrumbSchema.type = 'application/ld+json';
-
-    const items = [];
-    let position = 1;
-    items.push({ "@type": "ListItem", "position": position++, "name": "Accueil", "item": BASE_URL + '/' });
-
-    if (page === 'category' && param) {
-        const catName = document.querySelector('.category-nav a[data-cat="' + param + '"]')?.textContent || param;
-        items.push({ "@type": "ListItem", "position": position++, "name": catName, "item": BASE_URL + '/categorie/' + param });
-    } else if (page === 'product' && param) {
-        const product = products.find(p => p.id === param);
-        if (product) {
-            const catName = document.querySelector('.category-nav a[data-cat="' + product.category + '"]')?.textContent || product.category;
-            items.push({ "@type": "ListItem", "position": position++, "name": catName, "item": BASE_URL + '/categorie/' + product.category });
-            items.push({ "@type": "ListItem", "position": position++, "name": product.name, "item": window.location.href });
-        }
-    } else if (page === 'blog') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Blog", "item": BASE_URL + '/blog' });
-    } else if (page === 'about') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "À propos", "item": BASE_URL + '/a-propos' });
-    } else if (page === 'mentions-legales') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Mentions légales", "item": BASE_URL + '/mentions-legales' });
-    } else if (page === 'cgv') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Conditions générales", "item": BASE_URL + '/cgv' });
-    } else if (page === 'confidentialite') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Politique de confidentialité", "item": BASE_URL + '/confidentialite' });
-    }
-
-    breadcrumbSchema.textContent = JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": items
-    });
-    document.head.appendChild(breadcrumbSchema);
 }
 
 // ============================================================
@@ -2297,7 +2092,6 @@ function addToCartWithVariants(productId, variants) {
     const couleur = variants.couleur || 'Standard';
     const price = getVariantPrice(product, taille, couleur);
     const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
-    // Utiliser getProductImage pour avoir le fallback et le cache-buster
     const image = productImages.length > 0 ? productImages[0] : getProductImage(product);
 
     const existing = cart.find(item => item.id === productId && JSON.stringify(item.variants) === JSON.stringify(variants));
@@ -2817,8 +2611,7 @@ function showProductPage(productId) {
     });
     detail.appendChild(faqSchema);
 
-    // ✅ Schema Product avec AggregateRating
-    const schemaScript = document.createElement('script');
+    // ✅ Schema Product avec AggregateRating    const schemaScript = document.createElement('script');
     schemaScript.type = 'application/ld+json';
     schemaScript.textContent = JSON.stringify({
         "@context": "https://schema.org",
@@ -2991,7 +2784,6 @@ function addCacheBuster(url) {
 
 function getShareImage(product) {
     if (!product) return defaultProductImage;
-    // Utilise l'image générée avec texte
     return getOGImageUrl(product);
 }
 
@@ -3030,7 +2822,6 @@ function sharePage(type, productId) {
         imageUrl = defaultProductImage;
     }
 
-    // Met à jour les meta tags Open Graph et Twitter avant le partage
     updateShareMetaTags(title, text, imageUrl, shareUrl);
 
     if (navigator.share) {
@@ -3107,7 +2898,6 @@ function updateMetaTags(page, product) {
             if (lastSpace > 0) desc = desc.substring(0, lastSpace) + '...';
         }
         description = desc;
-        // Utilise l'image générée avec texte
         image = getOGImageUrl(product);
         image = getImageWithCacheBuster(image);
         url = BASE_URL + getProductUrl(product);
@@ -3184,9 +2974,6 @@ function generateSitemap() {
     });
     products.forEach(p => {
         const productImages = Object.values(p.images).flat();
-        if (p.defaultImage && !productImages.includes(p.defaultImage)) {
-            productImages.push(p.defaultImage);
-        }
         let imageTags = '';
         productImages.forEach(img => {
             imageTags += '    <image:image><image:loc>' + img + '</image:loc></image:image>\n';
@@ -3211,10 +2998,6 @@ function downloadSitemap() {
     console.log('📄 Sitemap généré avec succès !');
 }
 
-function escapeHtml(text) {
-    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
 function renderTextPage(title, content) {
     document.title = title;
     document.getElementById('metaTitle').textContent = title;
@@ -3236,6 +3019,10 @@ function renderRobotsTxtPage() {
 
 function renderSitemapPage() {
     renderTextPage('sitemap.xml - StyleShop Nordexx', generateSitemap());
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function initExitIntent() {
@@ -3567,25 +3354,17 @@ function init() {
 
     audio1.load();
     audio2.load();
-    console.log('🚀 StyleShop/Nordexx - Version 7.2 "Fusion des deux versions"');
+    console.log('🚀 StyleShop/Nordexx - Version 7.3 "Fusion corrigée"');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
     console.log('🚚 Livraison offerte dès 50€');
     console.log('🛡️ Garantie 2 ans sur tous les produits');
     console.log('✅ URLs propres : /produit/nom-5');
-    console.log('✅ Schema Product + AggregateRating + FAQ');
-    console.log('✅ Breadcrumbs avec Schema');
-    console.log('✅ Descriptions de catégories');
-    console.log('✅ Avis clients intégrés');
-    console.log('✅ Compteur de visiteurs en direct');
-    console.log('✅ Sticky CTA mobile');
-    console.log('✅ Exit Intent avec code promo');
-    console.log('✅ OG Image dynamique avec Cloudinary');
+    console.log('✅ Images avec cache-buster et fallback');
     console.log('✅ Pages Mentions légales, CGV, Confidentialité');
-    console.log('✅ Cache-buster sur les images');
-    console.log('✅ Fallback d\'image par défaut');
+    console.log('✅ Sticky CTA mobile et Exit Intent');
+    console.log('✅ OG Image dynamique avec Cloudinary');
     console.log('✅ Paiement en français');
-    console.log('✅ Éléments tactiles optimisés mobile');
 }
 
 // Expose global functions
