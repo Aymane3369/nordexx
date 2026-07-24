@@ -23,15 +23,24 @@
     <meta property="og:url" id="ogUrl" content="https://nordexx-chi.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:image" id="ogImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/1000143347_ttqayv" />
+    <meta property="og:image:alt" id="ogImageAlt" content="StyleShop Nordexx — aperçu produit premium" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="fr_FR" />
+    <meta name="geo.region" content="FR" />
+    <meta name="theme-color" content="#16213e" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="preload" href="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/1000143347_ttqayv" as="image" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" id="twitterTitle" content="StyleShop Nordexx · Vêtements et accessoires Premium" />
     <meta name="twitter:description" id="twitterDescription" content="Alliance unique de l'ingénierie et de la mode. +1000 clients satisfaits. Garantie 2 ans." />
     <meta name="twitter:image" id="twitterImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_600,c_fill/1000143347_ttqayv" />
+    <meta name="twitter:image:alt" id="twitterImageAlt" content="StyleShop Nordexx — aperçu produit premium" />
 
     <!-- Schema.org Organisation -->
     <script type="application/ld+json" id="schemaOrg">
@@ -53,6 +62,29 @@
         "availableLanguage": ["French"],
         "email": "contact@styleshop.fr"
       }
+    }
+    </script>
+    <script type="application/ld+json" id="globalSchema">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "name": "StyleShop Nordexx",
+          "url": "https://nordexx-chi.vercel.app/",
+          "description": "Boutique en ligne premium de vêtements et accessoires durables.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://nordexx-chi.vercel.app/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Brand",
+          "name": "StyleShop / Nordexx",
+          "logo": "https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv"
+        }
+      ]
     }
     </script>
 
@@ -1039,6 +1071,74 @@
         }
         body.admin-mode .admin-indicator { display: block; }
 
+        .sticky-cta {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            background: rgba(255,255,255,0.95);
+            border-top: 1px solid #d4cdc0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        }
+        .sticky-cta.active { display: flex; }
+        .sticky-cta button {
+            width: 100%;
+            max-width: 720px;
+            background: #16213e;
+            border: none;
+            color: white;
+            padding: 1rem 1.2rem;
+            border-radius: 999px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        .exit-intent-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            padding: 1rem;
+        }
+        .exit-intent-modal.active { display: flex; }
+        .exit-intent-modal .modal-inner {
+            background: white;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+        }
+        .exit-intent-modal h2 { margin-bottom: 1rem; font-size: 1.6rem; }
+        .exit-intent-modal p { color: #4b4b4b; margin-bottom: 1.2rem; line-height: 1.7; }
+        .exit-intent-modal .modal-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 1rem; }
+        .exit-intent-modal button { padding: 0.9rem 1.2rem; border-radius: 999px; border: none; font-weight: 700; cursor: pointer; }
+        .exit-intent-modal .keep-shopping { background: #f2f0eb; color: #1e1e1e; }
+        .exit-intent-modal .get-discount { background: #16213e; color: #fff; }
+        .btn-add.added,
+        .btn-add-large.added {
+            animation: addedPulse 1s ease-out;
+        }
+        @keyframes addedPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .product-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
@@ -1301,6 +1401,21 @@
     </div>
 </div>
 
+<div class="sticky-cta" id="stickyCta" aria-live="polite" role="region" aria-label="Appel à l'action mobile">
+    <button id="stickyCtaBtn" type="button"><i class="fas fa-shopping-cart" aria-hidden="true"></i> Ajouter au panier</button>
+</div>
+
+<div class="exit-intent-modal" id="exitIntentModal" role="dialog" aria-modal="true" aria-labelledby="exitIntentTitle" aria-hidden="true">
+    <div class="modal-inner">
+        <h2 id="exitIntentTitle">Attendez ! Profitez de -10% maintenant</h2>
+        <p>Avant de partir, obtenez 10% sur votre prochaine commande avec le code <strong>BIENVENUE10</strong>. Valable immédiatement.</p>
+        <div class="modal-actions">
+            <button class="get-discount" onclick="claimExitDiscount()">Je veux ma remise</button>
+            <button class="keep-shopping" onclick="closeExitIntent()">Continuer mes achats</button>
+        </div>
+    </div>
+</div>
+
 <!-- MUSIC -->
 <audio id="bgMusic1" preload="none" aria-hidden="true">
     <source src="https://n.uguu.se/sFXYtqRy.mp3" type="audio/mpeg">
@@ -1508,24 +1623,22 @@ function navigate(page, param) {
 // ============================================================
 function renderBreadcrumb(page, param) {
     const container = document.getElementById('breadcrumb');
-    let html = '<a href="/">Accueil</a>';
+    let html = '<a href="/" onclick="event.preventDefault(); navigate(\'home\');">Accueil</a>';
 
     if (page === 'category' && param) {
         const catName = document.querySelector('.category-nav a[data-cat="' + param + '"]')?.textContent || param;
-        html += ' <span class="separator">›</span> <span class="current">' + catName + '</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">' + catName + '</span>';
     } else if (page === 'product' && param) {
         const product = products.find(p => p.id === param);
         if (product) {
             const catName = document.querySelector('.category-nav a[data-cat="' + product.category + '"]')?.textContent || product.category;
-            html += ' <span class="separator">›</span> <a href="/categorie/' + product.category + '">' + catName + '</a>';
-            html += ' <span class="separator">›</span> <span class="current">' + product.name + '</span>';
+            html += ' <span class="separator">›</span> <a href="/categorie/' + product.category + '" onclick="event.preventDefault(); navigate(\'category\', \'' + product.category + '\');">' + catName + '</a>';
+            html += ' <span class="separator">›</span> <span class="current" aria-current="page">' + product.name + '</span>';
         }
     } else if (page === 'blog') {
-        html += ' <span class="separator">›</span> <span class="current">Blog</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Blog</span>';
     } else if (page === 'about') {
-        html += ' <span class="separator">›</span> <span class="current">À propos</span>';
-    } else {
-        html += ' <span class="separator">›</span> <span class="current">Accueil</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">À propos</span>';
     }
 
     container.innerHTML = html;
@@ -2126,6 +2239,15 @@ function renderCart() {
             <span>🛒 Total</span>
             <span>${finalTotal.toFixed(2)} €</span>
         </div>
+        <div class="cart-summary-benefits" style="margin-top:1rem;padding-top:1rem;border-top:1px dashed #d4cdc0;color:#5e5546;font-size:0.9rem;line-height:1.6;">
+            <strong>Avantages :</strong>
+            <ul style="margin:0.5rem 0 0 1rem;padding:0;list-style:disc;">
+                <li>Livraison offerte dès 50€</li>
+                <li>Garantie 2 ans sur tous les articles</li>
+                <li>Paiement sécurisé et 3x sans frais</li>
+                <li>Support client dédié 7j/7</li>
+            </ul>
+        </div>
     `;
 
     document.getElementById('checkoutBtn').disabled = false;
@@ -2194,6 +2316,7 @@ function showProductPage(productId) {
     updateMetaTags('product', product);
     renderBreadcrumb('product', productId);
     document.getElementById('categoryDescription').textContent = '';
+    updateStickyCta('product', productId);
 
     const detail = document.getElementById('productDetail');
     const colors = product.variants?.couleur || [];
@@ -2498,6 +2621,10 @@ function renderRelatedProducts(productId) {
 // ============================================================
 // SHARE FUNCTION
 // ============================================================
+function addCacheBuster(url) {
+    return url + (url.includes('?') ? '&' : '?') + '_=' + Date.now();
+}
+
 function sharePage(type, productId) {
     let title = '';
     let text = '';
@@ -2508,23 +2635,23 @@ function sharePage(type, productId) {
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
 
-        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
+        shareUrl = addCacheBuster(BASE_URL + getProductUrl(product));
         title = product.name + ' - ' + price + '€';
         text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
 
     } else if (type === 'blog') {
-        shareUrl = BASE_URL + '/api/og?blog=true&_=' + Date.now();
+        shareUrl = BASE_URL + '/blog';
         title = 'Blog StyleShop';
         text = '📰 *StyleShop Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
 
     } else if (type === 'about') {
-        shareUrl = BASE_URL + '/api/og?about=true&_=' + Date.now();
+        shareUrl = BASE_URL + '/a-propos';
         title = 'StyleShop / Nordexx';
         text = '🔧 *StyleShop / Nordexx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
 
     } else {
-        text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
-        shareUrl = BASE_URL;
+        shareUrl = addCacheBuster(BASE_URL);
+        text = '🛒 *StyleShop Nordexx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
     }
 
     if (navigator.share) {
@@ -2560,7 +2687,7 @@ function updateMetaTags(page, product) {
         if (colors.length > 0 && product.images[colors[0]].length > 0) {
             image = product.images[colors[0]][0];
         }
-        url = window.location.href;
+        url = BASE_URL + getProductUrl(product);
     } else if (page === 'blog') {
         title = 'Blog · StyleShop Nordexx | Conseils Mode & Tendances';
         description = 'Retrouvez tous nos conseils mode, guides des tailles et tendances de la saison sur le blog StyleShop Nordexx.';
@@ -2577,14 +2704,16 @@ function updateMetaTags(page, product) {
     }
 
     document.getElementById('metaTitle').textContent = title;
-    document.getElementById('metaDescription').textContent = description;
+    document.getElementById('metaDescription').content = description;
     document.getElementById('ogTitle').content = title;
     document.getElementById('ogDescription').content = description;
     document.getElementById('ogUrl').content = url;
     document.querySelector('meta[property="og:image"]').content = image;
+    document.getElementById('ogImageAlt').content = title + ' - image produit';
     document.getElementById('twitterTitle').content = title;
     document.getElementById('twitterDescription').content = description;
     document.querySelector('meta[name="twitter:image"]').content = image;
+    document.getElementById('twitterImageAlt').content = title + ' - image produit';
     document.getElementById('canonicalLink').href = url;
     document.title = title;
 }
@@ -2633,6 +2762,89 @@ function downloadSitemap() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     console.log('📄 Sitemap généré avec succès !');
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderTextPage(title, content) {
+    document.title = title;
+    document.getElementById('metaTitle').textContent = title;
+    document.getElementById('metaDescription').content = 'Sitemap et directives robots pour StyleShop Nordexx';
+    document.getElementById('canonicalLink').href = BASE_URL + window.location.pathname;
+    document.body.innerHTML = `
+        <div class="container" style="padding:2rem 1rem;">
+            <h1 style="font-size:2rem;margin-bottom:1rem;">${title}</h1>
+            <pre style="white-space:pre-wrap;word-break:break-word;background:#f8f6f2;border:1px solid #dbd2c2;border-radius:18px;padding:1.25rem;line-height:1.6;color:#1e1e1e;">${escapeHtml(content)}</pre>
+            <p style="margin-top:1rem;color:#7a6f5d;">Cette page est générée dynamiquement par l'application.</p>
+        </div>
+    `;
+}
+
+function renderRobotsTxtPage() {
+    const robots = `User-agent: *\nAllow: /\nSitemap: ${BASE_URL}/sitemap.xml\nHost: ${new URL(BASE_URL).hostname}`;
+    renderTextPage('robots.txt - StyleShop Nordexx', robots);
+}
+
+function renderSitemapPage() {
+    renderTextPage('sitemap.xml - StyleShop Nordexx', generateSitemap());
+}
+
+function initExitIntent() {
+    let exitIntentTriggered = false;
+    function attemptExit(e) {
+        if (exitIntentTriggered) return;
+        if (e.clientY <= 0 || e.relatedTarget === null) {
+            exitIntentTriggered = true;
+            showExitIntent();
+        }
+    }
+    document.addEventListener('mouseleave', attemptExit);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && !exitIntentTriggered) {
+            exitIntentTriggered = true;
+            showExitIntent();
+        }
+    });
+}
+
+function showExitIntent() {
+    const modal = document.getElementById('exitIntentModal');
+    if (!modal) return;
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeExitIntent() {
+    const modal = document.getElementById('exitIntentModal');
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+function claimExitDiscount() {
+    closeExitIntent();
+    const giftInput = document.getElementById('giftCodeInput');
+    if (giftInput) {
+        giftInput.value = 'BIENVENUE10';
+        applyGiftCode();
+        alert('✨ Code BIENVENUE10 appliqué automatiquement !');
+    }
+}
+
+function updateStickyCta(mode, productId) {
+    const sticky = document.getElementById('stickyCta');
+    const button = document.getElementById('stickyCtaBtn');
+    if (!sticky || !button) return;
+    if (mode === 'product' && productId) {
+        sticky.classList.add('active');
+        button.innerHTML = '<i class="fas fa-shopping-cart" aria-hidden="true"></i> Ajouter au panier';
+        button.onclick = function() { openVariantModal(productId); };
+        return;
+    }
+    sticky.classList.remove('active');
+    button.onclick = null;
 }
 
 // ============================================================
@@ -2786,7 +2998,13 @@ function handleUrlParams() {
     const category = urlParams.get('category');
     const pageParam = urlParams.get('page');
 
-    if (path.startsWith('/produit/')) {
+    if (path === '/robots.txt') {
+        renderRobotsTxtPage();
+        return;
+    } else if (path === '/sitemap.xml') {
+        renderSitemapPage();
+        return;
+    } else if (path.startsWith('/produit/')) {
         const parts = path.split('/');
         const lastPart = parts[parts.length - 1];
         const id = parseInt(lastPart.split('-').pop());
@@ -2832,15 +3050,39 @@ window.addEventListener('popstate', function(event) {
 // CONVERSION AUTOMATIQUE DES LIENS STATIQUES
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href="/blog"], a[href="/about"]').forEach(el => {
+    // Intercepter les liens internes (root-relative ou absolus vers la même origine)
+    document.querySelectorAll('a[href^="/"], a[href^="' + BASE_URL + '"]').forEach(el => {
+        if (el.target === '_blank' || el.hasAttribute('download')) return;
         el.addEventListener('click', function(e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            if (href === '/blog') {
-                navigate('blog');
-            } else if (href === '/about') {
-                navigate('about');
+            const raw = this.getAttribute('href');
+            if (!raw) return;
+            let pathname = raw;
+            try {
+                const url = new URL(raw, BASE_URL);
+                if (url.origin !== new URL(BASE_URL).origin) return; // lien externe
+                pathname = url.pathname + url.search;
+            } catch (err) {
+                // ignore malformés
             }
+            e.preventDefault();
+            if (pathname.startsWith('/produit/')) {
+                const parts = pathname.split('/');
+                const last = parts[parts.length - 1] || '';
+                const idPart = last.split('-').pop();
+                const id = parseInt(idPart);
+                if (!isNaN(id)) { navigate('product', id); return; }
+            }
+            if (pathname.startsWith('/categorie/')) {
+                const cat = pathname.split('/').pop();
+                navigate('category', cat);
+                return;
+            }
+            if (pathname === '/blog') { navigate('blog'); return; }
+            if (pathname === '/a-propos' || pathname === '/about') { navigate('about'); return; }
+            if (pathname === '/' || pathname === '') { navigate('home'); return; }
+            // fallback: pushState + re-evaluer
+            window.history.pushState({}, '', pathname);
+            handleUrlParams();
         });
     });
 
@@ -2906,7 +3148,158 @@ window.toggleMusic = toggleMusic;
 window.toggleAdmin = toggleAdmin;
 window.sharePage = sharePage;
 
-init();
+    init();
+
+    // ============================================================
+    // FAQ section + JSON-LD
+    // ============================================================
+    function renderFAQSection(faqs) {
+        if (!Array.isArray(faqs) || faqs.length === 0) return;
+        let container = document.getElementById('faq');
+        if (!container) {
+            container = document.createElement('section');
+            container.id = 'faq';
+            container.style.padding = '1.5rem';
+            const title = document.createElement('h2');
+            title.textContent = 'Foire aux questions';
+            container.appendChild(title);
+            const list = document.createElement('div');
+            list.id = 'faqList';
+            container.appendChild(list);
+            document.body.insertBefore(container, document.querySelector('footer'));
+        }
+        const list = document.getElementById('faqList');
+        list.innerHTML = '';
+        faqs.forEach((f, i) => {
+            const qa = document.createElement('div');
+            qa.className = 'faq-item';
+            const q = document.createElement('button');
+            q.className = 'faq-question';
+            q.textContent = f.question;
+            q.setAttribute('aria-expanded', 'false');
+            const a = document.createElement('div');
+            a.className = 'faq-answer';
+            a.style.display = 'none';
+            a.innerHTML = f.answer;
+            q.addEventListener('click', () => {
+                const opened = q.getAttribute('aria-expanded') === 'true';
+                q.setAttribute('aria-expanded', opened ? 'false' : 'true');
+                a.style.display = opened ? 'none' : 'block';
+            });
+            qa.appendChild(q);
+            qa.appendChild(a);
+            list.appendChild(qa);
+        });
+    }
+
+    function injectFAQJsonLd(faqs) {
+        if (!Array.isArray(faqs) || faqs.length === 0) return;
+        const faqStructured = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(f => ({
+                "@type": "Question",
+                "name": f.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": f.answer
+                }
+            }))
+        };
+        let el = document.getElementById('jsonld-faq');
+        if (!el) {
+            el = document.createElement('script');
+            el.id = 'jsonld-faq';
+            el.type = 'application/ld+json';
+            document.head.appendChild(el);
+        }
+        el.textContent = JSON.stringify(faqStructured);
+    }
+
+    // ============================================================
+    // Newsletter form + submit handler (frontend only)
+    // ============================================================
+    function renderNewsletterForm() {
+        // Place form into #newsletterSlot if present, else append to footer
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+        const slot = document.getElementById('newsletterSlot');
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.gap = '0.4rem';
+        const label = document.createElement('div');
+        label.innerHTML = '<strong>Inscris-toi à la newsletter</strong><br><small>Promos exclusives & nouveautés</small>';
+        const form = document.createElement('form');
+        form.id = 'newsletterForm';
+        form.innerHTML = '<input type="email" name="email" placeholder="ton@e-mail.com" required style="padding:0.5rem;border-radius:6px;border:1px solid #ddd;width:220px;margin-right:0.5rem;">'
+            + '<button type="submit" style="padding:0.5rem 0.8rem;border-radius:6px;background:#1e90ff;color:#fff;border:none;">S’inscrire</button>';
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = form.email.value;
+            if (!email) return;
+            fetch('/api/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            }).then(r => {
+                if (r.ok) {
+                    form.innerHTML = '<em>Merci, vérifie ta boîte mail !</em>';
+                } else {
+                    form.innerHTML = '<em>Erreur, réessaie plus tard.</em>';
+                }
+            }).catch(() => { form.innerHTML = '<em>Erreur réseau.</em>'; });
+        });
+        wrapper.appendChild(label);
+        wrapper.appendChild(form);
+        if (slot) slot.appendChild(wrapper); else footer.appendChild(wrapper);
+    }
+
+    // ============================================================
+    // Sticky CTA A/B variant simple test
+    // ============================================================
+    function setupStickyCtaVariant() {
+        const variant = localStorage.getItem('stickyCtaVariant') || (Math.random() < 0.5 ? 'A' : 'B');
+        localStorage.setItem('stickyCtaVariant', variant);
+        const cta = document.getElementById('stickyCta');
+        if (!cta) return;
+        if (variant === 'A') {
+            cta.style.background = '#ff6b6b';
+            cta.textContent = 'Voir nos meilleures ventes';
+        } else {
+            cta.style.background = '#1e90ff';
+            cta.textContent = 'Découvrez les nouveautés';
+        }
+    }
+
+    // ============================================================
+    // Trust badges rendering
+    // ============================================================
+    function renderTrustBadges() {
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+        const badges = document.createElement('div');
+        badges.style.display = 'flex';
+        badges.style.gap = '0.6rem';
+        badges.style.alignItems = 'center';
+        badges.innerHTML = '<img alt="Livraison" src="/assets/truck.svg" style="height:28px">'
+            + '<img alt="Paiement sécurisé" src="/assets/secure.svg" style="height:28px">'
+            + '<img alt="SAV 2 ans" src="/assets/warranty.svg" style="height:28px">';
+        footer.insertBefore(badges, footer.firstChild);
+    }
+
+    // Small init for the new features
+    try {
+        const sampleFaqs = [
+            { question: 'Quel est le délai de livraison ?', answer: 'Le délai moyen est de 2-5 jours ouvrés.' },
+            { question: 'Comment effectuer un retour ?', answer: 'Contacte-nous et tu recevras une étiquette de retour gratuite.' }
+        ];
+        renderFAQSection(sampleFaqs);
+        injectFAQJsonLd(sampleFaqs);
+        renderNewsletterForm();
+        renderTrustBadges();
+        setupStickyCtaVariant();
+    } catch (err) { console.warn('Init extras failed', err); }
 </script>
 
 <!-- ✅ FOOTER CORRIGÉ (plus d'incohérence) -->
