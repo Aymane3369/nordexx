@@ -10,13 +10,13 @@
     <meta name="color-scheme" content="light only" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content="Nordluxx" />
-    <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, expédition 24h" />
+    <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, livraison 24h" />
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="VOTRE_CODE_ICI" />
 
-    <title id="metaTitle">Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h</title>
-    <meta name="description" id="metaDescription" content="Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Hoodies, T-shirts bio, montres connectées. Garantie 2 ans & expédition sous 24h." />
+    <title id="metaTitle">Nordluxx · Vêtements Premium & Accessoires Connectés | Livraison 24h</title>
+    <meta name="description" id="metaDescription" content="Nordluxx réunit qualité premium, confort absolu et style intemporel avec des hoodies bio, t-shirts premium et accessoires connectés. Livraison 24h, garantie 2 ans." />
     <link rel="canonical" id="canonicalLink" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="fr" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="x-default" href="https://nordluxx.fr/" />
@@ -547,34 +547,22 @@
             flex-wrap: wrap;
         }
         .product-card .stats i { margin-right: 2px; }
-        .product-card .card-actions {
-            display: flex;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-            margin-top: 0.45rem;
-        }
-        .product-card .card-actions .btn-add,
-        .product-card .card-actions .share-btn-sm {
-            flex: 1 1 0;
-            min-width: 0;
-        }
         .product-card .btn-add {
-            background: linear-gradient(135deg, #1e1e1e 0%, #343434 100%);
+            background: #1e1e1e;
             border: none;
             color: white;
-            font-weight: 700;
-            padding: 0.55rem 0.7rem;
-            border-radius: 999px;
+            font-weight: 600;
+            padding: 0.5rem;
+            border-radius: 60px;
             margin-top: 0.6rem;
             cursor: pointer;
             font-size: 0.8rem;
             width: 100%;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+            transition: background 0.2s, transform 0.1s;
             min-height: 44px;
-            box-shadow: 0 8px 18px rgba(30, 30, 30, 0.16);
         }
-        .product-card .btn-add:hover { background: linear-gradient(135deg, #3f3a32 0%, #534c41 100%); transform: translateY(-1px); }
-        .product-card .btn-add.added { background: linear-gradient(135deg, #2d7a4a 0%, #3b8f57 100%); }
+        .product-card .btn-add:hover { background: #3f3a32; transform: scale(1.02); }
+        .product-card .btn-add.added { background: #2d7a4a; }
 
         .stock-urgency {
             font-size: 0.75rem;
@@ -588,24 +576,22 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .share-btn-sm {
-            background: #f8f6f2;
-            color: #1e1e1e;
-            border: 1px solid #e4ddd4;
-            padding: 0.35rem 0.75rem;
-            border-radius: 999px;
+            background: #1e1e1e;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.72rem;
+            font-weight: 600;
+            font-size: 0.7rem;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+            transition: 0.2s;
             text-decoration: none;
-            min-height: 40px;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(17, 24, 39, 0.04);
+            min-height: 44px;
         }
-        .share-btn-sm:hover { background: #f0ebe4; transform: translateY(-1px); }
+        .share-btn-sm:hover { background: #3f3a32; }
         .share-btn-sm i { font-size: 0.8rem; }
 
         /* ===== PAGE CONTENT ===== */
@@ -690,51 +676,22 @@
             background: linear-gradient(135deg, #1e1e1e 0%, #3a3a3a 100%);
             color: white;
             border: none;
-            padding: 0.8rem 1.25rem;
-            border-radius: 999px;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1rem;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            gap: 12px;
+            transition: all 0.2s;
             text-decoration: none;
+            width: 100%;
             justify-content: center;
-            min-height: 50px;
-            max-width: 260px;
-            box-shadow: 0 10px 24px rgba(17, 24, 39, 0.12);
+            min-height: 56px;
         }
-        .share-btn-large:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,0.16); }
-        .share-btn-large i { font-size: 1.05rem; }
-
-        .toast-container {
-            position: fixed;
-            right: 16px;
-            bottom: 88px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            pointer-events: none;
-        }
-        .toast {
-            background: rgba(17, 24, 39, 0.95);
-            color: white;
-            padding: 0.8rem 1rem;
-            border-radius: 999px;
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
-            font-size: 0.9rem;
-            font-weight: 600;
-            min-width: 220px;
-            text-align: center;
-            animation: toastIn 0.25s ease;
-            pointer-events: auto;
-        }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .share-btn-large:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .share-btn-large i { font-size: 1.2rem; }
 
         /* ===== CART OVERLAY ===== */
         .cart-overlay {
@@ -1331,7 +1288,7 @@
     <section class="hero-section" aria-label="Présentation Nordluxx">
         <div class="hero-layout">
             <div class="hero-copy">
-                <p class="eyebrow">Mode premium · Expédition sous 24h</p>
+                <p class="eyebrow">Mode premium · Livraison en 24h</p>
                 <h1>Collection <span>Premium 2026</span></h1>
                 <p>Découvrez l'alliance unique de l'ingénierie et de la mode. Hoodies coton bio, t-shirts premium et accessoires connectés, conçus pour allier confort, qualité et élégance. <strong>Garantie 2 ans</strong> et <strong>livraison offerte</strong> dès 50€.</p>
                 <div class="hero-actions">
@@ -1340,7 +1297,7 @@
                 </div>
                 <div class="hero-badges">
                     <span><i class="fas fa-star" style="color:#f5b342;"></i> 4.8/5 (120 avis)</span>
-                    <span><i class="fas fa-truck"></i> Expédition sous 24h</span>
+                    <span><i class="fas fa-truck"></i> Livraison 24h</span>
                     <span><i class="fas fa-shield-alt"></i> Garantie 2 ans</span>
                     <span><i class="fas fa-credit-card"></i> Paiement sécurisé</span>
                     <span><i class="fas fa-users"></i> +1000 clients satisfaits</span>
@@ -1496,7 +1453,7 @@
         
         <div class="faq-item">
             <h3>📦 Quels sont les délais de livraison ?</h3>
-            <p>Nos colis sont expédiés sous <strong>24h</strong> (hors week-end et jours fériés). La livraison est assurée en <strong>9 à 15 jours ouvrés</strong> en France métropolitaine. Livraison offerte dès 50€ d'achat.</p>
+            <p>Nos colis sont expédiés sous <strong>24h</strong> (hors week-end et jours fériés). La livraison est assurée en <strong>2 à 3 jours ouvrés</strong> en France métropolitaine. Livraison offerte dès 50€ d'achat.</p>
         </div>
         
         <div class="faq-item">
@@ -1516,7 +1473,7 @@
         
         <div class="faq-item">
             <h3>🌱 Vos produits sont-ils éco-responsables ?</h3>
-            <p>Oui ! Nous utilisons du <strong>coton certifié GOTS</strong>, de la <strong>laine mérinos éthique</strong> et des matériaux durables pour nos accessoires. Nous nous engageons pour une mode plus responsable.</p>
+            <p>Oui ! Nous utilisons du <strong>coton bio certifié GOTS</strong>, de la <strong>laine mérinos éthique</strong> et des matériaux durables pour nos accessoires. Nous nous engageons pour une mode plus responsable.</p>
         </div>
     </div>
 
@@ -1529,7 +1486,7 @@
         
         <h3>Conditions de retour</h3>
         <ul>
-            <li>Les articles doivent être <strong>non portés, non lavés</strong> , dans leur emballages, et dans leur état d'origine.</li>
+            <li>Les articles doivent être <strong>non portés, non lavés</strong> et dans leur état d'origine.</li>
             <li>Les étiquettes et emballages d'origine doivent être intacts.</li>
             <li>Les articles <strong>personnalisés</strong> ne sont pas repris.</li>
             <li>Les frais de retour sont à la charge du client, sauf en cas de <strong>produit défectueux</strong> ou d'<strong>erreur de notre part</strong>.</li>
@@ -1552,7 +1509,7 @@
         <div style="margin-top:1.5rem;padding:1.5rem;background:#e8f0fe;border-radius:16px;border-left:4px solid #0f3460;">
             <p><strong>📧 Service client :</strong> contact@nordluxx.fr</p>
             <p><strong>📞 Téléphone :</strong> 01 23 45 67 89 (du lundi au vendredi, 9h-18h)</p>
-            <p><strong>📍 Adresse de retour :</strong> Des instructions peuvent vous être données lors du processus de retour.</p>
+            <p><strong>📍 Adresse de retour :</strong> Nordluxx, 123 Avenue de la Mode, 75001 Paris</p>
         </div>
     </div>
 
@@ -2009,7 +1966,7 @@ function renderCatalog() {
                     <span><i class="fas fa-shopping-bag" aria-hidden="true"></i> ${p.sold} vendus</span>
                     <span><i class="fas fa-eye" aria-hidden="true"></i> ${p.sold + 12} vues</span>
                 </div>
-                <div class="card-actions">
+                <div style="display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:0.2rem;">
                     <button class="${btnClass}" data-id="${p.id}">${btnText}</button>
                     <button class="share-btn-sm" onclick="event.stopPropagation(); sharePage('product', ${p.id})" aria-label="Partager">
                         <i class="fa-solid fa-share-nodes"></i> Partager
@@ -2887,18 +2844,6 @@ function renderRelatedProducts(productId) {
 // ============================================================
 // SHARE FUNCTION
 // ============================================================
-function showToast(message) {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.remove();
-    }, 2200);
-}
-
 function sharePage(type, productId) {
     let title = '';
     let text = '';
@@ -2908,35 +2853,34 @@ function sharePage(type, productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-        shareUrl = BASE_URL + getProductUrl(product);
+
+        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
         title = product.name + ' - ' + price + '€';
-        text = '🛒 ' + product.name + '\n💰 ' + price + ' €\n✨ Qualité premium et livraison rapide.\n\n🔗 ' + shareUrl;
+        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
 
     } else if (type === 'blog') {
-        shareUrl = BASE_URL + '/blog';
+        shareUrl = BASE_URL + '/api/og?blog=true&_=' + Date.now();
         title = 'Blog Nordluxx';
-        text = '📰 Nordluxx Blog\nDécouvrez nos articles sur la mode et les tendances.\n\n🔗 ' + shareUrl;
+        text = '📰 *Nordluxx Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
 
     } else if (type === 'about') {
-        shareUrl = BASE_URL + '/a-propos';
+        shareUrl = BASE_URL + '/api/og?about=true&_=' + Date.now();
         title = 'Nordluxx';
-        text = '🔧 Nordluxx\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
+        text = '🔧 *Nordluxx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
 
     } else {
+        text = '🛒 *Nordluxx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
         shareUrl = BASE_URL;
-        text = '🛒 Nordluxx\nVêtements & accessoires premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
     }
 
     if (navigator.share) {
-        navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {
-            showToast('Partage ouvert');
-        });
+        navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {});
         return;
     }
 
     if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {
-            showToast('Lien copié avec succès');
+            alert('📋 Lien copié dans le presse-papier !');
         }).catch(() => fallbackShare(text));
     } else {
         fallbackShare(text);
@@ -2950,7 +2894,7 @@ function fallbackShare(text) {
     textarea.select();
     try {
         document.execCommand('copy');
-        showToast('Lien copié avec succès');
+        alert('📋 Lien copié dans le presse-papier !');
     } catch (e) {
         prompt('📋 Copiez ce lien :', text);
     }
