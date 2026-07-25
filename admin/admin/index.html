@@ -116,6 +116,8 @@
             padding: 0.1rem 0.6rem;
             border-radius: 20px;
             font-weight: 700;
+            min-width: 20px;
+            text-align: center;
         }
 
         .sidebar-footer {
@@ -179,6 +181,7 @@
             display: flex;
             gap: 0.8rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .topbar-actions .date-display {
@@ -196,6 +199,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.85rem;
         }
 
         .btn-primary {
@@ -232,6 +236,11 @@
         .btn-outline:hover {
             background: var(--gray-light);
             color: #1e1e1e;
+        }
+        .btn-sm {
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+            border-radius: 20px;
         }
 
         /* ===== STATS CARDS ===== */
@@ -318,6 +327,8 @@
             margin-bottom: 1rem;
             padding-bottom: 0.8rem;
             border-bottom: 1px solid var(--gray-light);
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .card-header h3 {
@@ -377,6 +388,8 @@
         .status-badge.shipped { background: #d1fae5; color: #065f46; }
         .status-badge.delivered { background: #d1fae5; color: #065f46; }
         .status-badge.cancelled { background: #fce4e1; color: #b33a2e; }
+        .status-badge.active { background: #d1fae5; color: #065f46; }
+        .status-badge.inactive { background: #fce4e1; color: #b33a2e; }
 
         .status-select {
             padding: 0.2rem 0.5rem;
@@ -646,6 +659,11 @@
             .topbar h1 small {
                 display: none;
             }
+
+            .topbar-actions .btn {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.75rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -744,6 +762,120 @@
             margin-bottom: 0.5rem;
             display: block;
         }
+
+        /* ===== NOTIFICATION PANEL ===== */
+        #notificationPanel {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: 400px;
+            max-height: 500px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            padding: 1.2rem;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            #notificationPanel {
+                width: calc(100vw - 40px);
+                right: 20px;
+                top: 60px;
+            }
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f0ebe4;
+        }
+
+        .notification-item.unread {
+            background: #f0f7ff;
+            padding-left: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== PROMO CODE LIST ===== */
+        .promo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0ebe4;
+        }
+
+        .promo-item:last-child {
+            border-bottom: none;
+        }
+
+        .promo-item .promo-info {
+            flex: 1;
+        }
+
+        .promo-item .promo-code {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .promo-item .promo-code.active {
+            color: var(--success);
+        }
+
+        .promo-item .promo-code.inactive {
+            color: var(--danger);
+        }
+
+        .promo-item .promo-meta {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .promo-item .promo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .promo-item .promo-actions button {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+
+        .promo-item .promo-actions .btn-toggle {
+            background: #fcf1d6;
+            color: #a67c2e;
+        }
+
+        .promo-item .promo-actions .btn-toggle.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .promo-item .promo-actions .btn-toggle:hover {
+            opacity: 0.8;
+        }
+
+        .promo-item .promo-actions .btn-delete {
+            background: #fce4e1;
+            color: var(--danger);
+        }
+
+        .promo-item .promo-actions .btn-delete:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -776,6 +908,10 @@
                 <i class="fas fa-star"></i> Avis
                 <span class="badge" id="reviewCountBadge">0</span>
             </a>
+            <a href="#" data-page="promotions">
+                <i class="fas fa-ticket-alt"></i> Promotions
+                <span class="badge" id="promoCountBadge">0</span>
+            </a>
             <a href="#" data-page="settings">
                 <i class="fas fa-cog"></i> Paramètres
             </a>
@@ -806,6 +942,13 @@
             </div>
             <div class="topbar-actions">
                 <span class="date-display" id="dateDisplay"></span>
+                <button class="btn btn-outline" onclick="toggleNotificationPanel()" style="position:relative;">
+                    <i class="fas fa-bell"></i>
+                    <span id="notificationBadge" style="position:absolute;top:-5px;right:-5px;background:var(--danger);color:white;font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:50%;display:none;min-width:18px;text-align:center;">0</span>
+                </button>
+                <button class="btn btn-success" onclick="simulateNewOrder()" style="font-size:0.8rem;">
+                    <i class="fas fa-plus"></i> Simuler commande
+                </button>
                 <button class="btn btn-primary" onclick="refreshData()">
                     <i class="fas fa-sync-alt"></i> Actualiser
                 </button>
@@ -938,7 +1081,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3>📦 Commandes</h3>
-                    <div style="display:flex;gap:0.5rem;">
+                    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
                         <select id="orderFilter" onchange="filterOrders()" style="padding:0.4rem 1rem;border-radius:30px;border:1px solid var(--gray-light);font-size:0.85rem;">
                             <option value="all">Tous les statuts</option>
                             <option value="pending">En attente</option>
@@ -1023,6 +1166,48 @@
             </div>
         </div>
 
+        <!-- ===== PAGE: PROMOTIONS ===== -->
+        <div id="page-promotions" style="display:none;">
+            <div class="card">
+                <div class="card-header">
+                    <h3>🎫 Gestion des codes promo</h3>
+                    <button class="btn btn-success" onclick="openPromoModal()">
+                        <i class="fas fa-plus"></i> Ajouter un code
+                    </button>
+                </div>
+                <div id="promoCodeList">
+                    <div class="empty-state">
+                        <i class="fas fa-ticket"></i>
+                        <p>Aucun code promo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:1.5rem;">
+                <div class="card-header">
+                    <h3>📊 Statistiques des promotions</h3>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;">
+                    <div style="background:#f8f6f2;padding:1rem;border-radius:12px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--gray);">Total codes</div>
+                        <div style="font-size:1.5rem;font-weight:700;" id="promoTotal">0</div>
+                    </div>
+                    <div style="background:#f8f6f2;padding:1rem;border-radius:12px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--gray);">Codes actifs</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:#2d7a4a;" id="promoActive">0</div>
+                    </div>
+                    <div style="background:#f8f6f2;padding:1rem;border-radius:12px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--gray);">Total utilisations</div>
+                        <div style="font-size:1.5rem;font-weight:700;" id="promoUsage">0</div>
+                    </div>
+                    <div style="background:#f8f6f2;padding:1rem;border-radius:12px;text-align:center;">
+                        <div style="font-size:0.7rem;color:var(--gray);">Taux utilisation</div>
+                        <div style="font-size:1.5rem;font-weight:700;" id="promoRate">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- ===== PAGE: SETTINGS ===== -->
         <div id="page-settings" style="display:none;">
             <div class="card">
@@ -1063,6 +1248,23 @@
 
     </main>
 
+    <!-- ===== NOTIFICATION PANEL ===== -->
+    <div id="notificationPanel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+            <h4 style="font-size:1rem;">🔔 Notifications</h4>
+            <div style="display:flex;gap:0.5rem;">
+                <button onclick="markAllNotificationsRead()" style="padding:0.2rem 0.8rem;border-radius:20px;border:none;background:#e8e2d6;font-size:0.7rem;cursor:pointer;">Tout lire</button>
+                <button onclick="document.getElementById('notificationPanel').style.display='none'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;">×</button>
+            </div>
+        </div>
+        <div id="notificationList">
+            <div class="empty-state">
+                <i class="fas fa-bell"></i>
+                <p>Aucune notification</p>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
@@ -1081,7 +1283,7 @@
 
     <script>
         // ============================================================
-        // ADMIN DASHBOARD - COMPLET
+        // ADMIN DASHBOARD - COMPLET AVEC TOUTES LES FONCTIONNALITÉS
         // ============================================================
 
         // ============================================================
@@ -1128,6 +1330,26 @@
         };
 
         // ============================================================
+        // PROMO CODES
+        // ============================================================
+        let promoCodeData = {
+            codes: [
+                { code: "BIENVENUE10", discount: 10, type: "percent", expires: "2026-12-31", usage: 45, maxUses: 100,
+                    active: true },
+                { code: "JOYEUX2026", discount: 10, type: "fixed", expires: "2027-01-01", usage: 12, maxUses: 50,
+                    active: true },
+                { code: "PROMO5", discount: 5, type: "fixed", expires: "2026-09-30", usage: 8, maxUses: 30, active: true },
+                { code: "STYLE10", discount: 10, type: "fixed", expires: "2026-08-15", usage: 3, maxUses: 20, active: true }
+            ]
+        };
+
+        // ============================================================
+        // NOTIFICATIONS
+        // ============================================================
+        let notifications = [];
+        let unreadCount = 0;
+
+        // ============================================================
         // RENDER FUNCTIONS
         // ============================================================
 
@@ -1148,7 +1370,8 @@
             const recent = adminData.orders.slice(0, 5);
 
             if (recent.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:1.5rem;"><i class="fas fa-inbox" style="display:block;font-size:1.5rem;margin-bottom:0.3rem;"></i>Aucune commande récente</td></tr>`;
+                tbody.innerHTML =
+                    `<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:1.5rem;"><i class="fas fa-inbox" style="display:block;font-size:1.5rem;margin-bottom:0.3rem;"></i>Aucune commande récente</td></tr>`;
                 return;
             }
 
@@ -1213,7 +1436,8 @@
         function renderProducts() {
             const tbody = document.getElementById('productList');
             if (adminData.products.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-box-open" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucun produit</td></tr>`;
+                tbody.innerHTML =
+                    `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-box-open" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucun produit</td></tr>`;
                 return;
             }
 
@@ -1238,7 +1462,8 @@
             const filtered = filter === 'all' ? adminData.orders : adminData.orders.filter(o => o.status === filter);
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-inbox" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucune commande</td></tr>`;
+                tbody.innerHTML =
+                    `<tr><td colspan="6" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-inbox" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucune commande</td></tr>`;
                 return;
             }
 
@@ -1259,6 +1484,7 @@
                     </td>
                     <td>
                         <button class="btn btn-sm" onclick="viewOrder('${order.id}')" style="padding:0.2rem 0.8rem;font-size:0.7rem;border-radius:20px;border:none;background:var(--primary);color:white;cursor:pointer;">Détails</button>
+                        <button class="btn btn-sm" onclick="deleteOrder('${order.id}')" style="padding:0.2rem 0.8rem;font-size:0.7rem;border-radius:20px;border:none;background:#fce4e1;color:var(--danger);cursor:pointer;"><i class="fas fa-trash"></i></button>
                     </td>
                 </tr>
             `).join('');
@@ -1267,7 +1493,8 @@
         function renderUsers() {
             const tbody = document.getElementById('userList');
             if (adminData.users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-users" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucun utilisateur</td></tr>`;
+                tbody.innerHTML =
+                    `<tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem;"><i class="fas fa-users" style="display:block;font-size:2rem;margin-bottom:0.5rem;"></i>Aucun utilisateur</td></tr>`;
                 return;
             }
 
@@ -1314,6 +1541,289 @@
         }
 
         // ============================================================
+        // PROMO CODES FUNCTIONS
+        // ============================================================
+
+        function renderPromoCodes() {
+            const container = document.getElementById('promoCodeList');
+            if (!container) return;
+
+            if (promoCodeData.codes.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-ticket"></i><p>Aucun code promo</p></div>`;
+                return;
+            }
+
+            document.getElementById('promoTotal').textContent = promoCodeData.codes.length;
+            document.getElementById('promoActive').textContent = promoCodeData.codes.filter(p => p.active && new Date(p
+                .expires) > new Date()).length;
+            document.getElementById('promoUsage').textContent = promoCodeData.codes.reduce((sum, p) => sum + p.usage, 0);
+            const rate = promoCodeData.codes.length > 0 ? Math.round(promoCodeData.codes.reduce((sum, p) => sum + (p.usage / p
+                .maxUses), 0) / promoCodeData.codes.length * 100) : 0;
+            document.getElementById('promoRate').textContent = rate + '%';
+            document.getElementById('promoCountBadge').textContent = promoCodeData.codes.length;
+
+            container.innerHTML = promoCodeData.codes.map((p, index) => {
+                const isExpired = new Date(p.expires) < new Date();
+                const isActive = p.active && !isExpired;
+                return `
+                    <div class="promo-item">
+                        <div class="promo-info">
+                            <div style="display:flex;align-items:center;gap:0.8rem;">
+                                <span class="promo-code ${isActive ? 'active' : 'inactive'}">${p.code}</span>
+                                <span class="status-badge ${isActive ? 'active' : 'inactive'}">${isActive ? '✅ Actif' : '❌ Inactif'}</span>
+                                <span style="font-size:0.75rem;color:var(--gray);">${p.type === 'percent' ? p.discount + '%' : p.discount + '€'}</span>
+                            </div>
+                            <div class="promo-meta">
+                                Utilisé: ${p.usage}/${p.maxUses} · Expire: ${new Date(p.expires).toLocaleDateString('fr-FR')}
+                            </div>
+                        </div>
+                        <div class="promo-actions">
+                            <button class="btn-toggle ${isActive ? 'active' : ''}" onclick="togglePromoCode(${index})">
+                                ${isActive ? '⏸️ Désactiver' : '▶️ Activer'}
+                            </button>
+                            <button class="btn-delete" onclick="deletePromoCode(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openPromoModal() {
+            document.getElementById('modalTitle').textContent = 'Ajouter un code promo';
+            document.getElementById('modalBody').innerHTML = `
+                <form onsubmit="savePromoCode(event)">
+                    <div class="form-group">
+                        <label>Code promo *</label>
+                        <input type="text" id="promoCodeInput" placeholder="ex: NOEL2026" required style="text-transform:uppercase;" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Type de réduction</label>
+                            <select id="promoType">
+                                <option value="percent">Pourcentage (%)</option>
+                                <option value="fixed">Montant fixe (€)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Valeur *</label>
+                            <input type="number" id="promoValue" placeholder="10" required min="1" step="0.01" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date d'expiration *</label>
+                            <input type="date" id="promoExpires" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Utilisations max</label>
+                            <input type="number" id="promoMaxUses" placeholder="100" value="100" min="1" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Annuler</button>
+                        <button type="submit" class="btn-save">💾 Ajouter</button>
+                    </div>
+                </form>
+            `;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function savePromoCode(event) {
+            event.preventDefault();
+            const code = document.getElementById('promoCodeInput').value.toUpperCase().trim();
+            const type = document.getElementById('promoType').value;
+            const value = parseFloat(document.getElementById('promoValue').value);
+            const expires = document.getElementById('promoExpires').value;
+            const maxUses = parseInt(document.getElementById('promoMaxUses').value) || 100;
+
+            if (!code || !value || !expires) {
+                showToast('⚠️ Veuillez remplir tous les champs', 'warning');
+                return;
+            }
+
+            if (promoCodeData.codes.some(p => p.code === code)) {
+                showToast('❌ Ce code promo existe déjà', 'error');
+                return;
+            }
+
+            promoCodeData.codes.push({
+                code: code,
+                discount: value,
+                type: type,
+                expires: expires,
+                usage: 0,
+                maxUses: maxUses,
+                active: true
+            });
+
+            closeModal();
+            renderPromoCodes();
+            showToast('✅ Code promo ajouté avec succès', 'success');
+        }
+
+        function deletePromoCode(index) {
+            if (confirm(`❌ Supprimer le code promo ${promoCodeData.codes[index].code} ?`)) {
+                promoCodeData.codes.splice(index, 1);
+                renderPromoCodes();
+                showToast('🗑️ Code promo supprimé', 'warning');
+            }
+        }
+
+        function togglePromoCode(index) {
+            promoCodeData.codes[index].active = !promoCodeData.codes[index].active;
+            renderPromoCodes();
+            showToast(`✅ Code ${promoCodeData.codes[index].active ? 'activé' : 'désactivé'}`, 'success');
+        }
+
+        // ============================================================
+        // NOTIFICATIONS FUNCTIONS
+        // ============================================================
+
+        function addOrderNotification(order) {
+            const notification = {
+                id: Date.now(),
+                orderId: order.id,
+                client: order.client,
+                total: order.total,
+                status: order.status,
+                message: `📦 Nouvelle commande #${order.id} de ${order.client} (${order.total.toFixed(2)} €)`,
+                read: false,
+                timestamp: new Date().toISOString()
+            };
+            notifications.unshift(notification);
+            unreadCount++;
+            updateNotificationBadge();
+            showToast(notification.message, 'info');
+            renderNotifications();
+        }
+
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notificationBadge');
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById('notificationList');
+            if (!container) return;
+
+            if (notifications.length === 0) {
+                container.innerHTML =
+                `<div class="empty-state"><i class="fas fa-bell"></i><p>Aucune notification</p></div>`;
+                return;
+            }
+
+            container.innerHTML = notifications.map(n => `
+                <div class="notification-item ${!n.read ? 'unread' : ''}">
+                    <span style="font-size:1.2rem;">${!n.read ? '🔵' : '📨'}</span>
+                    <div style="flex:1;">
+                        <div style="font-size:0.9rem;">${n.message}</div>
+                        <div style="font-size:0.7rem;color:var(--gray);">
+                            ${new Date(n.timestamp).toLocaleString('fr-FR')} 
+                            <span class="status-badge ${n.status}">${getStatusLabel(n.status)}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:0.3rem;">
+                        ${!n.read ? `<button onclick="markNotificationRead(${n.id})" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;" title="Marquer comme lu">✔️</button>` : ''}
+                        <button onclick="deleteNotification(${n.id})" style="background:none;border:none;color:var(--danger);cursor:pointer;" title="Supprimer"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function markNotificationRead(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification && !notification.read) {
+                notification.read = true;
+                unreadCount--;
+                updateNotificationBadge();
+                renderNotifications();
+            }
+        }
+
+        function deleteNotification(id) {
+            notifications = notifications.filter(n => n.id !== id);
+            renderNotifications();
+        }
+
+        function markAllNotificationsRead() {
+            notifications.forEach(n => n.read = true);
+            unreadCount = 0;
+            updateNotificationBadge();
+            renderNotifications();
+            showToast('✅ Toutes les notifications marquées comme lues', 'success');
+        }
+
+        function toggleNotificationPanel() {
+            const panel = document.getElementById('notificationPanel');
+            if (panel) {
+                panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                if (panel.style.display === 'block') {
+                    renderNotifications();
+                }
+            }
+        }
+
+        function simulateNewOrder() {
+            const clients = ['Lucas M.', 'Emma D.', 'Hugo R.', 'Chloé P.', 'Maxime L.', 'Julie C.'];
+            const randomClient = clients[Math.floor(Math.random() * clients.length)];
+            const randomTotal = (Math.random() * 150 + 20);
+            const statuses = ['pending', 'processing', 'shipped'];
+            const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            const orderId = `ORD-${String(adminData.orders.length + 1).padStart(3, '0')}`;
+
+            const newOrder = {
+                id: orderId,
+                client: randomClient,
+                date: new Date().toISOString(),
+                total: parseFloat(randomTotal.toFixed(2)),
+                status: randomStatus
+            };
+
+            adminData.orders.unshift(newOrder);
+            addOrderNotification(newOrder);
+            renderOrders();
+            renderRecentOrders();
+            renderStats();
+            showToast(`🆕 Nouvelle commande simulée #${orderId}`, 'success');
+        }
+
+        // ============================================================
+        // ORDER DELETE
+        // ============================================================
+
+        function deleteOrder(orderId) {
+            const order = adminData.orders.find(o => o.id === orderId);
+            if (!order) return;
+
+            if (confirm(`❌ Êtes-vous sûr de vouloir supprimer la commande ${orderId} de ${order.client} ?\nCette action est irréversible.`)) {
+                adminData.orders = adminData.orders.filter(o => o.id !== orderId);
+                notifications.unshift({
+                    id: Date.now(),
+                    orderId: orderId,
+                    client: order.client,
+                    total: order.total,
+                    status: 'cancelled',
+                    message: `🗑️ Commande #${orderId} de ${order.client} supprimée`,
+                    read: false,
+                    timestamp: new Date().toISOString()
+                });
+                unreadCount++;
+                updateNotificationBadge();
+                renderOrders();
+                renderRecentOrders();
+                renderStats();
+                renderNotifications();
+                showToast(`🗑️ Commande ${orderId} supprimée`, 'warning');
+            }
+        }
+
+        // ============================================================
         // UTILITY FUNCTIONS
         // ============================================================
 
@@ -1326,17 +1836,6 @@
                 cancelled: 'Annulée'
             };
             return labels[status] || status;
-        }
-
-        function getStatusColor(status) {
-            const colors = {
-                pending: '#fcf1d6',
-                processing: '#dbeafe',
-                shipped: '#d1fae5',
-                delivered: '#d1fae5',
-                cancelled: '#fce4e1'
-            };
-            return colors[status] || '#f0ebe4';
         }
 
         // ============================================================
@@ -1359,6 +1858,7 @@
                 orders: ['Commandes', 'Gérer les commandes'],
                 users: ['Utilisateurs', 'Gérer les utilisateurs'],
                 reviews: ['Avis clients', 'Modérer les avis'],
+                promotions: ['Promotions', 'Gérer les codes promo'],
                 settings: ['Paramètres', 'Configurer le site']
             };
 
@@ -1371,6 +1871,7 @@
             if (page === 'orders') renderOrders();
             if (page === 'users') renderUsers();
             if (page === 'reviews') renderReviews();
+            if (page === 'promotions') renderPromoCodes();
 
             // Fermer le sidebar sur mobile
             if (window.innerWidth <= 768) {
@@ -1509,14 +2010,12 @@
             };
 
             if (id) {
-                // Modifier
                 const index = adminData.products.findIndex(p => p.id === id);
                 if (index !== -1) {
                     adminData.products[index] = { ...adminData.products[index], ...data };
                     showToast('✅ Produit modifié avec succès', 'success');
                 }
             } else {
-                // Ajouter
                 const newId = Math.max(...adminData.products.map(p => p.id), 0) + 1;
                 adminData.products.push({ id: newId, ...data });
                 showToast('✅ Produit ajouté avec succès', 'success');
@@ -1667,6 +2166,7 @@
             if (currentPage === 'orders') renderOrders();
             if (currentPage === 'users') renderUsers();
             if (currentPage === 'reviews') renderReviews();
+            if (currentPage === 'promotions') renderPromoCodes();
         }
 
         // ============================================================
@@ -1695,17 +2195,16 @@
         }
 
         // ============================================================
-        // SIMPLE AUTH (BASIQUE)
+        // AUTH CHECK
         // ============================================================
 
         function checkAuth() {
-            // Pour la démo, on accepte tout le monde
-            // En production, vérifier un token JWT ou session
+            // Pour la démo - en production, vérifier un token JWT
             return true;
         }
 
         // ============================================================
-        // URL PARAMS (navigation)
+        // URL PARAMS
         // ============================================================
 
         function handleUrlParams() {
@@ -1720,7 +2219,6 @@
 
         function init() {
             if (!checkAuth()) {
-                // Rediriger vers login (à implémenter)
                 window.location.href = '/admin/login';
                 return;
             }
@@ -1735,14 +2233,15 @@
             renderOrders();
             renderUsers();
             renderReviews();
+            renderPromoCodes();
 
-            // Rafraîchir toutes les 60 secondes
             setInterval(refreshData, 60000);
 
-            console.log('🚀 Admin Dashboard Nordluxx v2.0');
+            console.log('🚀 Admin Dashboard Nordluxx v2.0 - Toutes les fonctionnalités');
             console.log('📊 ' + adminData.products.length + ' produits');
             console.log('📦 ' + adminData.orders.length + ' commandes');
             console.log('👥 ' + adminData.users.length + ' utilisateurs');
+            console.log('🎫 ' + promoCodeData.codes.length + ' codes promo');
         }
 
         // ============================================================
@@ -1761,17 +2260,28 @@
         window.deleteUser = deleteUser;
         window.updateOrderStatus = updateOrderStatus;
         window.viewOrder = viewOrder;
+        window.deleteOrder = deleteOrder;
         window.deleteReview = deleteReview;
         window.filterOrders = filterOrders;
         window.saveSettings = saveSettings;
         window.showToast = showToast;
         window.refreshData = refreshData;
         window.logout = logout;
+        window.openPromoModal = openPromoModal;
+        window.savePromoCode = savePromoCode;
+        window.deletePromoCode = deletePromoCode;
+        window.togglePromoCode = togglePromoCode;
+        window.renderPromoCodes = renderPromoCodes;
+        window.simulateNewOrder = simulateNewOrder;
+        window.toggleNotificationPanel = toggleNotificationPanel;
+        window.markAllNotificationsRead = markAllNotificationsRead;
+        window.markNotificationRead = markNotificationRead;
+        window.deleteNotification = deleteNotification;
 
         // Démarrer
         document.addEventListener('DOMContentLoaded', init);
 
-        // Gestion du popstate pour la navigation
+        // Gestion du popstate
         window.addEventListener('popstate', function(event) {
             if (event.state && event.state.page) {
                 navigateTo(event.state.page);
