@@ -2898,6 +2898,7 @@ function showToast(message) {
         toast.remove();
     }, 2200);
 }
+
 function sharePage(type, productId) {
     let shareUrl = BASE_URL;
     let text = '';
@@ -2907,21 +2908,47 @@ function sharePage(type, productId) {
         if (!product) return;
         
         // URL de l'API pour l'aperçu (bonnes balises OG)
-        const apiUrl = BASE_URL + '/api/og?product=' + productId;
-        // URL canonique pour la redirection
-        const productUrl = BASE_URL + getProductUrl(product);
+        shareUrl = BASE_URL + '/api/og?product=' + productId;
+        text = `🛒 *${product.name}*\n💰 ${(product.salePrice || product.price).toFixed(2)} €\n🔗 ${shareUrl}`;
         
-        // On partage l'API, mais le texte indique le produit
-        shareUrl = apiUrl;
-        text = `🛒 *${product.name}*\n💰 ${(product.salePrice || product.price).toFixed(2)} €\n🔗 ${apiUrl}`;
+    } else if (type === 'blog') {
+        // ➡️ URL canonique du blog
+        shareUrl = BASE_URL + '/blog';
+        text = `📰 *Blog Nordluxx*\nDécouvrez nos articles sur la mode et les tendances !\n🔗 ${shareUrl}`;
+        
+    } else if (type === 'about') {
+        // ➡️ URL canonique de la page À propos
+        shareUrl = BASE_URL + '/a-propos';
+        text = `🔧 *À propos de Nordluxx*\nL'alliance de l'ingénierie et de la mode.\n🔗 ${shareUrl}`;
+        
+    } else if (type === 'faq') {
+        // ➡️ URL canonique de la FAQ
+        shareUrl = BASE_URL + '/faq';
+        text = `❓ *FAQ Nordluxx*\nToutes les réponses à vos questions sur nos produits.\n🔗 ${shareUrl}`;
+        
+    } else if (type === 'retour') {
+        // ➡️ URL canonique de la politique de retour
+        shareUrl = BASE_URL + '/retour';
+        text = `🔄 *Politique de retour Nordluxx*\n30 jours pour changer d'avis, garantie 2 ans.\n🔗 ${shareUrl}`;
+        
+    } else {
+        // ➡️ Page d'accueil par défaut
+        shareUrl = BASE_URL;
+        text = `🛒 *Nordluxx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n🔗 ${BASE_URL}`;
     }
 
     // Utilisation de navigator.share ou clipboard
     if (navigator.share) {
-        navigator.share({ title: 'Nordluxx', text: text, url: shareUrl });
+        navigator.share({ title: 'Nordluxx', text: text, url: shareUrl }).catch(() => {});
+        return;
+    }
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('📋 Lien copié dans le presse-papier !');
+        }).catch(() => fallbackShare(text));
     } else {
-        // copier dans le presse‑papier
-        navigator.clipboard.writeText(text);
+        fallbackShare(text);
     }
 }
 
@@ -2932,7 +2959,7 @@ function fallbackShare(text) {
     textarea.select();
     try {
         document.execCommand('copy');
-        showToast('Lien copié avec succès');
+        showToast('📋 Lien copié avec succès');
     } catch (e) {
         prompt('📋 Copiez ce lien :', text);
     }
