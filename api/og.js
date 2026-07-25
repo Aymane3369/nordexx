@@ -18,6 +18,22 @@ module.exports = (req, res) => {
     const defaultImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
     const BASE_URL = 'https://nordluxx.fr';
     
+    // Fonction slug (identique au front)
+    function getProductSlug(name) {
+        if (!name) return '';
+        return name.toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+    }
+    
+    // URL canonique du produit
+    function getProductUrl(id) {
+        const p = products[id];
+        if (!p) return '/';
+        return '/produit/' + getProductSlug(p.name) + '-' + id;
+    }
+    
     // 🎯 Déterminer les métadonnées
     let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium';
     let description = "L'alliance de l'ingénierie et de la mode. Garantie 2 ans. Livraison offerte dès 50€.";
@@ -25,9 +41,11 @@ module.exports = (req, res) => {
     let url = BASE_URL;
     let productName = '';
     let productPrice = '';
+    let productId = null;
     
     if (product && products[product]) {
         const p = products[product];
+        productId = product;
         productName = p.name;
         productPrice = p.price;
         title = p.name + ' · StyleShop Nordexx | ' + p.price + '€';
@@ -44,7 +62,17 @@ module.exports = (req, res) => {
         url = BASE_URL + '/api/og?about=true';
     }
     
-    // 🔧 HTML avec les BALISES OG (SANS redirection)
+    // 🔥 Détection du bot (on redirige les humains vers la page produit)
+    const userAgent = req.headers['user-agent'] || '';
+    const isBot = /facebook|twitter|linkedin|slack|discord|bot|crawler|spider|telegram|whatsapp|pinterest|reddit/i.test(userAgent);
+    
+    // Si c'est un humain ET qu'on a un produit, on redirige vers l'URL canonique
+    if (!isBot && productId) {
+        res.redirect(302, BASE_URL + getProductUrl(productId));
+        return;
+    }
+    
+    // 🔧 HTML avec les BALISES OG (pour les bots ou si pas de produit)
     const html = `<!DOCTYPE html>
 <html>
 <head>
