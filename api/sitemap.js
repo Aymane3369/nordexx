@@ -3,7 +3,7 @@
 // à /sitemap.xml -> /api/sitemap n'existait pas avant : Google ne pouvait rien crawler).
 // Garder cette liste synchronisée avec le tableau `products` de index.html et avec api/og.js.
 
-const BASE_URL = 'https://nordexx-chi.vercel.app';
+const BASE_URL = 'https://nordluxx.fr';
 
 const products = [
     { id: 1, images: ['https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7'] },
