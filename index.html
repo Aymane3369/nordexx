@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
-    <meta name="bingbot" content="index, follow" />
     <meta name="theme-color" content="#0f172a" />
     <meta name="color-scheme" content="light only" />
     <meta name="format-detection" content="telephone=no" />
@@ -1652,7 +1651,7 @@
 
 <script>
 // ============================================================
-// DONNÉES PRODUITS
+// DONNÉES PRODUITS (CORRIGÉES)
 // ============================================================
 const products = [
     { id: 1, name: "T-shirt d'été", ref: "TSH-ETE", price: 28.96, salePrice: 25.96, stock: 14, sold: 12, category: "vetements", tags: ["nouveautes"], desc: "T-shirt estival en coton doux, imprimé original. Coupe classique et confortable.", images: { "Blanc": ["https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000136560_eixfr7"] }, variants: { taille: ["S", "M", "L", "XL", "XXL"], couleur: ["Blanc"] } },
@@ -1767,6 +1766,7 @@ function navigate(page, param) {
     currentPage = page;
     console.log('Navigation vers:', page, param);
 
+    // Mise à jour de l'URL
     let url = '/';
     if (page === 'product' && param) {
         const product = products.find(p => p.id === param);
@@ -1791,6 +1791,7 @@ function navigate(page, param) {
         window.history.pushState({ page: page, param: param }, '', url);
     }
 
+    // Cacher/Afficher les sections
     document.getElementById('catalogView').classList.add('hidden');
     document.getElementById('productPage').classList.remove('active');
     document.getElementById('aboutPage').classList.remove('active');
@@ -1850,21 +1851,6 @@ function navigate(page, param) {
         document.querySelector('.category-nav a[data-cat="retour"]')?.classList.add('active');
         updateMetaTags('retour');
         renderBreadcrumb('retour');
-    } else if (page === 'legal') {
-        document.getElementById('legalPage').classList.add('active');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        updateMetaTags('legal');
-        renderBreadcrumb('legal');
-    } else if (page === 'terms') {
-        document.getElementById('termsPage').classList.add('active');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        updateMetaTags('terms');
-        renderBreadcrumb('terms');
-    } else if (page === 'privacy') {
-        document.getElementById('privacyPage').classList.add('active');
-        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
-        updateMetaTags('privacy');
-        renderBreadcrumb('privacy');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1895,16 +1881,11 @@ function renderBreadcrumb(page, param) {
         html += ' <span class="separator">›</span> <span class="current" aria-current="page">FAQ</span>';
     } else if (page === 'retour') {
         html += ' <span class="separator">›</span> <span class="current" aria-current="page">Politique de retour</span>';
-    } else if (page === 'legal') {
-        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Mentions légales</span>';
-    } else if (page === 'terms') {
-        html += ' <span class="separator">›</span> <span class="current" aria-current="page">CGV</span>';
-    } else if (page === 'privacy') {
-        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Confidentialité</span>';
     }
 
     container.innerHTML = html;
 
+    // Schema Breadcrumb
     const breadcrumbSchema = document.getElementById('breadcrumbSchema') || document.createElement('script');
     breadcrumbSchema.id = 'breadcrumbSchema';
     breadcrumbSchema.type = 'application/ld+json';
@@ -1931,12 +1912,6 @@ function renderBreadcrumb(page, param) {
         items.push({ "@type": "ListItem", "position": position++, "name": "FAQ", "item": BASE_URL + '/faq' });
     } else if (page === 'retour') {
         items.push({ "@type": "ListItem", "position": position++, "name": "Politique de retour", "item": BASE_URL + '/retour' });
-    } else if (page === 'legal') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Mentions légales", "item": BASE_URL + '/mentions-legales' });
-    } else if (page === 'terms') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "CGV", "item": BASE_URL + '/cgv' });
-    } else if (page === 'privacy') {
-        items.push({ "@type": "ListItem", "position": position++, "name": "Confidentialité", "item": BASE_URL + '/confidentialite' });
     }
 
     breadcrumbSchema.textContent = JSON.stringify({
@@ -2907,37 +2882,30 @@ function sharePage(type, productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         
-        // URL de l'API pour l'aperçu (bonnes balises OG)
         shareUrl = BASE_URL + '/api/og?product=' + productId;
         text = `🛒 *${product.name}*\n💰 ${(product.salePrice || product.price).toFixed(2)} €\n🔗 ${shareUrl}`;
         
     } else if (type === 'blog') {
-        // ➡️ URL canonique du blog
         shareUrl = BASE_URL + '/blog';
         text = `📰 *Blog Nordluxx*\nDécouvrez nos articles sur la mode et les tendances !\n🔗 ${shareUrl}`;
         
     } else if (type === 'about') {
-        // ➡️ URL canonique de la page À propos
         shareUrl = BASE_URL + '/a-propos';
         text = `🔧 *À propos de Nordluxx*\nL'alliance de l'ingénierie et de la mode.\n🔗 ${shareUrl}`;
         
     } else if (type === 'faq') {
-        // ➡️ URL canonique de la FAQ
         shareUrl = BASE_URL + '/faq';
         text = `❓ *FAQ Nordluxx*\nToutes les réponses à vos questions sur nos produits.\n🔗 ${shareUrl}`;
         
     } else if (type === 'retour') {
-        // ➡️ URL canonique de la politique de retour
         shareUrl = BASE_URL + '/retour';
         text = `🔄 *Politique de retour Nordluxx*\n30 jours pour changer d'avis, garantie 2 ans.\n🔗 ${shareUrl}`;
         
     } else {
-        // ➡️ Page d'accueil par défaut
         shareUrl = BASE_URL;
         text = `🛒 *Nordluxx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n🔗 ${BASE_URL}`;
     }
 
-    // Utilisation de navigator.share ou clipboard
     if (navigator.share) {
         navigator.share({ title: 'Nordluxx', text: text, url: shareUrl }).catch(() => {});
         return;
@@ -3013,18 +2981,6 @@ function updateMetaTags(page, product) {
         title = 'Politique de retour · Nordluxx';
         description = 'Découvrez notre politique de retour : 30 jours pour changer d\'avis, garantie 2 ans, remboursement rapide. Satisfait ou remboursé.';
         url = BASE_URL + '/retour';
-    } else if (page === 'legal') {
-        title = 'Mentions légales · Nordluxx';
-        description = 'Mentions légales de Nordluxx : informations sur léditeur, conditions générales d’utilisation et contact service client.';
-        url = BASE_URL + '/mentions-legales';
-    } else if (page === 'terms') {
-        title = 'CGV · Nordluxx | Conditions Générales de Vente';
-        description = 'Consultez les conditions générales de vente de Nordluxx pour les commandes, livraisons, retours et garanties.';
-        url = BASE_URL + '/cgv';
-    } else if (page === 'privacy') {
-        title = 'Confidentialité · Nordluxx | Politique de confidentialité';
-        description = 'Politique de confidentialité Nordluxx : données personnelles, cookies, sécurité et conditions dutilisation.';
-        url = BASE_URL + '/confidentialite';
     }
 
     document.getElementById('metaTitle').textContent = title;
@@ -3052,9 +3008,6 @@ function generateSitemap() {
         { loc: '/a-propos', priority: 0.8, changefreq: 'monthly' },
         { loc: '/faq', priority: 0.8, changefreq: 'weekly' },
         { loc: '/retour', priority: 0.8, changefreq: 'weekly' },
-        { loc: '/mentions-legales', priority: 0.4, changefreq: 'yearly' },
-        { loc: '/cgv', priority: 0.4, changefreq: 'yearly' },
-        { loc: '/confidentialite', priority: 0.4, changefreq: 'yearly' }
     ];
     const categories = ['all', 'vetements', 'accessoires', 'nouveautes'];
     categories.forEach(cat => {
@@ -3240,7 +3193,6 @@ function handleUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('product');
     const category = urlParams.get('category');
-    const pageParam = urlParams.get('page');
 
     if (path.startsWith('/produit/')) {
         const parts = path.split('/');
@@ -3268,31 +3220,12 @@ function handleUrlParams() {
     } else if (path === '/retour') {
         navigate('retour');
         return;
-    } else if (path === '/mentions-legales') {
-        navigate('legal');
-        return;
-    } else if (path === '/cgv') {
-        navigate('terms');
-        return;
-    } else if (path === '/confidentialite') {
-        navigate('privacy');
-        return;
     }
 
     if (productId) {
         navigate('product', parseInt(productId));
     } else if (category) {
         navigate('category', category);
-    } else if (pageParam === 'blog') {
-        navigate('blog');
-    } else if (pageParam === 'about') {
-        navigate('about');
-    } else if (pageParam === 'legal') {
-        navigate('legal');
-    } else if (pageParam === 'terms') {
-        navigate('terms');
-    } else if (pageParam === 'privacy') {
-        navigate('privacy');
     } else {
         navigate('home');
     }
@@ -3316,7 +3249,7 @@ document.addEventListener('click', function(event) {
     const url = new URL(href, window.location.origin);
     if (url.origin !== window.location.origin) return;
     const path = url.pathname.replace(/\/+$/, '');
-    const internalRoutes = ['/', '/blog', '/a-propos', '/about', '/faq', '/retour', '/mentions-legales', '/cgv', '/confidentialite'];
+    const internalRoutes = ['/', '/blog', '/a-propos', '/about', '/faq', '/retour'];
     if (internalRoutes.includes(path) || path.startsWith('/categorie/') || path.startsWith('/produit/')) {
         if (anchor.target && anchor.target !== '_self') return;
         event.preventDefault();
@@ -3325,9 +3258,6 @@ document.addEventListener('click', function(event) {
         if (path === '/a-propos' || path === '/about') return navigate('about');
         if (path === '/faq') return navigate('faq');
         if (path === '/retour') return navigate('retour');
-        if (path === '/mentions-legales') return navigate('legal');
-        if (path === '/cgv') return navigate('terms');
-        if (path === '/confidentialite') return navigate('privacy');
         if (path.startsWith('/categorie/')) return navigate('category', path.split('/').pop());
         if (path.startsWith('/produit/')) {
             const id = parseInt(path.split('/').pop().split('-').pop());
@@ -3359,7 +3289,7 @@ function init() {
 
     audio1.load();
     audio2.load();
-    console.log('🚀 Nordluxx - Version 7.0');
+    console.log('🚀 Nordluxx - Version 8.0');
     console.log('📊 Google Analytics 4 Activé');
     console.log('🔧 Mode admin : Ctrl+Shift+A');
     console.log('🚚 Livraison offerte dès 50€');
