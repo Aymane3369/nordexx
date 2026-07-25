@@ -11,7 +11,7 @@
     <meta name="google-site-verification" content="VOTRE_CODE_ICI" />
 
     <title id="metaTitle">Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h</title>
-    <meta name="description" id="metaDescription" content="Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Sweats à capuche, T-shirts bio, montres connectées. Garantie 2 ans & livraison 24h." />
+    <meta name="description" id="metaDescription" content="Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Hoodies, T-shirts bio, montres connectées. Garantie 2 ans & livraison 24h." />
     <link rel="canonical" id="canonicalLink" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="fr" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="x-default" href="https://nordluxx.fr/" />
@@ -580,7 +580,6 @@
             border-bottom: 1px solid #e8e2d6;
             padding-bottom: 1rem;
             margin-bottom: 1rem;
-            flex-shrink: 0;
         }
         .cart-panel .cart-header h2 { font-size: 1.3rem; font-weight: 600; }
         .cart-panel .cart-close {
@@ -592,12 +591,6 @@
             padding: 0.2rem 0.5rem;
             min-height: 44px;
             min-width: 44px;
-        }
-
-        .cart-items-scroll {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 0.5rem;
         }
 
         .cart-item {
@@ -648,20 +641,14 @@
         }
         .cart-item .item-remove:hover { color: #8a2a1e; }
 
-        .cart-footer-fixed {
-            flex-shrink: 0;
-            border-top: 1px solid #e8e2d6;
-            padding-top: 1rem;
-            margin-top: 0.5rem;
-            background: white;
-        }
-
         .cart-total {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e8e2d6;
             display: flex;
             justify-content: space-between;
             font-weight: 700;
             font-size: 1.2rem;
-            padding: 0.3rem 0;
         }
         .cart-total .discount { color: #c0392b; font-size: 0.9rem; }
 
@@ -674,7 +661,7 @@
             width: 100%;
             font-weight: 700;
             font-size: 1rem;
-            margin-top: 0.8rem;
+            margin-top: 1rem;
             cursor: pointer;
             transition: all 0.2s;
             min-height: 56px;
@@ -1385,32 +1372,30 @@
                 <h2><i class="fas fa-shopping-cart" aria-hidden="true"></i> Mon panier</h2>
                 <button class="cart-close" onclick="toggleCart()" aria-label="Fermer le panier">×</button>
             </div>
-            <div class="cart-items-scroll" id="cartItems"></div>
-            <div class="cart-footer-fixed">
-                <div class="shipping-gauge" id="shippingGauge">
-                    <div class="shipping-gauge-bar">
-                        <div class="progress" id="shippingProgress" style="width: 0%;"></div>
-                    </div>
-                    <div class="shipping-text" id="shippingText">
-                        <span>🚚 Livraison</span>
-                        <span id="shippingStatus">Offre de 50 €</span>
-                    </div>
+            <div id="cartItems"></div>
+            <div class="shipping-gauge" id="shippingGauge">
+                <div class="shipping-gauge-bar">
+                    <div class="progress" id="shippingProgress" style="width: 0%;"></div>
                 </div>
-                <div class="gift-card-section" id="giftCardSection">
-                    <div class="gift-title">🎁 Carte cadeau</div>
-                    <div class="gift-input-group">
-                        <label for="giftCodeInput" class="sr-only">Code cadeau</label>
-                        <input type="text" id="giftCodeInput" placeholder="Code cadeau (ex: JOYEUX2026)" maxlength="30" aria-label="Entrez votre code cadeau" />
-                        <button class="gift-btn" id="giftApplyBtn" onclick="applyGiftCode()">💳 Appliquer</button>
-                    </div>
-                    <div id="giftMessage" class="gift-message"></div>
+                <div class="shipping-text" id="shippingText">
+                    <span>🚚 Livraison</span>
+                    <span id="shippingStatus">Offre de 50 €</span>
                 </div>
-                <div id="cartFooter" style="display:none;">
-                    <div id="cartTotalsContainer"></div>
-                    <button class="cart-checkout" id="checkoutBtn" disabled>
-                        <i class="fas fa-lock" aria-hidden="true"></i> Passer la commande
-                    </button>
+            </div>
+            <div class="gift-card-section" id="giftCardSection">
+                <div class="gift-title">🎁 Carte cadeau</div>
+                <div class="gift-input-group">
+                    <label for="giftCodeInput" class="sr-only">Code cadeau</label>
+                    <input type="text" id="giftCodeInput" placeholder="Code cadeau (ex: JOYEUX2026)" maxlength="30" aria-label="Entrez votre code cadeau" />
+                    <button class="gift-btn" id="giftApplyBtn" onclick="applyGiftCode()">💳 Appliquer</button>
                 </div>
+                <div id="giftMessage" class="gift-message"></div>
+            </div>
+            <div id="cartFooter" style="display:none;">
+                <div id="cartTotalsContainer"></div>
+                <button class="cart-checkout" id="checkoutBtn" disabled>
+                    <i class="fas fa-lock" aria-hidden="true"></i> Passer la commande
+                </button>
             </div>
         </div>
     </div>
@@ -1645,24 +1630,22 @@ function renderBreadcrumb(page, param) {
 
     if (page === 'category' && param) {
         const catName = document.querySelector('.category-nav a[data-cat="' + param + '"]')?.textContent || param;
-        html += ' <span class="separator">›</span> <span class="current">' + catName + '</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">' + catName + '</span>';
     } else if (page === 'product' && param) {
         const product = products.find(p => p.id === param);
         if (product) {
             const catName = document.querySelector('.category-nav a[data-cat="' + product.category + '"]')?.textContent || product.category;
             html += ' <span class="separator">›</span> <a href="/categorie/' + product.category + '" onclick="event.preventDefault(); navigate(\'category\', \'' + product.category + '\');">' + catName + '</a>';
-            html += ' <span class="separator">›</span> <span class="current">' + product.name + '</span>';
+            html += ' <span class="separator">›</span> <span class="current" aria-current="page">' + product.name + '</span>';
         }
     } else if (page === 'blog') {
-        html += ' <span class="separator">›</span> <span class="current">Blog</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Blog</span>';
     } else if (page === 'about') {
-        html += ' <span class="separator">›</span> <span class="current">À propos</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">À propos</span>';
     } else if (page === 'faq') {
-        html += ' <span class="separator">›</span> <span class="current">FAQ</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">FAQ</span>';
     } else if (page === 'retour') {
-        html += ' <span class="separator">›</span> <span class="current">Politique de retour</span>';
-    } else {
-        html += ' <span class="separator">›</span> <span class="current">Accueil</span>';
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Politique de retour</span>';
     }
 
     container.innerHTML = html;
@@ -1752,7 +1735,7 @@ function renderCatalog() {
         }
 
         card.innerHTML = `
-            <img src="${imgSrc}" alt="${p.name} - vêtement premium Nordluxx" class="product-image" loading="lazy" decoding="async" width="400" height="560" itemprop="image">
+            <img src="${imgSrc}" alt="${p.name} - vêtement premium Nordluxx" class="product-image" loading="lazy" decoding="async" width="400" height="560" itemprop="image" onerror="this.onerror=null; this.src='https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';">
             <div class="card-content">
                 <h3 itemprop="name">${p.name}</h3>
                 <div style="font-size:0.8rem;color:#7a6f5d;" itemprop="sku">${p.ref}</div>
@@ -2218,7 +2201,7 @@ function renderCart() {
 
         html += `
             <div class="cart-item">
-                <img src="${imageSrc}" alt="${item.name}" loading="lazy" decoding="async" width="60" height="60">
+                <img src="${imageSrc}" alt="${item.name}" loading="lazy" decoding="async" width="60" height="60" onerror="this.onerror=null; this.src='https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';">
                 <div class="item-info">
                     <div class="item-name">
                         ${item.name}
@@ -2376,13 +2359,15 @@ function showProductPage(productId) {
     const btnText = isInCart ? '✅ Ajouté au panier' : 'Ajouter au panier';
     const btnClass = isInCart ? 'btn-add-large added' : 'btn-add-large';
 
-    const thumbnails = defaultImages.map((img, idx) => '<img src="' + img + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80">').join('');
+    const thumbnails = defaultImages.map((img, idx) => `
+        <img src="${img}" alt="Photo ${idx+1} du produit ${product.name}" onclick="changeMainImagePage(this, '${img}')" class="${idx === 0 ? 'active' : ''}" loading="lazy" decoding="async" width="100" height="80" onerror="this.onerror=null; this.src='https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';">
+    `).join('');
 
     const urgencyText = (product.stock <= 5 && product.stock > 0) ? '<div class="stock-urgency" style="margin:0.5rem 0;font-size:1rem;"><i class="fas fa-clock" aria-hidden="true"></i> ⚡ Plus que ' + product.stock + ' exemplaires !</div>' : '';
 
     detail.innerHTML = `
         <div class="gallery">
-            <img src="${mainImage}" alt="${product.name} - vêtement premium Nordluxx" class="main-image" id="mainImagePage" width="600" height="400" itemprop="image">
+            <img src="${mainImage}" alt="${product.name} - vêtement premium Nordluxx" class="main-image" id="mainImagePage" width="600" height="400" itemprop="image" onerror="this.onerror=null; this.src='https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';">
             <div class="thumbnails" id="thumbnailsPage">${thumbnails || '<div style="color:#999;">Photo disponible</div>'}</div>
             <div style="font-size:0.8rem; color:#7a6f5d; margin-top:0.3rem; text-align:center;">
                 <i class="fas fa-images" aria-hidden="true"></i>
@@ -2496,7 +2481,7 @@ function showProductPage(productId) {
         "@type": "Product",
         "name": product.name,
         "description": product.desc,
-        "image": mainImage || defaultImage,
+        "image": mainImage || 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv',
         "sku": product.ref,
         "brand": {
             "@type": "Brand",
@@ -2544,7 +2529,9 @@ window.selectColorPage = function(element, color, productId) {
     const thumbnailsContainer = document.getElementById('thumbnailsPage');
     if (thumbnailsContainer) {
         if (images.length > 0) {
-            thumbnailsContainer.innerHTML = images.map((img, idx) => '<img src="' + img + '" alt="Photo ' + (idx+1) + ' du produit ' + product.name + '" onclick="changeMainImagePage(this, \'' + img + '\')" class="' + (idx === 0 ? 'active' : '') + '" loading="lazy" decoding="async" width="100" height="80">').join('');
+            thumbnailsContainer.innerHTML = images.map((img, idx) => `
+                <img src="${img}" alt="Photo ${idx+1} du produit ${product.name}" onclick="changeMainImagePage(this, '${img}')" class="${idx === 0 ? 'active' : ''}" loading="lazy" decoding="async" width="100" height="80" onerror="this.onerror=null; this.src='https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';">
+            `).join('');
             const counter = document.getElementById('imageCounterPage');
             if (counter) counter.textContent = '1 / ' + images.length;
         } else {
@@ -2626,7 +2613,7 @@ function renderRelatedProducts(productId) {
             priceHtml = price + '€';
         }
         html += '<div style="background:white;border-radius:16px;padding:0.8rem;border:1px solid #efebe6;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;text-align:center;" onclick="navigate(\'product\', ' + p.id + ')">' +
-            '<img src="' + img + '" alt="' + p.name + '" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" loading="lazy" decoding="async">' +
+            '<img src="' + img + '" alt="' + p.name + '" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:#eae5dd;margin-bottom:0.5rem;" loading="lazy" decoding="async" onerror="this.onerror=null; this.src=\'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv\';">' +
             '<div style="font-weight:600;font-size:0.9rem;">' + p.name + '</div>' +
             '<div style="color:#1e1e1e;font-weight:700;font-size:0.95rem;">' + priceHtml + '</div>' +
             '<div style="font-size:0.7rem;color:#7a6f5d;">⭐ ' + (p.sold + 5) + '</div>' +
@@ -2710,8 +2697,13 @@ function updateMetaTags(page, product) {
     if (page === 'product' && product) {
         const price = (product.salePrice || product.price).toFixed(2);
         title = product.name + ' · Nordluxx | ' + price + '€';
-        description = product.desc.substring(0, 155);
-        if (description.length === 155) description += '...';
+        let desc = product.desc;
+        if (desc.length > 155) {
+            desc = desc.substring(0, 155);
+            const lastSpace = desc.lastIndexOf(' ');
+            if (lastSpace > 0) desc = desc.substring(0, lastSpace) + '...';
+        }
+        description = desc;
         const colors = Object.keys(product.images);
         if (colors.length > 0 && product.images[colors[0]].length > 0) {
             image = product.images[colors[0]][0];
