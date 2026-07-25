@@ -8,4 +8,4 @@ Disallow: /api/
 Disallow: /success
 Disallow: /cancel
 
-Sitemap: https://nordexx-chi.vercel.app/sitemap.xml
+Sitemap: https://nordluxx.fr/sitemap.xml
