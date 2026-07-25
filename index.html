@@ -10,11 +10,13 @@
     <meta name="color-scheme" content="light only" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content="Nordluxx" />
-    <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, livraison 24h" />
+    <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, expédition 24h" />
+
+    <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="VOTRE_CODE_ICI" />
 
-    <title id="metaTitle">Nordluxx · Vêtements Premium & Accessoires Connectés | Livraison 24h</title>
-    <meta name="description" id="metaDescription" content="Nordluxx réunit qualité premium, confort absolu et style intemporel avec des hoodies bio, t-shirts premium et accessoires connectés. Livraison 24h, garantie 2 ans." />
+    <title id="metaTitle">Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h</title>
+    <meta name="description" id="metaDescription" content="Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Hoodies, T-shirts bio, montres connectées. Garantie 2 ans & expédition sous 24h." />
     <link rel="canonical" id="canonicalLink" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="fr" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="x-default" href="https://nordluxx.fr/" />
@@ -545,22 +547,34 @@
             flex-wrap: wrap;
         }
         .product-card .stats i { margin-right: 2px; }
+        .product-card .card-actions {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.45rem;
+        }
+        .product-card .card-actions .btn-add,
+        .product-card .card-actions .share-btn-sm {
+            flex: 1 1 0;
+            min-width: 0;
+        }
         .product-card .btn-add {
-            background: #1e1e1e;
+            background: linear-gradient(135deg, #1e1e1e 0%, #343434 100%);
             border: none;
             color: white;
-            font-weight: 600;
-            padding: 0.5rem;
-            border-radius: 60px;
+            font-weight: 700;
+            padding: 0.55rem 0.7rem;
+            border-radius: 999px;
             margin-top: 0.6rem;
             cursor: pointer;
             font-size: 0.8rem;
             width: 100%;
-            transition: background 0.2s, transform 0.1s;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
             min-height: 44px;
+            box-shadow: 0 8px 18px rgba(30, 30, 30, 0.16);
         }
-        .product-card .btn-add:hover { background: #3f3a32; transform: scale(1.02); }
-        .product-card .btn-add.added { background: #2d7a4a; }
+        .product-card .btn-add:hover { background: linear-gradient(135deg, #3f3a32 0%, #534c41 100%); transform: translateY(-1px); }
+        .product-card .btn-add.added { background: linear-gradient(135deg, #2d7a4a 0%, #3b8f57 100%); }
 
         .stock-urgency {
             font-size: 0.75rem;
@@ -574,22 +588,24 @@
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .share-btn-sm {
-            background: #1e1e1e;
-            color: white;
-            border: none;
-            padding: 0.3rem 0.8rem;
-            border-radius: 30px;
+            background: #f8f6f2;
+            color: #1e1e1e;
+            border: 1px solid #e4ddd4;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.7rem;
+            font-weight: 700;
+            font-size: 0.72rem;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: 0.2s;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
             text-decoration: none;
-            min-height: 44px;
+            min-height: 40px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(17, 24, 39, 0.04);
         }
-        .share-btn-sm:hover { background: #3f3a32; }
+        .share-btn-sm:hover { background: #f0ebe4; transform: translateY(-1px); }
         .share-btn-sm i { font-size: 0.8rem; }
 
         /* ===== PAGE CONTENT ===== */
@@ -674,22 +690,51 @@
             background: linear-gradient(135deg, #1e1e1e 0%, #3a3a3a 100%);
             color: white;
             border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 60px;
+            padding: 0.8rem 1.25rem;
+            border-radius: 999px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
+            gap: 10px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
             text-decoration: none;
-            width: 100%;
             justify-content: center;
-            min-height: 56px;
+            min-height: 50px;
+            max-width: 260px;
+            box-shadow: 0 10px 24px rgba(17, 24, 39, 0.12);
         }
-        .share-btn-large:hover { transform: scale(1.02); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .share-btn-large i { font-size: 1.2rem; }
+        .share-btn-large:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0,0,0,0.16); }
+        .share-btn-large i { font-size: 1.05rem; }
+
+        .toast-container {
+            position: fixed;
+            right: 16px;
+            bottom: 88px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            pointer-events: none;
+        }
+        .toast {
+            background: rgba(17, 24, 39, 0.95);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 999px;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 220px;
+            text-align: center;
+            animation: toastIn 0.25s ease;
+            pointer-events: auto;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* ===== CART OVERLAY ===== */
         .cart-overlay {
@@ -1213,7 +1258,6 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             display: none;
             font-family: 'Segoe UI', sans-serif;
-            cursor: pointer;
         }
         body.admin-mode .admin-indicator { display: block; }
 
@@ -1256,7 +1300,7 @@
 </head>
 <body>
 
-<div class="admin-indicator" title="Double-clic pour désactiver">🔧 MODE ADMIN</div>
+<div class="admin-indicator">🔧 MODE ADMIN</div>
 
 <div class="container">
     <!-- PROMO BAR -->
@@ -1287,16 +1331,16 @@
     <section class="hero-section" aria-label="Présentation Nordluxx">
         <div class="hero-layout">
             <div class="hero-copy">
-                <p class="eyebrow">Mode premium · Livraison en 24h</p>
+                <p class="eyebrow">Mode premium · Expédition sous 24h</p>
                 <h1>Collection <span>Premium 2026</span></h1>
                 <p>Découvrez l'alliance unique de l'ingénierie et de la mode. Hoodies coton bio, t-shirts premium et accessoires connectés, conçus pour allier confort, qualité et élégance. <strong>Garantie 2 ans</strong> et <strong>livraison offerte</strong> dès 50€.</p>
                 <div class="hero-actions">
                     <a class="btn-primary" href="#catalogView">Découvrir la collection</a>
-                    <a class="btn-secondary" href="/blog" onclick="event.preventDefault(); navigate('blog')">Lire le blog</a>
+                    <a class="btn-secondary" href="/blog">Lire le blog</a>
                 </div>
                 <div class="hero-badges">
                     <span><i class="fas fa-star" style="color:#f5b342;"></i> 4.8/5 (120 avis)</span>
-                    <span><i class="fas fa-truck"></i> Livraison 24h</span>
+                    <span><i class="fas fa-truck"></i> Expédition sous 24h</span>
                     <span><i class="fas fa-shield-alt"></i> Garantie 2 ans</span>
                     <span><i class="fas fa-credit-card"></i> Paiement sécurisé</span>
                     <span><i class="fas fa-users"></i> +1000 clients satisfaits</span>
@@ -1336,10 +1380,10 @@
 
     <!-- CATEGORY NAV -->
     <nav class="category-nav" id="categoryNav" role="navigation" aria-label="Navigation des catégories">
-        <a class="active" data-cat="all" onclick="navigate('category', 'all')">Toutes les collections</a>
-        <a data-cat="nouveautes" onclick="navigate('category', 'nouveautes')">🆕 Nouveautés</a>
-        <a data-cat="vetements" onclick="navigate('category', 'vetements')">👕 Vêtements</a>
-        <a data-cat="accessoires" onclick="navigate('category', 'accessoires')">⌚ Accessoires</a>
+        <a class="active" data-cat="all" onclick="filterCategory('all', this)">Toutes les collections</a>
+        <a data-cat="nouveautes" onclick="filterCategory('nouveautes', this)">🆕 Nouveautés</a>
+        <a data-cat="vetements" onclick="filterCategory('vetements', this)">👕 Vêtements</a>
+        <a data-cat="accessoires" onclick="filterCategory('accessoires', this)">⌚ Accessoires</a>
         <a data-cat="blog" onclick="navigate('blog')">📰 Blog</a>
         <a data-cat="apropos" onclick="navigate('about')">À propos</a>
         <a data-cat="faq" onclick="navigate('faq')">❓ FAQ</a>
@@ -1452,7 +1496,7 @@
         
         <div class="faq-item">
             <h3>📦 Quels sont les délais de livraison ?</h3>
-            <p>Nos colis sont expédiés sous <strong>24h</strong> (hors week-end et jours fériés). La livraison est assurée en <strong>2 à 3 jours ouvrés</strong> en France métropolitaine. Livraison offerte dès 50€ d'achat.</p>
+            <p>Nos colis sont expédiés sous <strong>24h</strong> (hors week-end et jours fériés). La livraison est assurée en <strong>9 à 15 jours ouvrés</strong> en France métropolitaine. Livraison offerte dès 50€ d'achat.</p>
         </div>
         
         <div class="faq-item">
@@ -1472,7 +1516,7 @@
         
         <div class="faq-item">
             <h3>🌱 Vos produits sont-ils éco-responsables ?</h3>
-            <p>Oui ! Nous utilisons du <strong>coton bio certifié GOTS</strong>, de la <strong>laine mérinos éthique</strong> et des matériaux durables pour nos accessoires. Nous nous engageons pour une mode plus responsable.</p>
+            <p>Oui ! Nous utilisons du <strong>coton certifié GOTS</strong>, de la <strong>laine mérinos éthique</strong> et des matériaux durables pour nos accessoires. Nous nous engageons pour une mode plus responsable.</p>
         </div>
     </div>
 
@@ -1485,7 +1529,7 @@
         
         <h3>Conditions de retour</h3>
         <ul>
-            <li>Les articles doivent être <strong>non portés, non lavés</strong> et dans leur état d'origine.</li>
+            <li>Les articles doivent être <strong>non portés, non lavés</strong> , dans leur emballages, et dans leur état d'origine.</li>
             <li>Les étiquettes et emballages d'origine doivent être intacts.</li>
             <li>Les articles <strong>personnalisés</strong> ne sont pas repris.</li>
             <li>Les frais de retour sont à la charge du client, sauf en cas de <strong>produit défectueux</strong> ou d'<strong>erreur de notre part</strong>.</li>
@@ -1508,55 +1552,8 @@
         <div style="margin-top:1.5rem;padding:1.5rem;background:#e8f0fe;border-radius:16px;border-left:4px solid #0f3460;">
             <p><strong>📧 Service client :</strong> contact@nordluxx.fr</p>
             <p><strong>📞 Téléphone :</strong> 01 23 45 67 89 (du lundi au vendredi, 9h-18h)</p>
-            <p><strong>📍 Adresse de retour :</strong> Nordluxx, 123 Avenue de la Mode, 75001 Paris</p>
+            <p><strong>📍 Adresse de retour :</strong> Des instructions peuvent vous être données lors du processus de retour.</p>
         </div>
-    </div>
-
-    <!-- MENTIONS LÉGALES -->
-    <div class="page-content" id="legalPage" role="main" aria-label="Mentions légales">
-        <h2>⚖️ Mentions légales</h2>
-        <p><strong>Éditeur du site :</strong> Nordluxx SAS</p>
-        <p><strong>Capital social :</strong> 50 000 €</p>
-        <p><strong>Siège social :</strong> 123 Avenue de la Mode, 75001 Paris, France</p>
-        <p><strong>RCS :</strong> Paris B 123 456 789</p>
-        <p><strong>Numéro TVA :</strong> FR 12 345 678 901</p>
-        <p><strong>Directeur de la publication :</strong> Jean Dupont</p>
-        <p><strong>Hébergement :</strong> OVHcloud, 2 rue Kellermann, 59100 Roubaix, France</p>
-        <p><strong>Contact :</strong> <a href="mailto:contact@nordluxx.fr">contact@nordluxx.fr</a></p>
-    </div>
-
-    <!-- CGV -->
-    <div class="page-content" id="termsPage" role="main" aria-label="Conditions générales de vente">
-        <h2>📜 Conditions générales de vente</h2>
-        <p><strong>Article 1 – Objet</strong><br>Les présentes CGV régissent les ventes de produits sur le site Nordluxx.</p>
-        <p><strong>Article 2 – Prix</strong><br>Les prix sont indiqués en euros TTC. Ils sont susceptibles d'être modifiés à tout moment.</p>
-        <p><strong>Article 3 – Commande</strong><br>La validation de la commande vaut acceptation des CGV.</p>
-        <p><strong>Article 4 – Paiement</strong><br>Paiement sécurisé par carte bancaire, PayPal ou Klarna.</p>
-        <p><strong>Article 5 – Livraison</strong><br>Expédition sous 24h, livraison en 2-3 jours ouvrés. Livraison offerte dès 50€.</p>
-        <p><strong>Article 6 – Droit de rétractation</strong><br>Conformément à la loi, délai de 30 jours pour retourner les produits.</p>
-        <p><strong>Article 7 – Garantie</strong><br>Garantie 2 ans sur tous les produits.</p>
-        <p><strong>Article 8 – Données personnelles</strong><br>Conformément au RGPD, vos données sont traitées avec confidentialité.</p>
-    </div>
-
-    <!-- CONFIDENTIALITÉ -->
-    <div class="page-content" id="privacyPage" role="main" aria-label="Politique de confidentialité">
-        <h2>🔒 Politique de confidentialité</h2>
-        <p>Chez Nordluxx, nous respectons votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos données personnelles.</p>
-        <h3>Données collectées</h3>
-        <ul>
-            <li>Nom, prénom, adresse e-mail, adresse postale, numéro de téléphone.</li>
-            <li>Données de navigation (cookies, adresse IP).</li>
-        </ul>
-        <h3>Utilisation des données</h3>
-        <ul>
-            <li>Traitement des commandes et livraisons.</li>
-            <li>Envoi d'offres promotionnelles (avec votre consentement).</li>
-            <li>Amélioration du site et de l'expérience utilisateur.</li>
-        </ul>
-        <h3>Cookies</h3>
-        <p>Nous utilisons des cookies pour améliorer votre navigation. Vous pouvez les désactiver à tout moment dans les paramètres de votre navigateur.</p>
-        <h3>Vos droits</h3>
-        <p>Conformément au RGPD, vous avez le droit d'accéder, de rectifier ou de supprimer vos données. Contactez-nous à <a href="mailto:contact@nordluxx.fr">contact@nordluxx.fr</a>.</p>
     </div>
 
     <!-- VIDEO SECTION -->
@@ -1670,38 +1667,27 @@ const products = [
 ];
 
 // ============================================================
-// VARIANT PRICE MAP (normalisé)
+// VARIANT PRICE MAP
 // ============================================================
-function normalizeKey(str) {
-    return str.trim().toLowerCase().replace(/\s+/g, '-');
-}
-
-function getVariantKey(id, taille, couleur) {
-    return id + '-' + normalizeKey(taille) + '-' + normalizeKey(couleur);
-}
-
 const variantPriceMap = {
-    "1-s-blanc": 15.00, "1-m-blanc": 15.50, "1-l-blanc": 17.00, "1-xl-blanc": 18.50, "1-xxl-blanc": 20.00,
-    "2-s-blanc": 16.50, "2-m-blanc": 17.00, "2-l-blanc": 18.00, "2-xl-blanc": 19.00,
-    "3-unique-noir": 35.00, "3-unique-blanc": 35.00,
-    "4-s-bleu-turquoise": 39.00, "4-m-bleu-turquoise": 41.00, "4-l-bleu-turquoise": 43.00, "4-xl-bleu-turquoise": 45.00,
-    "5-s-blanc": 49.90, "5-s-gris": 49.90, "5-s-bleu": 51.90,
-    "5-m-blanc": 51.90, "5-m-gris": 51.90, "5-m-bleu": 53.90,
-    "5-l-blanc": 53.90, "5-l-gris": 53.90, "5-l-bleu": 55.90,
-    "5-xl-blanc": 55.90, "5-xl-gris": 55.90, "5-xl-bleu": 57.90,
-    "6-m-marrant": 24.90, "6-l-marrant": 26.50, "6-xl-marrant": 28.00,
-    "6-m-blanc": 24.90, "6-l-blanc": 26.50, "6-xl-blanc": 28.00,
-    "7-unique-bleu-marine": 14.90, "7-unique-noir": 14.90,
-    "8-s-blanc": 21.99, "8-m-blanc": 21.99, "8-l-blanc": 21.99, "8-xl-blanc": 23.99, "8-xxl-blanc": 25.99,
-    "9-s-blanc": 35.00, "9-m-blanc": 37.00, "9-l-blanc": 39.00, "9-xl-blanc": 41.00, "9-xxl-blanc": 43.00
+    "1-S-Blanc": 15.00, "1-M-Blanc": 15.50, "1-L-Blanc": 17.00, "1-XL-Blanc": 18.50, "1-XXL-Blanc": 20.00,
+    "2-S-Blanc": 16.50, "2-M-Blanc": 17.00, "2-L-Blanc": 18.00, "2-XL-Blanc": 19.00,
+    "3-Unique-Noir": 35.00, "3-Unique-Blanc": 35.00,
+    "4-S-Bleu Turquoise": 39.00, "4-M-Bleu Turquoise": 41.00, "4-L-Bleu Turquoise": 43.00, "4-XL-Bleu Turquoise": 45.00,
+    "5-S-Blanc": 49.90, "5-S-Gris": 49.90, "5-S-Bleu": 51.90,
+    "5-M-Blanc": 51.90, "5-M-Gris": 51.90, "5-M-Bleu": 53.90,
+    "5-L-Blanc": 53.90, "5-L-Gris": 53.90, "5-L-Bleu": 55.90,
+    "5-XL-Blanc": 55.90, "5-XL-Gris": 55.90, "5-XL-Bleu": 57.90,
+    "6-M-Marrant": 24.90, "6-L-Marrant": 26.50, "6-XL-Marrant": 28.00,
+    "6-M-Blanc": 24.90, "6-L-Blanc": 26.50, "6-XL-Blanc": 28.00,
+    "7-Unique-Bleu Marine": 14.90, "7-Unique-Noir": 14.90,
+    "8-S-Blanc": 21.99, "8-M-Blanc": 21.99, "8-L-Blanc": 21.99, "8-XL-Blanc": 23.99, "8-XXL-Blanc": 25.99,
+    "9-S-Blanc": 35.00, "9-M-Blanc": 37.00, "9-L-Blanc": 39.00, "9-XL-Blanc": 41.00, "9-XXL-Blanc": 43.00
 };
 
 function getVariantPrice(product, taille, couleur) {
-    const key = getVariantKey(product.id, taille, couleur);
-    const price = variantPriceMap[key];
-    if (price !== undefined) return price;
-    // Fallback : prix de base
-    return product.salePrice || product.price;
+    const key = product.id + '-' + taille + '-' + couleur;
+    return variantPriceMap[key] !== undefined ? variantPriceMap[key] : (product.salePrice || product.price);
 }
 
 // ============================================================
@@ -1749,7 +1735,7 @@ const BASE_URL = 'https://nordluxx.fr';
 // ============================================================
 // COMPTEUR DE VISITEURS EN DIRECT
 // ============================================================
-let liveVisitors = 250;
+let liveVisitors = 127;
 function updateLiveVisitors() {
     const variation = Math.floor(Math.random() * 60) - 20;
     liveVisitors = Math.max(80, liveVisitors + variation);
@@ -1790,13 +1776,7 @@ function navigate(page, param) {
             url = '/produit/' + param;
         }
     } else if (page === 'category' && param) {
-        if (param === 'all') {
-            // Rediriger vers l'accueil pour la catégorie "all"
-            url = '/';
-            page = 'home';
-        } else {
-            url = '/categorie/' + param;
-        }
+        url = '/categorie/' + param;
     } else if (page === 'blog') {
         url = '/blog';
     } else if (page === 'about') {
@@ -1805,28 +1785,18 @@ function navigate(page, param) {
         url = '/faq';
     } else if (page === 'retour') {
         url = '/retour';
-    } else if (page === 'legal') {
-        url = '/mentions-legales';
-    } else if (page === 'terms') {
-        url = '/cgv';
-    } else if (page === 'privacy') {
-        url = '/confidentialite';
     }
 
     if (window.location.pathname + window.location.search !== url) {
         window.history.pushState({ page: page, param: param }, '', url);
     }
 
-    // Cacher toutes les pages
     document.getElementById('catalogView').classList.add('hidden');
     document.getElementById('productPage').classList.remove('active');
     document.getElementById('aboutPage').classList.remove('active');
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
-    document.getElementById('legalPage').classList.remove('active');
-    document.getElementById('termsPage').classList.remove('active');
-    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('categoryDescription').textContent = '';
 
     if (page === 'home') {
@@ -1855,7 +1825,6 @@ function navigate(page, param) {
             applySort();
             renderBreadcrumb('category', param);
             document.getElementById('categoryDescription').textContent = categoryDescriptions[param] || categoryDescriptions['all'];
-            updateMetaTags('category');
         }
     } else if (page === 'blog') {
         document.getElementById('blogPage').classList.add('active');
@@ -1936,7 +1905,6 @@ function renderBreadcrumb(page, param) {
 
     container.innerHTML = html;
 
-    // Schema Breadcrumb
     const breadcrumbSchema = document.getElementById('breadcrumbSchema') || document.createElement('script');
     breadcrumbSchema.id = 'breadcrumbSchema';
     breadcrumbSchema.type = 'application/ld+json';
@@ -1980,11 +1948,11 @@ function renderBreadcrumb(page, param) {
 }
 
 // ============================================================
-// RENDER CATALOG (optimisé avec DocumentFragment)
+// RENDER CATALOG
 // ============================================================
 function renderCatalog() {
     const grid = document.getElementById('productGrid');
-    const fragment = document.createDocumentFragment();
+    grid.innerHTML = '';
     const count = filteredProducts.length;
     document.getElementById('productCount').textContent = count + ' produit' + (count > 1 ? 's' : '');
 
@@ -2008,7 +1976,7 @@ function renderCatalog() {
         const colors = p.variants?.couleur || [];
         const firstColor = colors.length > 0 ? colors[0] : null;
         const colorImages = firstColor && p.images && p.images[firstColor] ? p.images[firstColor] : [];
-        const imgSrc = colorImages.length > 0 ? colorImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+        const imgSrc = colorImages.length > 0 ? colorImages[0] : '';
 
         const isInCart = cart.find(item => item.id === p.id);
         const btnText = isInCart ? '✅ Ajouté' : 'Ajouter';
@@ -2041,7 +2009,7 @@ function renderCatalog() {
                     <span><i class="fas fa-shopping-bag" aria-hidden="true"></i> ${p.sold} vendus</span>
                     <span><i class="fas fa-eye" aria-hidden="true"></i> ${p.sold + 12} vues</span>
                 </div>
-                <div style="display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:0.2rem;">
+                <div class="card-actions">
                     <button class="${btnClass}" data-id="${p.id}">${btnText}</button>
                     <button class="share-btn-sm" onclick="event.stopPropagation(); sharePage('product', ${p.id})" aria-label="Partager">
                         <i class="fa-solid fa-share-nodes"></i> Partager
@@ -2050,7 +2018,7 @@ function renderCatalog() {
             </div>
         `;
 
-        fragment.appendChild(card);
+        grid.appendChild(card);
 
         card.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON' || e.target.closest('.btn-add') || e.target.closest('.share-btn-sm')) return;
@@ -2063,9 +2031,6 @@ function renderCatalog() {
         });
     });
 
-    grid.innerHTML = '';
-    grid.appendChild(fragment);
-
     if (currentView === 'list') {
         grid.classList.add('list-view');
     } else {
@@ -2077,7 +2042,7 @@ function renderCatalog() {
 // FILTER / SORT
 // ============================================================
 function filterCategory(category, el) {
-    if (['apropos', 'blog', 'faq', 'retour'].includes(category)) return;
+    if (category === 'apropos' || category === 'blog' || category === 'faq' || category === 'retour') return;
     currentCategory = category;
     document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
     if (el) el.classList.add('active');
@@ -2093,10 +2058,8 @@ function filterCategory(category, el) {
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
-    document.getElementById('legalPage').classList.remove('active');
-    document.getElementById('termsPage').classList.remove('active');
-    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('catalogView').classList.remove('hidden');
+    window.history.pushState({ page: 'category', param: category }, '', '/categorie/' + category);
     updateMetaTags('category');
     renderBreadcrumb('category', category);
     document.getElementById('categoryDescription').textContent = categoryDescriptions[category] || categoryDescriptions['all'];
@@ -2226,7 +2189,6 @@ function confirmVariantSelection() {
         selection.couleur = 'Standard';
     }
 
-    // Vérification du stock (on vérifie le stock global)
     if (product.stock <= 0) {
         alert('❌ Cette déclinaison est actuellement en rupture de stock.');
         return;
@@ -2289,7 +2251,7 @@ function addToCartWithVariants(productId, variants) {
     const couleur = variants.couleur || 'Standard';
     const price = getVariantPrice(product, taille, couleur);
     const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
-    const image = productImages.length > 0 ? productImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+    const image = productImages.length > 0 ? productImages[0] : '';
 
     const existing = cart.find(item => item.id === productId && JSON.stringify(item.variants) === JSON.stringify(variants));
 
@@ -2558,7 +2520,7 @@ function renderCart() {
 }
 
 // ============================================================
-// CHECKOUT (SIMULATION)
+// CHECKOUT
 // ============================================================
 async function handleCheckout() {
     if (cart.length === 0) {
@@ -2568,29 +2530,39 @@ async function handleCheckout() {
     const total = getFinalTotal();
     const btn = document.getElementById('checkoutBtn');
     btn.disabled = true;
-    btn.innerHTML = '⏳ Traitement...';
+    btn.innerHTML = '⏳ Redirection...';
 
-    // Simulation de paiement
-    setTimeout(() => {
-        alert(`✅ Commande simulée avec succès !\nTotal : ${total.toFixed(2)} €\n\nMerci pour votre achat sur Nordluxx !\nUn e-mail de confirmation vous sera envoyé.`);
-        // Vider le panier
-        cart = [];
-        giftCode = null;
-        giftDiscount = 0;
-        saveCartToStorage();
-        updateCartBadge();
-        renderCart();
-        renderCatalog();
-        toggleCart();
+    try {
+        const response = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                items: cart.map(i => ({
+                    id: i.id,
+                    name: i.name,
+                    price: i.price,
+                    quantity: i.quantity,
+                    image: i.image || '',
+                    category: i.category || 'vetements'
+                })),
+                total: total,
+                coupon: giftCode || null
+            })
+        });
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert('Erreur lors de la création de la session de paiement.');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-lock" aria-hidden="true"></i> Passer la commande';
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Erreur de connexion au serveur.');
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-lock" aria-hidden="true"></i> Passer la commande';
-        // Réinitialiser le champ de code cadeau
-        const input = document.getElementById('giftCodeInput');
-        if (input) { input.value = ''; input.disabled = false; }
-        document.getElementById('giftMessage').innerHTML = '';
-        const giftBtn = document.getElementById('giftApplyBtn');
-        if (giftBtn) { giftBtn.textContent = '💳 Appliquer'; giftBtn.className = 'gift-btn'; giftBtn.onclick = applyGiftCode; }
-    }, 1500);
+    }
 }
 
 document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
@@ -2607,9 +2579,6 @@ function showProductPage(productId) {
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
-    document.getElementById('legalPage').classList.remove('active');
-    document.getElementById('termsPage').classList.remove('active');
-    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('productPage').classList.add('active');
     updateMetaTags('product', product);
     renderBreadcrumb('product', productId);
@@ -2619,7 +2588,7 @@ function showProductPage(productId) {
     const colors = product.variants?.couleur || [];
     const defaultColor = colors.length > 0 ? colors[0] : null;
     const defaultImages = defaultColor && product.images && product.images[defaultColor] ? product.images[defaultColor] : [];
-    const mainImage = defaultImages.length > 0 ? defaultImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+    const mainImage = defaultImages.length > 0 ? defaultImages[0] : '';
     const hasSale = product.salePrice && product.salePrice < product.price;
 
     let priceHtml;
@@ -2773,7 +2742,7 @@ function showProductPage(productId) {
         "@type": "Product",
         "name": product.name,
         "description": product.desc,
-        "image": mainImage,
+        "image": mainImage || 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv',
         "sku": product.ref,
         "brand": {
             "@type": "Brand",
@@ -2895,7 +2864,7 @@ function renderRelatedProducts(productId) {
     let html = '<h3 style="font-size:1.3rem;margin:1.5rem 0 1rem;font-weight:600;">🤝 Vous aimerez aussi</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.2rem;">';
     related.forEach(p => {
         const colors = Object.keys(p.images);
-        const img = colors.length > 0 && p.images[colors[0]].length > 0 ? p.images[colors[0]][0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
+        const img = colors.length > 0 && p.images[colors[0]].length > 0 ? p.images[colors[0]][0] : '';
         const price = (p.salePrice || p.price).toFixed(2);
         const hasSale = p.salePrice && p.salePrice < p.price;
         let priceHtml;
@@ -2917,7 +2886,20 @@ function renderRelatedProducts(productId) {
 
 // ============================================================
 // SHARE FUNCTION
-// =============function sharePage(type, productId) {
+// ============================================================
+function showToast(message) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.remove();
+    }, 2200);
+}
+
+function sharePage(type, productId) {
     let title = '';
     let text = '';
     let shareUrl = BASE_URL;
@@ -2926,14 +2908,40 @@ function renderRelatedProducts(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-        // Utilisation de l'URL avec paramètre pour forcer le scraper à récupérer les bons meta tags
-        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
+        shareUrl = BASE_URL + getProductUrl(product);
         title = product.name + ' - ' + price + '€';
-        text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
-    }
-    // ... reste de la fonction inchangé
-    }===============================================
+        text = '🛒 ' + product.name + '\n💰 ' + price + ' €\n✨ Qualité premium et livraison rapide.\n\n🔗 ' + shareUrl;
 
+    } else if (type === 'blog') {
+        shareUrl = BASE_URL + '/blog';
+        title = 'Blog Nordluxx';
+        text = '📰 Nordluxx Blog\nDécouvrez nos articles sur la mode et les tendances.\n\n🔗 ' + shareUrl;
+
+    } else if (type === 'about') {
+        shareUrl = BASE_URL + '/a-propos';
+        title = 'Nordluxx';
+        text = '🔧 Nordluxx\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
+
+    } else {
+        shareUrl = BASE_URL;
+        text = '🛒 Nordluxx\nVêtements & accessoires premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
+    }
+
+    if (navigator.share) {
+        navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {
+            showToast('Partage ouvert');
+        });
+        return;
+    }
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Lien copié avec succès');
+        }).catch(() => fallbackShare(text));
+    } else {
+        fallbackShare(text);
+    }
+}
 
 function fallbackShare(text) {
     const textarea = document.createElement('textarea');
@@ -2942,7 +2950,7 @@ function fallbackShare(text) {
     textarea.select();
     try {
         document.execCommand('copy');
-        alert('📋 Lien copié dans le presse-papier !');
+        showToast('Lien copié avec succès');
     } catch (e) {
         prompt('📋 Copiez ce lien :', text);
     }
@@ -2984,17 +2992,10 @@ function updateMetaTags(page, product) {
         description = "Découvrez l'histoire de Nordluxx, l'alliance unique de l'ingénierie et de la mode. Qualité, confiance et expertise.";
         url = BASE_URL + '/a-propos';
     } else if (page === 'category') {
-        if (currentCategory === 'all') {
-            // Home page
-            title = 'Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h';
-            description = "Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Sweats à capuche, T-shirts bio, montres connectées. Garantie 2 ans et livraison 24h.";
-            url = BASE_URL;
-        } else {
-            const catName = document.querySelector('.category-nav a[data-cat="' + currentCategory + '"]')?.textContent || currentCategory;
-            title = catName + ' · Nordluxx | Collection Premium';
-            description = 'Découvrez notre collection ' + catName + ' chez Nordluxx. Qualité, style et livraison offerte dès 50€.';
-            url = BASE_URL + '/categorie/' + currentCategory;
-        }
+        const catName = document.querySelector('.category-nav a[data-cat="' + currentCategory + '"]')?.textContent || currentCategory;
+        title = catName + ' · Nordluxx | Collection Premium';
+        description = 'Découvrez notre collection ' + catName + ' chez Nordluxx. Qualité, style et livraison offerte dès 50€.';
+        url = BASE_URL + '/categorie/' + currentCategory;
     } else if (page === 'faq') {
         title = 'FAQ · Nordluxx | Foire aux questions';
         description = 'Retrouvez toutes les réponses à vos questions sur la livraison, la garantie, les retours et les paiements chez Nordluxx.';
@@ -3212,13 +3213,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Double-clic sur l'indicateur pour désactiver
-document.querySelector('.admin-indicator')?.addEventListener('dblclick', function() {
-    localStorage.removeItem(ADMIN_KEY);
-    document.body.classList.remove('admin-mode');
-    this.style.display = 'none';
-});
-
 window.toggleAdmin = function() {
     if (localStorage.getItem(ADMIN_KEY) === 'true') {
         localStorage.removeItem(ADMIN_KEY);
@@ -3367,8 +3361,7 @@ function init() {
     console.log('✅ Descriptions de catégories');
     console.log('✅ Avis clients intégrés');
     console.log('✅ Compteur de visiteurs en direct');
-    console.log('✅ Pages FAQ, Politique de retour, Mentions légales, CGV, Confidentialité');
-    console.log('✅ Checkout simulé');
+    console.log('✅ Pages FAQ et Politique de retour');
 }
 
 // Expose global functions
@@ -3409,9 +3402,9 @@ init();
         <div style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:flex-end;margin-bottom:0.3rem;">
             <a href="/faq" onclick="event.preventDefault(); navigate('faq')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">❓ FAQ</a>
             <a href="/retour" onclick="event.preventDefault(); navigate('retour')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">🔄 Retours</a>
-            <a href="/mentions-legales" onclick="event.preventDefault(); navigate('legal')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
-            <a href="/cgv" onclick="event.preventDefault(); navigate('terms')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
-            <a href="/confidentialite" onclick="event.preventDefault(); navigate('privacy')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
+            <a href="/mentions-legales" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
+            <a href="/cgv" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
+            <a href="/confidentialite" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
         </div>
         <span style="font-size:0.8rem;">📧 boutiquestyleshopp@gmail.com</span>
         <span style="font-size:0.8rem;">📞 01 23 45 67 89</span>
