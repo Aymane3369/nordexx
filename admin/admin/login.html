@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion Admin</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f5f2ed;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .login-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-box h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .login-box h1 span { color: #f5b342; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            border: 1px solid #e8e2d6;
+            font-size: 1rem;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #16213e;
+            box-shadow: 0 0 0 3px rgba(22,33,62,0.1);
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 12px;
+            background: #16213e;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-login:hover {
+            background: #1a2a4a;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Nord<span>luxx</span></h1>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email" value="admin@nordluxx.fr" required />
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Mot de passe" required />
+            </div>
+            <button type="submit" class="btn-login">Se connecter</button>
+        </form>
+    </div>
+    <script>
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email === 'admin@nordluxx.fr' && password === 'admin123') {
+                localStorage.setItem('admin_auth', 'true');
+                window.location.href = '/admin';
+            } else {
+                alert('❌ Email ou mot de passe incorrect');
+            }
+        }
+    </script>
+</body>
+</html>
