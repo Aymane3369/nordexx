@@ -6,15 +6,23 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
     <meta name="bingbot" content="index, follow" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="author" content="Nordluxx" />
+    <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, livraison 24h" />
 
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="VOTRE_CODE_ICI" />
 
-    <title id="metaTitle">Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h</title>
-    <meta name="description" id="metaDescription" content="Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Hoodies, T-shirts bio, montres connectées. Garantie 2 ans & livraison 24h." />
+    <title id="metaTitle">Nordluxx · Vêtements Premium & Accessoires Connectés | Livraison 24h</title>
+    <meta name="description" id="metaDescription" content="Nordluxx réunit qualité premium, confort absolu et style intemporel avec des hoodies bio, t-shirts premium et accessoires connectés. Livraison 24h, garantie 2 ans." />
     <link rel="canonical" id="canonicalLink" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="fr" href="https://nordluxx.fr/" />
     <link rel="alternate" hreflang="x-default" href="https://nordluxx.fr/" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <!-- Open Graph -->
     <meta property="og:site_name" content="Nordluxx" />
@@ -23,6 +31,7 @@
     <meta property="og:url" id="ogUrl" content="https://nordluxx.fr/" />
     <meta property="og:type" content="website" />
     <meta property="og:image" id="ogImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_630,c_fill/1000143347_ttqayv" />
+    <meta property="og:image:alt" content="Collection premium Nordluxx" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="fr_FR" />
@@ -32,6 +41,7 @@
     <meta name="twitter:title" id="twitterTitle" content="Nordluxx · Vêtements et accessoires Premium" />
     <meta name="twitter:description" id="twitterDescription" content="Alliance unique de l'ingénierie et de la mode. +1000 clients satisfaits. Garantie 2 ans." />
     <meta name="twitter:image" id="twitterImage" content="https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto,w_1200,h_600,c_fill/1000143347_ttqayv" />
+    <meta name="twitter:image:alt" content="Collection premium Nordluxx" />
 
     <!-- Schema.org Organisation -->
     <script type="application/ld+json" id="schemaOrg">
@@ -54,6 +64,19 @@
       }
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nordluxx",
+      "url": "https://nordluxx.fr/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://nordluxx.fr/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- Preconnect -->
     <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
@@ -72,36 +95,77 @@
         .container { max-width: 1400px; margin: 0 auto; }
 
         /* ===== HERO SECTION ===== */
-        .hero-section {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: 0;
+            background: #111827;
             color: white;
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            margin: 1rem 0 1.5rem;
-            text-align: center;
+            padding: 0.8rem 1rem;
+            border-radius: 0 0 0.8rem 0;
+            z-index: 10000;
+            text-decoration: none;
+        }
+        .skip-link:focus { left: 0; }
+
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #111827 45%, #0f3460 100%);
+            color: white;
+            border-radius: 28px;
+            padding: 3.2rem 2.4rem;
+            margin: 1rem 0 1.2rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.25);
         }
         .hero-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(255,215,0,0.05) 0%, transparent 70%);
-            animation: heroGlow 8s ease-in-out infinite;
+            inset: -20% auto auto -10%;
+            width: 50%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(245, 179, 66, 0.22) 0%, transparent 62%);
+            animation: heroGlow 9s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            inset: auto -12% -12% auto;
+            width: 45%;
+            height: 65%;
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+            pointer-events: none;
         }
         @keyframes heroGlow {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.05); }
         }
-        .hero-section h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -1px;
+        .hero-section .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            align-items: center;
             position: relative;
             z-index: 1;
+        }
+        .hero-section .hero-copy { text-align: left; }
+        .hero-section .eyebrow {
+            display: inline-block;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.74rem;
+            font-weight: 700;
+            opacity: 0.85;
+            margin-bottom: 0.75rem;
+            color: #fde68a;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.05;
+            margin-bottom: 1rem;
         }
         .hero-section h1 span {
             background: linear-gradient(135deg, #f5b342, #f7d44a);
@@ -109,37 +173,120 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .hero-section p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0.8rem auto;
-            position: relative;
-            z-index: 1;
-            line-height: 1.7;
+        .hero-section .hero-copy p {
+            font-size: 1.06rem;
+            opacity: 0.95;
+            max-width: 720px;
+            margin: 0 0 1rem;
+            line-height: 1.75;
+        }
+        .hero-section .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.2rem 0 1.2rem;
+        }
+        .hero-section .hero-actions a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0.85rem 1.25rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hero-section .hero-actions a:hover {
+            transform: translateY(-2px);
+        }
+        .hero-section .hero-actions .btn-primary {
+            background: linear-gradient(135deg, #f5b342, #f7d44a);
+            color: #111827;
+            box-shadow: 0 12px 30px rgba(245, 179, 66, 0.25);
+        }
+        .hero-section .hero-actions .btn-secondary {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.18);
+            backdrop-filter: blur(8px);
         }
         .hero-section .hero-badges {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.2rem;
+            gap: 0.75rem;
+            margin-top: 1rem;
             position: relative;
             z-index: 1;
         }
         .hero-section .hero-badges span {
             background: rgba(255,255,255,0.12);
             backdrop-filter: blur(8px);
-            padding: 0.5rem 1.5rem;
+            padding: 0.55rem 1rem;
             border-radius: 60px;
             font-size: 0.85rem;
             font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .hero-section .hero-badges span i { font-size: 1rem; }
+        .hero-section .hero-side-card {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 24px;
+            padding: 1.2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .hero-section .hero-side-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: #fde68a;
+        }
+        .hero-section .hero-side-card .hero-stat {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.7rem;
+            padding-bottom: 0.7rem;
+            border-bottom: 1px solid rgba(255,255,255,0.14);
+            font-size: 0.95rem;
+        }
+        .hero-section .hero-side-card .hero-stat:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .hero-section .hero-side-card .hero-pill {
+            display: inline-flex;
+            margin-top: 0.9rem;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(245, 179, 66, 0.16);
+            color: #fde68a;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .trust-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.8rem;
+            margin: 0 0 1.2rem;
+        }
+        .trust-strip .trust-chip {
+            background: #fff;
+            border: 1px solid #e9e2d8;
+            border-radius: 18px;
+            padding: 0.95rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: #3b352d;
+            box-shadow: 0 10px 28px rgba(17, 24, 39, 0.04);
+        }
+        .trust-strip .trust-chip i { color: #0f3460; font-size: 1rem; }
+        .trust-strip .trust-chip strong { display: block; font-size: 0.9rem; }
+        .trust-strip .trust-chip span { font-size: 0.8rem; color: #6b6258; }
 
         /* ===== PROMO BAR ===== */
         .promo-bar {
@@ -1073,6 +1220,11 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
+            .hero-section { padding: 2rem 1rem; }
+            .hero-section .hero-layout { grid-template-columns: 1fr; gap: 1.2rem; }
+            .hero-section .hero-copy { text-align: left; }
+            .hero-section h1 { font-size: 2.1rem; }
+            .hero-section .hero-actions { flex-direction: column; align-items: stretch; }
             .product-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
             .product-grid.list-view .product-card { flex-direction: row; align-items: center; gap: 1rem; padding: 0.8rem 1rem; }
             .product-grid.list-view .product-card .product-image { width: 100px; height: 100px; }
@@ -1091,6 +1243,8 @@
         @media (max-width: 480px) {
             body { padding: 0.5rem; }
             .shop-header .logo { font-size: 1.3rem; }
+            .hero-section .hero-badges { gap: 0.55rem; }
+            .hero-section .hero-badges span { width: 100%; justify-content: center; }
             .product-grid { gap: 0.6rem; }
             #musicControl #musicLabel { display: none; }
             #musicControl { padding: 8px 14px; gap: 8px; }
@@ -1128,16 +1282,53 @@
         </div>
     </header>
 
+    <a class="skip-link" href="#catalogView">Aller au contenu</a>
+
     <!-- HERO SECTION -->
-    <section class="hero-section">
-        <h1>Collection <span>Premium 2026</span></h1>
-        <p>Découvrez l'alliance unique de l'ingénierie et de la mode. Sweats en coton bio, T-shirts haut de gamme et accessoires connectés. <strong>Garantie 2 ans</strong> et <strong>livraison offerte</strong> dès 50€.</p>
-        <div class="hero-badges">
-            <span><i class="fas fa-star" style="color:#f5b342;"></i> 4.8/5 (120 avis)</span>
-            <span><i class="fas fa-truck"></i> Livraison 24h</span>
-            <span><i class="fas fa-shield-alt"></i> Garantie 2 ans</span>
-            <span><i class="fas fa-credit-card"></i> Paiement sécurisé</span>
-            <span><i class="fas fa-users"></i> +1000 clients satisfaits</span>
+    <section class="hero-section" aria-label="Présentation Nordluxx">
+        <div class="hero-layout">
+            <div class="hero-copy">
+                <p class="eyebrow">Mode premium · Livraison en 24h</p>
+                <h1>Collection <span>Premium 2026</span></h1>
+                <p>Découvrez l'alliance unique de l'ingénierie et de la mode. Hoodies coton bio, t-shirts premium et accessoires connectés, conçus pour allier confort, qualité et élégance. <strong>Garantie 2 ans</strong> et <strong>livraison offerte</strong> dès 50€.</p>
+                <div class="hero-actions">
+                    <a class="btn-primary" href="#catalogView">Découvrir la collection</a>
+                    <a class="btn-secondary" href="/blog">Lire le blog</a>
+                </div>
+                <div class="hero-badges">
+                    <span><i class="fas fa-star" style="color:#f5b342;"></i> 4.8/5 (120 avis)</span>
+                    <span><i class="fas fa-truck"></i> Livraison 24h</span>
+                    <span><i class="fas fa-shield-alt"></i> Garantie 2 ans</span>
+                    <span><i class="fas fa-credit-card"></i> Paiement sécurisé</span>
+                    <span><i class="fas fa-users"></i> +1000 clients satisfaits</span>
+                </div>
+            </div>
+            <div class="hero-side-card" aria-label="Arguments de vente">
+                <h3>Pourquoi les clients reviennent</h3>
+                <div class="hero-stat"><span>Expédition ultra rapide</span><strong>24h</strong></div>
+                <div class="hero-stat"><span>Qualité vérifiée</span><strong>2 ans</strong></div>
+                <div class="hero-stat"><span>Mode durable</span><strong>100% coton bio</strong></div>
+                <div class="hero-pill">Code BIENVENUE10 : -10% sur la première commande</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Points forts Nordluxx">
+        <div class="trust-chip">
+            <i class="fas fa-truck-fast"></i>
+            <div><strong>Expédition sous 24h</strong><span>Colis suivi</span></div>
+        </div>
+        <div class="trust-chip">
+            <i class="fas fa-shield-alt"></i>
+            <div><strong>Garantie 2 ans</strong><span>Confiance totale</span></div>
+        </div>
+        <div class="trust-chip">
+            <i class="fas fa-lock"></i>
+            <div><strong>Paiement sécurisé</strong><span>3x sans frais Klarna</span></div>
+        </div>
+        <div class="trust-chip">
+            <i class="fas fa-recycle"></i>
+            <div><strong>Matériaux durables</strong><span>Coton bio et laine éthique</span></div>
         </div>
     </section>
 
@@ -1616,6 +1807,21 @@ function navigate(page, param) {
         document.querySelector('.category-nav a[data-cat="retour"]')?.classList.add('active');
         updateMetaTags('retour');
         renderBreadcrumb('retour');
+    } else if (page === 'legal') {
+        document.getElementById('legalPage').classList.add('active');
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+        updateMetaTags('legal');
+        renderBreadcrumb('legal');
+    } else if (page === 'terms') {
+        document.getElementById('termsPage').classList.add('active');
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+        updateMetaTags('terms');
+        renderBreadcrumb('terms');
+    } else if (page === 'privacy') {
+        document.getElementById('privacyPage').classList.add('active');
+        document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
+        updateMetaTags('privacy');
+        renderBreadcrumb('privacy');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1646,6 +1852,12 @@ function renderBreadcrumb(page, param) {
         html += ' <span class="separator">›</span> <span class="current" aria-current="page">FAQ</span>';
     } else if (page === 'retour') {
         html += ' <span class="separator">›</span> <span class="current" aria-current="page">Politique de retour</span>';
+    } else if (page === 'legal') {
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Mentions légales</span>';
+    } else if (page === 'terms') {
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">CGV</span>';
+    } else if (page === 'privacy') {
+        html += ' <span class="separator">›</span> <span class="current" aria-current="page">Confidentialité</span>';
     }
 
     container.innerHTML = html;
@@ -1676,6 +1888,12 @@ function renderBreadcrumb(page, param) {
         items.push({ "@type": "ListItem", "position": position++, "name": "FAQ", "item": BASE_URL + '/faq' });
     } else if (page === 'retour') {
         items.push({ "@type": "ListItem", "position": position++, "name": "Politique de retour", "item": BASE_URL + '/retour' });
+    } else if (page === 'legal') {
+        items.push({ "@type": "ListItem", "position": position++, "name": "Mentions légales", "item": BASE_URL + '/mentions-legales' });
+    } else if (page === 'terms') {
+        items.push({ "@type": "ListItem", "position": position++, "name": "CGV", "item": BASE_URL + '/cgv' });
+    } else if (page === 'privacy') {
+        items.push({ "@type": "ListItem", "position": position++, "name": "Confidentialité", "item": BASE_URL + '/confidentialite' });
     }
 
     breadcrumbSchema.textContent = JSON.stringify({
@@ -2730,6 +2948,18 @@ function updateMetaTags(page, product) {
         title = 'Politique de retour · Nordluxx';
         description = 'Découvrez notre politique de retour : 30 jours pour changer d\'avis, garantie 2 ans, remboursement rapide. Satisfait ou remboursé.';
         url = BASE_URL + '/retour';
+    } else if (page === 'legal') {
+        title = 'Mentions légales · Nordluxx';
+        description = 'Mentions légales de Nordluxx : informations sur léditeur, conditions générales d’utilisation et contact service client.';
+        url = BASE_URL + '/mentions-legales';
+    } else if (page === 'terms') {
+        title = 'CGV · Nordluxx | Conditions Générales de Vente';
+        description = 'Consultez les conditions générales de vente de Nordluxx pour les commandes, livraisons, retours et garanties.';
+        url = BASE_URL + '/cgv';
+    } else if (page === 'privacy') {
+        title = 'Confidentialité · Nordluxx | Politique de confidentialité';
+        description = 'Politique de confidentialité Nordluxx : données personnelles, cookies, sécurité et conditions dutilisation.';
+        url = BASE_URL + '/confidentialite';
     }
 
     document.getElementById('metaTitle').textContent = title;
@@ -2756,7 +2986,10 @@ function generateSitemap() {
         { loc: '/blog', priority: 0.7, changefreq: 'weekly' },
         { loc: '/a-propos', priority: 0.8, changefreq: 'monthly' },
         { loc: '/faq', priority: 0.8, changefreq: 'weekly' },
-        { loc: '/retour', priority: 0.8, changefreq: 'weekly' }
+        { loc: '/retour', priority: 0.8, changefreq: 'weekly' },
+        { loc: '/mentions-legales', priority: 0.4, changefreq: 'yearly' },
+        { loc: '/cgv', priority: 0.4, changefreq: 'yearly' },
+        { loc: '/confidentialite', priority: 0.4, changefreq: 'yearly' }
     ];
     const categories = ['all', 'vetements', 'accessoires', 'nouveautes'];
     categories.forEach(cat => {
@@ -2961,7 +3194,7 @@ function handleUrlParams() {
     } else if (path === '/blog') {
         navigate('blog');
         return;
-    } else if (path === '/a-propos') {
+    } else if (path === '/a-propos' || path === '/about') {
         navigate('about');
         return;
     } else if (path === '/faq') {
@@ -2969,6 +3202,15 @@ function handleUrlParams() {
         return;
     } else if (path === '/retour') {
         navigate('retour');
+        return;
+    } else if (path === '/mentions-legales') {
+        navigate('legal');
+        return;
+    } else if (path === '/cgv') {
+        navigate('terms');
+        return;
+    } else if (path === '/confidentialite') {
+        navigate('privacy');
         return;
     }
 
@@ -2980,6 +3222,12 @@ function handleUrlParams() {
         navigate('blog');
     } else if (pageParam === 'about') {
         navigate('about');
+    } else if (pageParam === 'legal') {
+        navigate('legal');
+    } else if (pageParam === 'terms') {
+        navigate('terms');
+    } else if (pageParam === 'privacy') {
+        navigate('privacy');
     } else {
         navigate('home');
     }
@@ -2995,31 +3243,41 @@ window.addEventListener('popstate', function(event) {
 // ============================================================
 // CONVERSION AUTOMATIQUE DES LIENS STATIQUES
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href="/blog"], a[href="/about"], a[href="/faq"], a[href="/retour"]').forEach(el => {
-        el.addEventListener('click', function(e) {
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            if (href === '/blog') {
-                navigate('blog');
-            } else if (href === '/about') {
-                navigate('about');
-            } else if (href === '/faq') {
-                navigate('faq');
-            } else if (href === '/retour') {
-                navigate('retour');
-            }
-        });
-    });
-
-    const brand = document.querySelector('.logo');
-    if (brand) {
-        brand.addEventListener('click', function(e) {
-            e.preventDefault();
-            navigate('home');
-        });
+document.addEventListener('click', function(event) {
+    const anchor = event.target.closest('a[href]');
+    if (!anchor) return;
+    const href = anchor.getAttribute('href');
+    if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#') || href.startsWith('javascript:')) return;
+    const url = new URL(href, window.location.origin);
+    if (url.origin !== window.location.origin) return;
+    const path = url.pathname.replace(/\/+$/, '');
+    const internalRoutes = ['/', '/blog', '/a-propos', '/about', '/faq', '/retour', '/mentions-legales', '/cgv', '/confidentialite'];
+    if (internalRoutes.includes(path) || path.startsWith('/categorie/') || path.startsWith('/produit/')) {
+        if (anchor.target && anchor.target !== '_self') return;
+        event.preventDefault();
+        if (path === '' || path === '/') return navigate('home');
+        if (path === '/blog') return navigate('blog');
+        if (path === '/a-propos' || path === '/about') return navigate('about');
+        if (path === '/faq') return navigate('faq');
+        if (path === '/retour') return navigate('retour');
+        if (path === '/mentions-legales') return navigate('legal');
+        if (path === '/cgv') return navigate('terms');
+        if (path === '/confidentialite') return navigate('privacy');
+        if (path.startsWith('/categorie/')) return navigate('category', path.split('/').pop());
+        if (path.startsWith('/produit/')) {
+            const id = parseInt(path.split('/').pop().split('-').pop());
+            if (!isNaN(id)) return navigate('product', id);
+        }
     }
 });
+
+const brand = document.querySelector('.logo');
+if (brand) {
+    brand.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigate('home');
+    });
+}
 
 // ============================================================
 // INIT
@@ -3088,11 +3346,11 @@ init();
         <div style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:flex-end;margin-bottom:0.3rem;">
             <a href="/faq" onclick="event.preventDefault(); navigate('faq')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">❓ FAQ</a>
             <a href="/retour" onclick="event.preventDefault(); navigate('retour')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">🔄 Retours</a>
-            <a href="/mentions-legales" onclick="event.preventDefault(); alert('Page en construction')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
-            <a href="/cgv" onclick="event.preventDefault(); alert('Page en construction')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
-            <a href="/confidentialite" onclick="event.preventDefault(); alert('Page en construction')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
+            <a href="/mentions-legales" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
+            <a href="/cgv" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
+            <a href="/confidentialite" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
         </div>
-        <span style="font-size:0.8rem;">📧 contact@nordluxx.fr</span>
+        <span style="font-size:0.8rem;">📧 boutiquestyleshopp@gmail.com</span>
         <span style="font-size:0.8rem;">📞 01 23 45 67 89</span>
         <span style="font-size:0.75rem;color:#7a6f5d;">© 2026 Nordluxx · Tous droits réservés</span>
     </div>
