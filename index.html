@@ -11,8 +11,6 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="author" content="Nordluxx" />
     <meta name="keywords" content="vêtements premium, hoodie coton bio, t-shirt premium, accessoires connectés, mode premium, livraison 24h" />
-
-    <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="VOTRE_CODE_ICI" />
 
     <title id="metaTitle">Nordluxx · Vêtements Premium & Accessoires Connectés | Livraison 24h</title>
@@ -1215,6 +1213,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             display: none;
             font-family: 'Segoe UI', sans-serif;
+            cursor: pointer;
         }
         body.admin-mode .admin-indicator { display: block; }
 
@@ -1257,7 +1256,7 @@
 </head>
 <body>
 
-<div class="admin-indicator">🔧 MODE ADMIN</div>
+<div class="admin-indicator" title="Double-clic pour désactiver">🔧 MODE ADMIN</div>
 
 <div class="container">
     <!-- PROMO BAR -->
@@ -1293,7 +1292,7 @@
                 <p>Découvrez l'alliance unique de l'ingénierie et de la mode. Hoodies coton bio, t-shirts premium et accessoires connectés, conçus pour allier confort, qualité et élégance. <strong>Garantie 2 ans</strong> et <strong>livraison offerte</strong> dès 50€.</p>
                 <div class="hero-actions">
                     <a class="btn-primary" href="#catalogView">Découvrir la collection</a>
-                    <a class="btn-secondary" href="/blog">Lire le blog</a>
+                    <a class="btn-secondary" href="/blog" onclick="event.preventDefault(); navigate('blog')">Lire le blog</a>
                 </div>
                 <div class="hero-badges">
                     <span><i class="fas fa-star" style="color:#f5b342;"></i> 4.8/5 (120 avis)</span>
@@ -1337,10 +1336,10 @@
 
     <!-- CATEGORY NAV -->
     <nav class="category-nav" id="categoryNav" role="navigation" aria-label="Navigation des catégories">
-        <a class="active" data-cat="all" onclick="filterCategory('all', this)">Toutes les collections</a>
-        <a data-cat="nouveautes" onclick="filterCategory('nouveautes', this)">🆕 Nouveautés</a>
-        <a data-cat="vetements" onclick="filterCategory('vetements', this)">👕 Vêtements</a>
-        <a data-cat="accessoires" onclick="filterCategory('accessoires', this)">⌚ Accessoires</a>
+        <a class="active" data-cat="all" onclick="navigate('category', 'all')">Toutes les collections</a>
+        <a data-cat="nouveautes" onclick="navigate('category', 'nouveautes')">🆕 Nouveautés</a>
+        <a data-cat="vetements" onclick="navigate('category', 'vetements')">👕 Vêtements</a>
+        <a data-cat="accessoires" onclick="navigate('category', 'accessoires')">⌚ Accessoires</a>
         <a data-cat="blog" onclick="navigate('blog')">📰 Blog</a>
         <a data-cat="apropos" onclick="navigate('about')">À propos</a>
         <a data-cat="faq" onclick="navigate('faq')">❓ FAQ</a>
@@ -1513,6 +1512,53 @@
         </div>
     </div>
 
+    <!-- MENTIONS LÉGALES -->
+    <div class="page-content" id="legalPage" role="main" aria-label="Mentions légales">
+        <h2>⚖️ Mentions légales</h2>
+        <p><strong>Éditeur du site :</strong> Nordluxx SAS</p>
+        <p><strong>Capital social :</strong> 50 000 €</p>
+        <p><strong>Siège social :</strong> 123 Avenue de la Mode, 75001 Paris, France</p>
+        <p><strong>RCS :</strong> Paris B 123 456 789</p>
+        <p><strong>Numéro TVA :</strong> FR 12 345 678 901</p>
+        <p><strong>Directeur de la publication :</strong> Jean Dupont</p>
+        <p><strong>Hébergement :</strong> OVHcloud, 2 rue Kellermann, 59100 Roubaix, France</p>
+        <p><strong>Contact :</strong> <a href="mailto:contact@nordluxx.fr">contact@nordluxx.fr</a></p>
+    </div>
+
+    <!-- CGV -->
+    <div class="page-content" id="termsPage" role="main" aria-label="Conditions générales de vente">
+        <h2>📜 Conditions générales de vente</h2>
+        <p><strong>Article 1 – Objet</strong><br>Les présentes CGV régissent les ventes de produits sur le site Nordluxx.</p>
+        <p><strong>Article 2 – Prix</strong><br>Les prix sont indiqués en euros TTC. Ils sont susceptibles d'être modifiés à tout moment.</p>
+        <p><strong>Article 3 – Commande</strong><br>La validation de la commande vaut acceptation des CGV.</p>
+        <p><strong>Article 4 – Paiement</strong><br>Paiement sécurisé par carte bancaire, PayPal ou Klarna.</p>
+        <p><strong>Article 5 – Livraison</strong><br>Expédition sous 24h, livraison en 2-3 jours ouvrés. Livraison offerte dès 50€.</p>
+        <p><strong>Article 6 – Droit de rétractation</strong><br>Conformément à la loi, délai de 30 jours pour retourner les produits.</p>
+        <p><strong>Article 7 – Garantie</strong><br>Garantie 2 ans sur tous les produits.</p>
+        <p><strong>Article 8 – Données personnelles</strong><br>Conformément au RGPD, vos données sont traitées avec confidentialité.</p>
+    </div>
+
+    <!-- CONFIDENTIALITÉ -->
+    <div class="page-content" id="privacyPage" role="main" aria-label="Politique de confidentialité">
+        <h2>🔒 Politique de confidentialité</h2>
+        <p>Chez Nordluxx, nous respectons votre vie privée. Cette politique explique comment nous collectons, utilisons et protégeons vos données personnelles.</p>
+        <h3>Données collectées</h3>
+        <ul>
+            <li>Nom, prénom, adresse e-mail, adresse postale, numéro de téléphone.</li>
+            <li>Données de navigation (cookies, adresse IP).</li>
+        </ul>
+        <h3>Utilisation des données</h3>
+        <ul>
+            <li>Traitement des commandes et livraisons.</li>
+            <li>Envoi d'offres promotionnelles (avec votre consentement).</li>
+            <li>Amélioration du site et de l'expérience utilisateur.</li>
+        </ul>
+        <h3>Cookies</h3>
+        <p>Nous utilisons des cookies pour améliorer votre navigation. Vous pouvez les désactiver à tout moment dans les paramètres de votre navigateur.</p>
+        <h3>Vos droits</h3>
+        <p>Conformément au RGPD, vous avez le droit d'accéder, de rectifier ou de supprimer vos données. Contactez-nous à <a href="mailto:contact@nordluxx.fr">contact@nordluxx.fr</a>.</p>
+    </div>
+
     <!-- VIDEO SECTION -->
     <div class="video-section" id="videoSection">
         <h3>🎬 Découvrez nos produits en vidéo</h3>
@@ -1624,27 +1670,38 @@ const products = [
 ];
 
 // ============================================================
-// VARIANT PRICE MAP
+// VARIANT PRICE MAP (normalisé)
 // ============================================================
+function normalizeKey(str) {
+    return str.trim().toLowerCase().replace(/\s+/g, '-');
+}
+
+function getVariantKey(id, taille, couleur) {
+    return id + '-' + normalizeKey(taille) + '-' + normalizeKey(couleur);
+}
+
 const variantPriceMap = {
-    "1-S-Blanc": 15.00, "1-M-Blanc": 15.50, "1-L-Blanc": 17.00, "1-XL-Blanc": 18.50, "1-XXL-Blanc": 20.00,
-    "2-S-Blanc": 16.50, "2-M-Blanc": 17.00, "2-L-Blanc": 18.00, "2-XL-Blanc": 19.00,
-    "3-Unique-Noir": 35.00, "3-Unique-Blanc": 35.00,
-    "4-S-Bleu Turquoise": 39.00, "4-M-Bleu Turquoise": 41.00, "4-L-Bleu Turquoise": 43.00, "4-XL-Bleu Turquoise": 45.00,
-    "5-S-Blanc": 49.90, "5-S-Gris": 49.90, "5-S-Bleu": 51.90,
-    "5-M-Blanc": 51.90, "5-M-Gris": 51.90, "5-M-Bleu": 53.90,
-    "5-L-Blanc": 53.90, "5-L-Gris": 53.90, "5-L-Bleu": 55.90,
-    "5-XL-Blanc": 55.90, "5-XL-Gris": 55.90, "5-XL-Bleu": 57.90,
-    "6-M-Marrant": 24.90, "6-L-Marrant": 26.50, "6-XL-Marrant": 28.00,
-    "6-M-Blanc": 24.90, "6-L-Blanc": 26.50, "6-XL-Blanc": 28.00,
-    "7-Unique-Bleu Marine": 14.90, "7-Unique-Noir": 14.90,
-    "8-S-Blanc": 21.99, "8-M-Blanc": 21.99, "8-L-Blanc": 21.99, "8-XL-Blanc": 23.99, "8-XXL-Blanc": 25.99,
-    "9-S-Blanc": 35.00, "9-M-Blanc": 37.00, "9-L-Blanc": 39.00, "9-XL-Blanc": 41.00, "9-XXL-Blanc": 43.00
+    "1-s-blanc": 15.00, "1-m-blanc": 15.50, "1-l-blanc": 17.00, "1-xl-blanc": 18.50, "1-xxl-blanc": 20.00,
+    "2-s-blanc": 16.50, "2-m-blanc": 17.00, "2-l-blanc": 18.00, "2-xl-blanc": 19.00,
+    "3-unique-noir": 35.00, "3-unique-blanc": 35.00,
+    "4-s-bleu-turquoise": 39.00, "4-m-bleu-turquoise": 41.00, "4-l-bleu-turquoise": 43.00, "4-xl-bleu-turquoise": 45.00,
+    "5-s-blanc": 49.90, "5-s-gris": 49.90, "5-s-bleu": 51.90,
+    "5-m-blanc": 51.90, "5-m-gris": 51.90, "5-m-bleu": 53.90,
+    "5-l-blanc": 53.90, "5-l-gris": 53.90, "5-l-bleu": 55.90,
+    "5-xl-blanc": 55.90, "5-xl-gris": 55.90, "5-xl-bleu": 57.90,
+    "6-m-marrant": 24.90, "6-l-marrant": 26.50, "6-xl-marrant": 28.00,
+    "6-m-blanc": 24.90, "6-l-blanc": 26.50, "6-xl-blanc": 28.00,
+    "7-unique-bleu-marine": 14.90, "7-unique-noir": 14.90,
+    "8-s-blanc": 21.99, "8-m-blanc": 21.99, "8-l-blanc": 21.99, "8-xl-blanc": 23.99, "8-xxl-blanc": 25.99,
+    "9-s-blanc": 35.00, "9-m-blanc": 37.00, "9-l-blanc": 39.00, "9-xl-blanc": 41.00, "9-xxl-blanc": 43.00
 };
 
 function getVariantPrice(product, taille, couleur) {
-    const key = product.id + '-' + taille + '-' + couleur;
-    return variantPriceMap[key] !== undefined ? variantPriceMap[key] : (product.salePrice || product.price);
+    const key = getVariantKey(product.id, taille, couleur);
+    const price = variantPriceMap[key];
+    if (price !== undefined) return price;
+    // Fallback : prix de base
+    return product.salePrice || product.price;
 }
 
 // ============================================================
@@ -1692,7 +1749,7 @@ const BASE_URL = 'https://nordluxx.fr';
 // ============================================================
 // COMPTEUR DE VISITEURS EN DIRECT
 // ============================================================
-let liveVisitors = 127;
+let liveVisitors = 250;
 function updateLiveVisitors() {
     const variation = Math.floor(Math.random() * 60) - 20;
     liveVisitors = Math.max(80, liveVisitors + variation);
@@ -1733,7 +1790,13 @@ function navigate(page, param) {
             url = '/produit/' + param;
         }
     } else if (page === 'category' && param) {
-        url = '/categorie/' + param;
+        if (param === 'all') {
+            // Rediriger vers l'accueil pour la catégorie "all"
+            url = '/';
+            page = 'home';
+        } else {
+            url = '/categorie/' + param;
+        }
     } else if (page === 'blog') {
         url = '/blog';
     } else if (page === 'about') {
@@ -1742,18 +1805,28 @@ function navigate(page, param) {
         url = '/faq';
     } else if (page === 'retour') {
         url = '/retour';
+    } else if (page === 'legal') {
+        url = '/mentions-legales';
+    } else if (page === 'terms') {
+        url = '/cgv';
+    } else if (page === 'privacy') {
+        url = '/confidentialite';
     }
 
     if (window.location.pathname + window.location.search !== url) {
         window.history.pushState({ page: page, param: param }, '', url);
     }
 
+    // Cacher toutes les pages
     document.getElementById('catalogView').classList.add('hidden');
     document.getElementById('productPage').classList.remove('active');
     document.getElementById('aboutPage').classList.remove('active');
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
+    document.getElementById('legalPage').classList.remove('active');
+    document.getElementById('termsPage').classList.remove('active');
+    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('categoryDescription').textContent = '';
 
     if (page === 'home') {
@@ -1782,6 +1855,7 @@ function navigate(page, param) {
             applySort();
             renderBreadcrumb('category', param);
             document.getElementById('categoryDescription').textContent = categoryDescriptions[param] || categoryDescriptions['all'];
+            updateMetaTags('category');
         }
     } else if (page === 'blog') {
         document.getElementById('blogPage').classList.add('active');
@@ -1862,6 +1936,7 @@ function renderBreadcrumb(page, param) {
 
     container.innerHTML = html;
 
+    // Schema Breadcrumb
     const breadcrumbSchema = document.getElementById('breadcrumbSchema') || document.createElement('script');
     breadcrumbSchema.id = 'breadcrumbSchema';
     breadcrumbSchema.type = 'application/ld+json';
@@ -1905,11 +1980,11 @@ function renderBreadcrumb(page, param) {
 }
 
 // ============================================================
-// RENDER CATALOG
+// RENDER CATALOG (optimisé avec DocumentFragment)
 // ============================================================
 function renderCatalog() {
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = '';
+    const fragment = document.createDocumentFragment();
     const count = filteredProducts.length;
     document.getElementById('productCount').textContent = count + ' produit' + (count > 1 ? 's' : '');
 
@@ -1933,7 +2008,7 @@ function renderCatalog() {
         const colors = p.variants?.couleur || [];
         const firstColor = colors.length > 0 ? colors[0] : null;
         const colorImages = firstColor && p.images && p.images[firstColor] ? p.images[firstColor] : [];
-        const imgSrc = colorImages.length > 0 ? colorImages[0] : '';
+        const imgSrc = colorImages.length > 0 ? colorImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
 
         const isInCart = cart.find(item => item.id === p.id);
         const btnText = isInCart ? '✅ Ajouté' : 'Ajouter';
@@ -1975,7 +2050,7 @@ function renderCatalog() {
             </div>
         `;
 
-        grid.appendChild(card);
+        fragment.appendChild(card);
 
         card.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON' || e.target.closest('.btn-add') || e.target.closest('.share-btn-sm')) return;
@@ -1988,6 +2063,9 @@ function renderCatalog() {
         });
     });
 
+    grid.innerHTML = '';
+    grid.appendChild(fragment);
+
     if (currentView === 'list') {
         grid.classList.add('list-view');
     } else {
@@ -1999,7 +2077,7 @@ function renderCatalog() {
 // FILTER / SORT
 // ============================================================
 function filterCategory(category, el) {
-    if (category === 'apropos' || category === 'blog' || category === 'faq' || category === 'retour') return;
+    if (['apropos', 'blog', 'faq', 'retour'].includes(category)) return;
     currentCategory = category;
     document.querySelectorAll('.category-nav a').forEach(a => a.classList.remove('active'));
     if (el) el.classList.add('active');
@@ -2015,8 +2093,10 @@ function filterCategory(category, el) {
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
+    document.getElementById('legalPage').classList.remove('active');
+    document.getElementById('termsPage').classList.remove('active');
+    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('catalogView').classList.remove('hidden');
-    window.history.pushState({ page: 'category', param: category }, '', '/categorie/' + category);
     updateMetaTags('category');
     renderBreadcrumb('category', category);
     document.getElementById('categoryDescription').textContent = categoryDescriptions[category] || categoryDescriptions['all'];
@@ -2146,6 +2226,7 @@ function confirmVariantSelection() {
         selection.couleur = 'Standard';
     }
 
+    // Vérification du stock (on vérifie le stock global)
     if (product.stock <= 0) {
         alert('❌ Cette déclinaison est actuellement en rupture de stock.');
         return;
@@ -2208,7 +2289,7 @@ function addToCartWithVariants(productId, variants) {
     const couleur = variants.couleur || 'Standard';
     const price = getVariantPrice(product, taille, couleur);
     const productImages = product.images && product.images[couleur] ? product.images[couleur] : [];
-    const image = productImages.length > 0 ? productImages[0] : '';
+    const image = productImages.length > 0 ? productImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
 
     const existing = cart.find(item => item.id === productId && JSON.stringify(item.variants) === JSON.stringify(variants));
 
@@ -2477,7 +2558,7 @@ function renderCart() {
 }
 
 // ============================================================
-// CHECKOUT
+// CHECKOUT (SIMULATION)
 // ============================================================
 async function handleCheckout() {
     if (cart.length === 0) {
@@ -2487,39 +2568,29 @@ async function handleCheckout() {
     const total = getFinalTotal();
     const btn = document.getElementById('checkoutBtn');
     btn.disabled = true;
-    btn.innerHTML = '⏳ Redirection...';
+    btn.innerHTML = '⏳ Traitement...';
 
-    try {
-        const response = await fetch('/api/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                items: cart.map(i => ({
-                    id: i.id,
-                    name: i.name,
-                    price: i.price,
-                    quantity: i.quantity,
-                    image: i.image || '',
-                    category: i.category || 'vetements'
-                })),
-                total: total,
-                coupon: giftCode || null
-            })
-        });
-        const data = await response.json();
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            alert('Erreur lors de la création de la session de paiement.');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-lock" aria-hidden="true"></i> Passer la commande';
-        }
-    } catch (error) {
-        console.error(error);
-        alert('Erreur de connexion au serveur.');
+    // Simulation de paiement
+    setTimeout(() => {
+        alert(`✅ Commande simulée avec succès !\nTotal : ${total.toFixed(2)} €\n\nMerci pour votre achat sur Nordluxx !\nUn e-mail de confirmation vous sera envoyé.`);
+        // Vider le panier
+        cart = [];
+        giftCode = null;
+        giftDiscount = 0;
+        saveCartToStorage();
+        updateCartBadge();
+        renderCart();
+        renderCatalog();
+        toggleCart();
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-lock" aria-hidden="true"></i> Passer la commande';
-    }
+        // Réinitialiser le champ de code cadeau
+        const input = document.getElementById('giftCodeInput');
+        if (input) { input.value = ''; input.disabled = false; }
+        document.getElementById('giftMessage').innerHTML = '';
+        const giftBtn = document.getElementById('giftApplyBtn');
+        if (giftBtn) { giftBtn.textContent = '💳 Appliquer'; giftBtn.className = 'gift-btn'; giftBtn.onclick = applyGiftCode; }
+    }, 1500);
 }
 
 document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
@@ -2536,6 +2607,9 @@ function showProductPage(productId) {
     document.getElementById('blogPage').classList.remove('active');
     document.getElementById('faqPage').classList.remove('active');
     document.getElementById('retourPage').classList.remove('active');
+    document.getElementById('legalPage').classList.remove('active');
+    document.getElementById('termsPage').classList.remove('active');
+    document.getElementById('privacyPage').classList.remove('active');
     document.getElementById('productPage').classList.add('active');
     updateMetaTags('product', product);
     renderBreadcrumb('product', productId);
@@ -2545,7 +2619,7 @@ function showProductPage(productId) {
     const colors = product.variants?.couleur || [];
     const defaultColor = colors.length > 0 ? colors[0] : null;
     const defaultImages = defaultColor && product.images && product.images[defaultColor] ? product.images[defaultColor] : [];
-    const mainImage = defaultImages.length > 0 ? defaultImages[0] : '';
+    const mainImage = defaultImages.length > 0 ? defaultImages[0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
     const hasSale = product.salePrice && product.salePrice < product.price;
 
     let priceHtml;
@@ -2699,7 +2773,7 @@ function showProductPage(productId) {
         "@type": "Product",
         "name": product.name,
         "description": product.desc,
-        "image": mainImage || 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv',
+        "image": mainImage,
         "sku": product.ref,
         "brand": {
             "@type": "Brand",
@@ -2821,7 +2895,7 @@ function renderRelatedProducts(productId) {
     let html = '<h3 style="font-size:1.3rem;margin:1.5rem 0 1rem;font-weight:600;">🤝 Vous aimerez aussi</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.2rem;">';
     related.forEach(p => {
         const colors = Object.keys(p.images);
-        const img = colors.length > 0 && p.images[colors[0]].length > 0 ? p.images[colors[0]][0] : '';
+        const img = colors.length > 0 && p.images[colors[0]].length > 0 ? p.images[colors[0]][0] : 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
         const price = (p.salePrice || p.price).toFixed(2);
         const hasSale = p.salePrice && p.salePrice < p.price;
         let priceHtml;
@@ -2853,21 +2927,17 @@ function sharePage(type, productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         const price = (product.salePrice || product.price).toFixed(2);
-
-        shareUrl = BASE_URL + '/api/og?product=' + productId + '&_=' + Date.now();
+        shareUrl = BASE_URL + getProductUrl(product);
         title = product.name + ' - ' + price + '€';
         text = '🛒 *' + product.name + '*\n💰 ' + price + ' €\n📝 ' + product.desc.substring(0, 60) + '...\n\n🔗 ' + shareUrl;
-
     } else if (type === 'blog') {
-        shareUrl = BASE_URL + '/api/og?blog=true&_=' + Date.now();
+        shareUrl = BASE_URL + '/blog';
         title = 'Blog Nordluxx';
         text = '📰 *Nordluxx Blog*\nDécouvrez nos articles sur la mode et les tendances !\n\n🔗 ' + shareUrl;
-
     } else if (type === 'about') {
-        shareUrl = BASE_URL + '/api/og?about=true&_=' + Date.now();
+        shareUrl = BASE_URL + '/a-propos';
         title = 'Nordluxx';
         text = '🔧 *Nordluxx*\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
-
     } else {
         text = '🛒 *Nordluxx*\nVêtements & Accessoires Premium. Garantie 2 ans.\n\n🔗 ' + BASE_URL;
         shareUrl = BASE_URL;
@@ -2936,10 +3006,17 @@ function updateMetaTags(page, product) {
         description = "Découvrez l'histoire de Nordluxx, l'alliance unique de l'ingénierie et de la mode. Qualité, confiance et expertise.";
         url = BASE_URL + '/a-propos';
     } else if (page === 'category') {
-        const catName = document.querySelector('.category-nav a[data-cat="' + currentCategory + '"]')?.textContent || currentCategory;
-        title = catName + ' · Nordluxx | Collection Premium';
-        description = 'Découvrez notre collection ' + catName + ' chez Nordluxx. Qualité, style et livraison offerte dès 50€.';
-        url = BASE_URL + '/categorie/' + currentCategory;
+        if (currentCategory === 'all') {
+            // Home page
+            title = 'Nordluxx · Vêtements & Accessoires Premium | Livraison Offerte 24h';
+            description = "Nordluxx : l'alliance de l'ingénierie et de la mode. +1000 clients satisfaits. Sweats à capuche, T-shirts bio, montres connectées. Garantie 2 ans et livraison 24h.";
+            url = BASE_URL;
+        } else {
+            const catName = document.querySelector('.category-nav a[data-cat="' + currentCategory + '"]')?.textContent || currentCategory;
+            title = catName + ' · Nordluxx | Collection Premium';
+            description = 'Découvrez notre collection ' + catName + ' chez Nordluxx. Qualité, style et livraison offerte dès 50€.';
+            url = BASE_URL + '/categorie/' + currentCategory;
+        }
     } else if (page === 'faq') {
         title = 'FAQ · Nordluxx | Foire aux questions';
         description = 'Retrouvez toutes les réponses à vos questions sur la livraison, la garantie, les retours et les paiements chez Nordluxx.';
@@ -3157,6 +3234,13 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// Double-clic sur l'indicateur pour désactiver
+document.querySelector('.admin-indicator')?.addEventListener('dblclick', function() {
+    localStorage.removeItem(ADMIN_KEY);
+    document.body.classList.remove('admin-mode');
+    this.style.display = 'none';
+});
+
 window.toggleAdmin = function() {
     if (localStorage.getItem(ADMIN_KEY) === 'true') {
         localStorage.removeItem(ADMIN_KEY);
@@ -3305,7 +3389,8 @@ function init() {
     console.log('✅ Descriptions de catégories');
     console.log('✅ Avis clients intégrés');
     console.log('✅ Compteur de visiteurs en direct');
-    console.log('✅ Pages FAQ et Politique de retour');
+    console.log('✅ Pages FAQ, Politique de retour, Mentions légales, CGV, Confidentialité');
+    console.log('✅ Checkout simulé');
 }
 
 // Expose global functions
@@ -3346,9 +3431,9 @@ init();
         <div style="display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:flex-end;margin-bottom:0.3rem;">
             <a href="/faq" onclick="event.preventDefault(); navigate('faq')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">❓ FAQ</a>
             <a href="/retour" onclick="event.preventDefault(); navigate('retour')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">🔄 Retours</a>
-            <a href="/mentions-legales" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
-            <a href="/cgv" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
-            <a href="/confidentialite" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
+            <a href="/mentions-legales" onclick="event.preventDefault(); navigate('legal')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Mentions légales</a>
+            <a href="/cgv" onclick="event.preventDefault(); navigate('terms')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">CGV</a>
+            <a href="/confidentialite" onclick="event.preventDefault(); navigate('privacy')" style="color:#5e5546;text-decoration:none;font-size:0.75rem;">Confidentialité</a>
         </div>
         <span style="font-size:0.8rem;">📧 boutiquestyleshopp@gmail.com</span>
         <span style="font-size:0.8rem;">📞 01 23 45 67 89</span>
