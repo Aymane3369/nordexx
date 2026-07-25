@@ -16,7 +16,7 @@ module.exports = (req, res) => {
     };
     
     const defaultImage = 'https://res.cloudinary.com/nrv87gxz/image/upload/f_auto,q_auto/1000143347_ttqayv';
-    const BASE_URL = 'https://nordexx-chi.vercel.app';
+    const BASE_URL = 'https://nordluxx.fr;
     
     // 🎯 Déterminer les métadonnées
     let title = 'StyleShop Nordexx · Vêtements & Accessoires Premium';
