@@ -2898,48 +2898,30 @@ function showToast(message) {
         toast.remove();
     }, 2200);
 }
-
 function sharePage(type, productId) {
-    let title = '';
-    let text = '';
     let shareUrl = BASE_URL;
+    let text = '';
 
     if (type === 'product' && productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
-        const price = (product.salePrice || product.price).toFixed(2);
-        shareUrl = BASE_URL + getProductUrl(product);
-        title = product.name + ' - ' + price + '€';
-        text = '🛒 ' + product.name + '\n💰 ' + price + ' €\n✨ Qualité premium et livraison rapide.\n\n🔗 ' + shareUrl;
-
-    } else if (type === 'blog') {
-        shareUrl = BASE_URL + '/blog';
-        title = 'Blog Nordluxx';
-        text = '📰 Nordluxx Blog\nDécouvrez nos articles sur la mode et les tendances.\n\n🔗 ' + shareUrl;
-
-    } else if (type === 'about') {
-        shareUrl = BASE_URL + '/a-propos';
-        title = 'Nordluxx';
-        text = '🔧 Nordluxx\nL\'alliance de l\'ingénierie et de la mode.\n\n🔗 ' + shareUrl;
-
-    } else {
-        shareUrl = BASE_URL;
-        text = '🛒 Nordluxx\nVêtements & accessoires premium. Garantie 2 ans.\n\n🔗 ' + shareUrl;
+        
+        // URL de l'API pour l'aperçu (bonnes balises OG)
+        const apiUrl = BASE_URL + '/api/og?product=' + productId;
+        // URL canonique pour la redirection
+        const productUrl = BASE_URL + getProductUrl(product);
+        
+        // On partage l'API, mais le texte indique le produit
+        shareUrl = apiUrl;
+        text = `🛒 *${product.name}*\n💰 ${(product.salePrice || product.price).toFixed(2)} €\n🔗 ${apiUrl}`;
     }
 
+    // Utilisation de navigator.share ou clipboard
     if (navigator.share) {
-        navigator.share({ title: title, text: text, url: shareUrl }).catch(() => {
-            showToast('Partage ouvert');
-        });
-        return;
-    }
-
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('Lien copié avec succès');
-        }).catch(() => fallbackShare(text));
+        navigator.share({ title: 'Nordluxx', text: text, url: shareUrl });
     } else {
-        fallbackShare(text);
+        // copier dans le presse‑papier
+        navigator.clipboard.writeText(text);
     }
 }
 
